@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Medify - Online Pharmacy & Doctor Consultations</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+
+<body>
+    <!-- Navigation Bar -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <i class="fas fa-heartbeat"></i>
+                <span>Medify</span>
+            </div>
+
+            <div class="nav-address" id="delivery-address-selector">
+                <i class="fas fa-map-marker-alt"></i>
+                <div class="address-text">
+                    <div class="address-label">Delivery Address</div>
+                    <div class="address-value">
+                        <span id="selected-address">Select Address</span>
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                </div>
+            </div>
+
+            <ul class="nav-menu">
+                <li class="nav-item">
+                    <a href="#about" class="nav-link">About Us</a>
+                </li>
+                <li class="nav-item nav-item-notifications" id="nav-notifications-wrap" style="display: none;">
+                    <button type="button" class="nav-link nav-notifications-btn" id="nav-notifications-btn" aria-label="Notifications">
+                        <i class="fas fa-bell"></i>
+                        <span class="nav-notifications-badge" id="nav-notifications-badge">0</span>
+                    </button>
+                    <div class="nav-notifications-dropdown" id="nav-notifications-dropdown">
+                        <div class="nav-notifications-header">Notifications</div>
+                        <div class="nav-notifications-list" id="nav-notifications-list"></div>
+                        <div class="nav-notifications-empty" id="nav-notifications-empty">No notifications</div>
+                    </div>
+                </li>
+                <li class="nav-item">
+                    <a href="#cart" class="nav-link cart-icon" id="cart-icon">
+                        <i class="fas fa-shopping-cart"></i>
+                        <span class="cart-badge" id="cart-count">0</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="#login" class="nav-link login-btn" id="login-btn">
+                        <span id="login-text">Login</span>
+                        <i class="fas fa-user-circle" id="profile-icon" style="display: none; font-size: 1.5rem;"></i>
+                    </a>
+                </li>
+            </ul>
+
+            <div class="hamburger">
+                <span class="bar"></span>
+                <span class="bar"></span>
+                <span class="bar"></span>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-container">
+            <div class="hero-content">
+                <h1>Your Health, Our Priority</h1>
+                <p>Order medicines online, upload prescriptions, and consult with doctors - all in one place</p>
+                <div class="hero-buttons">
+                    <a href="medicines.html" class="btn btn-primary">Order Medicines</a>
+                    <a href="consultation.html" class="btn btn-secondary">Consult Doctor</a>
+                </div>
+            </div>
+            <div class="hero-image">
+                <i class="fas fa-user-md"></i>
+            </div>
+        </div>
+    </section>
+
+    <!-- Quick Access Cards -->
+    <section class="quick-access">
+        <div class="container">
+            <div class="cards-grid">
+                <div class="card card-medicines">
+                    <div class="card-icon">
+                        <i class="fas fa-pills"></i>
+                    </div>
+                    <h3>Order Medicines</h3>
+                    <p>Browse and order from a wide range of prescription and over-the-counter medicines</p>
+                    <a href="medicines.html" class="card-link">Order Now <i class="fas fa-arrow-right"></i></a>
+                </div>
+
+                <div class="card card-consultation">
+                    <div class="card-icon">
+                        <i class="fas fa-video"></i>
+                    </div>
+                    <h3>Video Consultation</h3>
+                    <p>Consult with certified doctors online via secure video calls</p>
+                    <a href="consultation.html" class="card-link">Book Now <i class="fas fa-arrow-right"></i></a>
+                </div>
+
+                <div class="card card-labtest">
+                    <div class="card-icon">
+                        <i class="fas fa-flask"></i>
+                    </div>
+                    <h3>Lab Test</h3>
+                    <p>Book diagnostic tests and health check-ups at certified labs</p>
+                    <a href="labtest.html" class="card-link">Book Test <i class="fas fa-arrow-right"></i></a>
+                </div>
+
+                <div class="card card-insurance">
+                    <div class="card-icon">
+                        <i class="fas fa-shield-alt"></i>
+                    </div>
+                    <h3>Health Insurance</h3>
+                    <p>Compare and purchase comprehensive health insurance plans</p>
+                    <a href="insurance.html" class="card-link">Explore Plans <i class="fas fa-arrow-right"></i></a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+    <!-- About Us Section -->
+    <section id="about" class="about-section">
+        <div class="container">
+            <h2 class="section-title">About Us</h2>
+            <div class="about-content">
+                <div class="about-text">
+                    <p>Medify is your trusted partner in health and wellness. We provide a comprehensive platform for
+                        all your healthcare needs - from ordering medicines online to consulting with doctors via video
+                        calls.</p>
+                    <p>Our mission is to make healthcare accessible, affordable, and convenient for everyone. With a
+                        wide range of medicines, easy prescription uploads, and expert doctor consultations, we're here
+                        to support your health journey.</p>
+                </div>
+                <div class="about-features">
+                    <div class="feature-item">
+                        <i class="fas fa-check-circle"></i>
+                        <span>Authentic Medicines</span>
+                    </div>
+                    <div class="feature-item">
+                        <i class="fas fa-check-circle"></i>
+                        <span>Fast Delivery</span>
+                    </div>
+                    <div class="feature-item">
+                        <i class="fas fa-check-circle"></i>
+                        <span>Expert Doctors</span>
+                    </div>
+                    <div class="feature-item">
+                        <i class="fas fa-check-circle"></i>
+                        <span>24/7 Support</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>Medify</h3>
+                    <p>Your trusted healthcare partner</p>
+                </div>
+                <div class="footer-section">
+                    <h4>Quick Links</h4>
+                    <ul>
+                        <li><a href="medicines.html">Order Medicines</a></li>
+                        <li><a href="medicines.html#prescription">Upload Prescription</a></li>
+                        <li><a href="consultation.html">Video Consultation</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Contact</h4>
+                    <ul>
+                        <li><i class="fas fa-phone"></i> +91 9822961688</li>
+                        <li><i class="fas fa-envelope"></i> support@medify.com</li>
+                        <li><i class="fas fa-map-marker-alt"></i> Vivekanandnagar , Kopargaon , Maharashtra , India</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2024 Medify. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Delivery Address Modal -->
+    <div id="delivery-address-modal" class="modal">
+        <div class="modal-content delivery-modal">
+            <div class="delivery-modal-header">
+                <button class="back-btn" id="close-delivery-modal">
+                    <i class="fas fa-arrow-left"></i>
+                </button>
+                <h2>Deliver to</h2>
+            </div>
+            <div class="delivery-options">
+                <button class="delivery-option-btn current-location-btn" id="use-current-location">
+                    <i class="fas fa-crosshairs"></i>
+                    <span>Current Location</span>
+                </button>
+                <div class="or-separator">
+                    <span>OR</span>
+                </div>
+                <button class="delivery-option-btn choose-location-btn" id="choose-location">
+                    <i class="fas fa-map-marker-alt"></i>
+                    <span>Choose a different location</span>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Cart Modal -->
+    <div id="cart-modal" class="modal">
+        <div class="modal-content cart-modal">
+            <div class="cart-modal-header">
+                <h2>Shopping Cart</h2>
+                <span class="close-cart close">&times;</span>
+            </div>
+            <div class="cart-items" id="cart-items">
+                <div class="empty-cart">
+                    <i class="fas fa-shopping-cart"></i>
+                    <p>Your cart is empty</p>
+                </div>
+            </div>
+            <div class="cart-footer" id="cart-footer" style="display: none;">
+                <div class="cart-total">
+                    <strong>Total: ₹<span id="cart-total">0</span></strong>
+                </div>
+                <button class="btn btn-primary btn-block" id="checkout-btn">Proceed to Checkout</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Login Modal -->
+    <div id="login-modal" class="modal">
+        <div class="modal-content login-modal-content">
+            <span class="close" id="close-login-modal">&times;</span>
+            <h2>Login to Your Account</h2>
+            <form class="login-form" id="login-form">
+                <div class="form-group">
+                    <label>Login as</label>
+                    <select name="role" id="login-role" class="role-select">
+                        <option value="customer">Customer</option>
+                        <option value="doctor">Doctor</option>
+                        <option value="pharmacist">Pharmacist</option>
+                        <option value="delivery">Delivery Partner</option>
+                        <option value="clinic">Clinic</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Email / Phone Number</label>
+                    <input type="text" name="emailOrPhone" id="login-email" placeholder="Enter your email or phone" required>
+                </div>
+                <div class="form-group">
+                    <label>Password</label>
+                    <input type="password" name="password" id="login-password" placeholder="Enter your password" required>
+                </div>
+                <button type="submit" class="btn btn-primary btn-block">Login</button>
+                <p class="signup-link">Don't have an account? <a href="signup.html">Sign Up</a></p>
+            </form>
+        </div>
+    </div>
+
+    <!-- Payment modal (confirmed appointment) -->
+    <div class="payment-modal-overlay" id="payment-modal-overlay" aria-hidden="true">
+        <div class="payment-modal">
+            <div class="payment-modal-header">
+                <h2><i class="fas fa-credit-card"></i> Complete payment</h2>
+                <button type="button" class="payment-modal-close" id="payment-modal-close" aria-label="Close">&times;</button>
+            </div>
+            <div class="payment-modal-body">
+                <p class="payment-modal-text">Your appointment has been confirmed. Pay the consultation fee to confirm your slot.</p>
+                <div class="payment-modal-amount-wrap">
+                    <span class="payment-modal-amount" id="payment-modal-amount">₹0</span>
+                </div>
+                <button type="button" class="btn btn-primary btn-block" id="payment-modal-pay-btn">Pay now</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Firebase SDK (compat for script-tag setup) -->
+    <script src="https://www.gstatic.com/firebasejs/10.7.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.0/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.0/firebase-firestore-compat.js"></script>
+    <script src="firebase-config.js"></script>
+    <script src="script-v2.js?v=2"></script>
+</body>
+
+</html>

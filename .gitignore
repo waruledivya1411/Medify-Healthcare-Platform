@@ -1,0 +1,48 @@
+# Dependencies
+node_modules/
+package-lock.json
+yarn.lock
+
+# Environment & secrets
+.env
+.env.local
+.env.*.local
+*.env
+
+# OS generated files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+desktop.ini
+
+# IDE / Editor
+.idea/
+*.sublime-workspace
+*.sublime-project
+.vscode/settings.json
+.vscode/launch.json
+
+# Logs & temp files
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+*.tmp
+*.temp
+.cache/
+
+# Build outputs (if you add a build step later)
+dist/
+build/
+out/
+
+# Firebase (local only, if any)
+.firebase/
+.firebaserc
+
+# Optional: uncomment if you want to exclude Firebase config (contains public API keys)
+# firebase-config.js
