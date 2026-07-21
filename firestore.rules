@@ -1,0 +1,62 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // Users: each user can only read/write their own document (doc id = auth.uid)
+    match /users/{userId} {
+      allow read, write: if request.auth != null && request.auth.uid == userId;
+    }
+
+    // Doctors: public listing (read by anyone); write by authenticated users (doctor or admin)
+    match /doctors/{doctorId} {
+      allow read: if true;
+      allow write: if request.auth != null;
+    }
+
+    // Appointment requests: patient creates; doctor reads/updates; patient can update (e.g. payment)
+    match /appointment_requests/{requestId} {
+      allow create: if request.auth != null;
+      allow read: if request.auth != null
+        && (resource.data.doctorEmail == request.auth.token.email
+            || resource.data.patientId == request.auth.uid);
+      allow update: if request.auth != null
+        && (resource.data.doctorEmail == request.auth.token.email
+            || resource.data.patientId == request.auth.uid);
+      allow delete: if request.auth != null && resource.data.doctorEmail == request.auth.token.email;
+    }
+
+    // Notifications: created by doctor (e.g. on accept); read/update by the recipient user
+    match /notifications/{notificationId} {
+      allow create: if request.auth != null;
+      allow read, update, delete: if request.auth != null && resource.data.userId == request.auth.uid;
+    }
+
+    // Pharmacy orders: customer creates; pharmacist reads/updates (e.g. status)
+    match /orders/{orderId} {
+      allow create: if request.auth != null;
+      allow read: if request.auth != null;
+      allow update: if request.auth != null;
+      allow delete: if request.auth != null;
+    }
+
+    // Lab test bookings: customer creates; clinic reads/updates
+    match /lab_bookings/{bookingId} {
+      allow create: if request.auth != null;
+      allow read, update: if request.auth != null;
+      allow delete: if request.auth != null;
+    }
+
+    // Prescription uploads: customer creates (when logged in); pharmacist reads/updates
+    match /prescriptions/{prescriptionId} {
+      allow create: if request.auth != null;
+      allow read, update: if request.auth != null;
+      allow delete: if request.auth != null;
+    }
+
+    // Patient records: doctors and clinic can create, read, update (fill vitals, visits, medications, lab)
+    match /patients/{patientId} {
+      allow create, read, update: if request.auth != null;
+      allow delete: if request.auth != null;
+    }
+  }
+}
