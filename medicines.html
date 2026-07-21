@@ -1,0 +1,379 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Order Medicines - Medify</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <!-- Navigation Bar -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <i class="fas fa-heartbeat"></i>
+                <a href="index.html" style="text-decoration: none; color: inherit;"><span>Medify</span></a>
+            </div>
+            
+            <div class="nav-address" id="delivery-address-selector">
+                <i class="fas fa-map-marker-alt"></i>
+                <div class="address-text">
+                    <div class="address-label">Delivery Address</div>
+                    <div class="address-value">
+                        <span id="selected-address">Select Address</span>
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                </div>
+            </div>
+            
+            <ul class="nav-menu">
+                <li class="nav-item">
+                    <a href="index.html#about" class="nav-link">About Us</a>
+                </li>
+                <li class="nav-item">
+                    <a href="#cart" class="nav-link cart-icon" id="cart-icon">
+                        <i class="fas fa-shopping-cart"></i>
+                        <span class="cart-badge" id="cart-count">0</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="#login" class="nav-link login-btn" id="login-btn">
+                        <span id="login-text">Login</span>
+                        <i class="fas fa-user-circle" id="profile-icon" style="display: none; font-size: 1.5rem;"></i>
+                    </a>
+                </li>
+            </ul>
+            
+            <div class="hamburger">
+                <span class="bar"></span>
+                <span class="bar"></span>
+                <span class="bar"></span>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Medicine Ordering Section -->
+    <section id="medicines" class="medicines-section" style="padding-top: 8rem;">
+        <div class="container">
+            <h2 class="section-title">Shop Medicines</h2>
+            <div class="search-bar">
+                <i class="fas fa-search"></i>
+                <input type="text" id="product-search" placeholder="Search for medicines, health products...">
+            </div>
+            
+        </div>
+        
+        <!-- Category Navigation Bar - Full Width -->
+        <div class="category-nav-bar">
+            <div class="category-nav-item active" data-category="All Products">All Products</div>
+            <div class="category-nav-item" data-category="Baby Care">Baby Care</div>
+            <div class="category-nav-item" data-category="Nutritional Drinks & Supplements">Nutrition & Supplements</div>
+            <div class="category-nav-item" data-category="Women Care">Women Care</div>
+            <div class="category-nav-item" data-category="Personal Care">Personal Care</div>
+            <div class="category-nav-item" data-category="Ayurveda">Ayurveda</div>
+            <div class="category-nav-item" data-category="Health Devices">Health Devices</div>
+            <div class="category-nav-item" data-category="Home Essentials">Home Essentials</div>
+            <div class="category-nav-item" data-category="Health Condition">Health Condition</div>
+        </div>
+        
+        <div class="container">
+            
+            <div class="products-grid" id="products-grid">
+                <!-- Products will be dynamically inserted here -->
+            </div>
+            
+            <!-- Prescription Upload Section -->
+            <div id="prescription" class="prescription-upload-section" style="margin-top: 4rem;">
+                <div class="section-header">
+                    <h2 class="section-title">Upload Prescription</h2>
+                    <p>Upload your prescription and we'll deliver your medicines to your doorstep</p>
+                </div>
+                
+                <div class="prescription-upload-area">
+                    <div class="upload-box">
+                        <i class="fas fa-cloud-upload-alt"></i>
+                        <h3>Drag & Drop or Click to Upload</h3>
+                        <p>Supported formats: JPG, PNG, PDF (Max 5MB)</p>
+                        <input type="file" id="prescription-file" accept="image/*,application/pdf" hidden>
+                        <button class="btn btn-primary" onclick="document.getElementById('prescription-file').click()">
+                            Choose File
+                        </button>
+                    </div>
+                    
+                    <div class="upload-instructions">
+                        <h4>How to upload:</h4>
+                        <ul>
+                            <li><i class="fas fa-check-circle"></i> Take a clear photo of your prescription</li>
+                            <li><i class="fas fa-check-circle"></i> Ensure all text is readable</li>
+                            <li><i class="fas fa-check-circle"></i> Include doctor's signature if required</li>
+                            <li><i class="fas fa-check-circle"></i> Upload the image or PDF file</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>Medify</h3>
+                    <p>Your trusted healthcare partner</p>
+                </div>
+                <div class="footer-section">
+                    <h4>Quick Links</h4>
+                    <ul>
+                        <li><a href="medicines.html">Order Medicines</a></li>
+                        <li><a href="medicines.html#prescription">Upload Prescription</a></li>
+                        <li><a href="consultation.html">Video Consultation</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Contact</h4>
+                    <ul>
+                        <li><i class="fas fa-phone"></i> +91 9822961688</li>
+                        <li><i class="fas fa-envelope"></i> support@medify.com</li>
+                        <li><i class="fas fa-map-marker-alt"></i> Vivekanandnagar , Kopargaon , Maharashtra , India</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2024 Medify. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Delivery Address Modal -->
+    <div id="delivery-address-modal" class="modal">
+        <div class="modal-content delivery-modal">
+            <div class="delivery-modal-header">
+                <button class="back-btn" id="close-delivery-modal">
+                    <i class="fas fa-arrow-left"></i>
+                </button>
+                <h2>Deliver to</h2>
+            </div>
+            <div class="delivery-options">
+                <button class="delivery-option-btn current-location-btn" id="use-current-location">
+                    <i class="fas fa-crosshairs"></i>
+                    <span>Current Location</span>
+                </button>
+                <div class="or-separator">
+                    <span>OR</span>
+                </div>
+                <button class="delivery-option-btn choose-location-btn" id="choose-location">
+                    <i class="fas fa-map-marker-alt"></i>
+                    <span>Choose a different location</span>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Cart Modal -->
+    <div id="cart-modal" class="modal">
+        <div class="modal-content cart-modal">
+            <div class="cart-modal-header">
+                <h2>Shopping Cart</h2>
+                <span class="close-cart close">&times;</span>
+            </div>
+            <div class="cart-items" id="cart-items">
+                <div class="empty-cart">
+                    <i class="fas fa-shopping-cart"></i>
+                    <p>Your cart is empty</p>
+                </div>
+            </div>
+            <div class="cart-footer" id="cart-footer" style="display: none;">
+                <div class="cart-total">
+                    <strong>Total: ₹<span id="cart-total">0</span></strong>
+                </div>
+                <button class="btn btn-primary btn-block" id="checkout-btn">Proceed to Checkout</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Login Modal -->
+    <div id="login-modal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2>Login to Your Account</h2>
+            <form class="login-form">
+                <div class="form-group">
+                    <label>Email / Phone Number</label>
+                    <input type="text" placeholder="Enter your email or phone">
+                </div>
+                <div class="form-group">
+                    <label>Password</label>
+                    <input type="password" placeholder="Enter your password">
+                </div>
+                <button type="submit" class="btn btn-primary btn-block">Login</button>
+                <p class="signup-link">Don't have an account? <a href="#">Sign Up</a></p>
+            </form>
+        </div>
+    </div>
+
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/10.7.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.0/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.0/firebase-firestore-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.0/firebase-storage-compat.js"></script>
+    <script src="firebase-config.js"></script>
+    <script src="script.js"></script>
+    <script src="medicines-data.js"></script>
+    <script>
+        let currentCategory = 'All Products';
+        let allProducts = [];
+
+        // Image path from product name (e.g. "Diaper Pants Large" -> "images/products/diaper-pants-large.jpg")
+        function getProductImageSlug(name) {
+            return name.toLowerCase()
+                .replace(/\+/g, '-plus')
+                .replace(/&/g, 'and')
+                .replace(/[^a-z0-9]+/g, '-')
+                .replace(/^-|-$/g, '');
+        }
+        function getProductImageUrl(product) {
+            if (product.imageFile) return 'images/products/' + product.imageFile;
+            var name = typeof product === 'string' ? product : product.name;
+            return 'images/products/' + getProductImageSlug(name) + '.jpg';
+        }
+
+        // Real photos (Pexels, free to use) – one per product type so image matches name
+        var productTypeImageUrl = {
+            pills: 'https://images.pexels.com/photos/4210607/pexels-photo-4210607.jpeg?auto=compress&cs=tinysrgb&w=400',
+            capsules: 'https://images.pexels.com/photos/159211/pexels-photo-159211.jpeg?auto=compress&cs=tinysrgb&w=400',
+            bottle: 'https://images.pexels.com/photos/5994631/pexels-photo-5994631.jpeg?auto=compress&cs=tinysrgb&w=400',
+            jar: 'https://images.pexels.com/photos/5945962/pexels-photo-5945962.jpeg?auto=compress&cs=tinysrgb&w=400',
+            baby: 'https://images.pexels.com/photos/1648374/pexels-photo-1648374.jpeg?auto=compress&cs=tinysrgb&w=400',
+            device: 'https://images.pexels.com/photos/7659574/pexels-photo-7659574.jpeg?auto=compress&cs=tinysrgb&w=400',
+            box: 'https://images.pexels.com/photos/7659574/pexels-photo-7659574.jpeg?auto=compress&cs=tinysrgb&w=400',
+            tube: 'https://images.pexels.com/photos/3985062/pexels-photo-3985062.jpeg?auto=compress&cs=tinysrgb&w=400',
+            pack: 'https://images.pexels.com/photos/4210607/pexels-photo-4210607.jpeg?auto=compress&cs=tinysrgb&w=400',
+            kit: 'https://images.pexels.com/photos/1282317/pexels-photo-1282317.jpeg?auto=compress&cs=tinysrgb&w=400',
+            roll: 'https://images.pexels.com/photos/1282317/pexels-photo-1282317.jpeg?auto=compress&cs=tinysrgb&w=400',
+            bag: 'https://images.pexels.com/photos/3985062/pexels-photo-3985062.jpeg?auto=compress&cs=tinysrgb&w=400',
+            soap: 'https://images.pexels.com/photos/3985325/pexels-photo-3985325.jpeg?auto=compress&cs=tinysrgb&w=400'
+        };
+        function getProductPhotoUrl(product) {
+            return productTypeImageUrl[product.image] || productTypeImageUrl.pills;
+        }
+
+        // Icon by product type – only pills/tablets get pill icon; no tablet icon for other names
+        function getProductIcon(imageType) {
+            const icons = {
+                'pills': 'fas fa-pills',
+                'bottle': 'fas fa-wine-bottle',
+                'baby': 'fas fa-baby',
+                'jar': 'fas fa-jar',
+                'device': 'fas fa-heartbeat',
+                'box': 'fas fa-box',
+                'tube': 'fas fa-toothpaste',
+                'pack': 'fas fa-archive',
+                'kit': 'fas fa-briefcase-medical',
+                'roll': 'fas fa-band-aid',
+                'bag': 'fas fa-shopping-bag',
+                'soap': 'fas fa-soap',
+                'capsules': 'fas fa-capsules'
+            };
+            return icons[imageType] || 'fas fa-cube';
+        }
+
+        // Display products
+        function displayProducts(category = 'All Products', searchTerm = '') {
+            const productsGrid = document.getElementById('products-grid');
+            
+            if (typeof window.medicinesDatabase === 'undefined') {
+                setTimeout(() => displayProducts(category, searchTerm), 100);
+                return;
+            }
+
+            let products = window.medicinesDatabase[category] || [];
+            
+            // Filter by search term if provided
+            if (searchTerm) {
+                const term = searchTerm.toLowerCase();
+                products = products.filter(product => 
+                    product.name.toLowerCase().includes(term) || 
+                    product.description.toLowerCase().includes(term)
+                );
+            }
+
+            if (products.length === 0) {
+                productsGrid.innerHTML = '<div style="grid-column: 1/-1; text-align: center; padding: 3rem; color: #666;">No products found.</div>';
+                return;
+            }
+
+            productsGrid.innerHTML = products.map(product => {
+                const discount = Math.round(((product.originalPrice - product.price) / product.originalPrice) * 100);
+                const imageUrl = getProductImageUrl(product);
+                const photoUrl = getProductPhotoUrl(product);
+                const iconClass = getProductIcon(product.image);
+                const safeName = product.name.replace(/"/g, '&quot;');
+                return `
+                    <div class="product-card">
+                        <div class="product-image">
+                            <img src="${imageUrl}" data-fallback="${photoUrl}" alt="${safeName}" onerror="if(this.dataset.fallback && !this.dataset.tried){ this.dataset.tried='1'; this.src=this.dataset.fallback; } else { this.style.display='none'; this.nextElementSibling.classList.remove('hide'); }">
+                            <span class="product-image-fallback hide"><i class="${iconClass}"></i></span>
+                        </div>
+                        <h4>${product.name}</h4>
+                        <p class="product-desc">${product.description}</p>
+                        <div class="product-footer">
+                            <div>
+                                <span class="price">₹${product.price}</span>
+                                ${product.originalPrice ? `<span class="original-price" style="text-decoration: line-through; color: #999; font-size: 0.9rem; margin-left: 0.5rem;">₹${product.originalPrice}</span>` : ''}
+                                ${discount > 0 ? `<span class="discount-badge" style="background: #28a745; color: white; padding: 2px 6px; border-radius: 4px; font-size: 0.75rem; margin-left: 0.5rem;">${discount}% OFF</span>` : ''}
+                            </div>
+                            <button class="add-to-cart" onclick="addProductToCart(${product.id}, '${product.name.replace(/'/g, "\\'")}', ${product.price}, '${product.image}')">Add to Cart</button>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        // Category navigation
+        document.querySelectorAll('.category-nav-item').forEach(item => {
+            item.addEventListener('click', function() {
+                document.querySelectorAll('.category-nav-item').forEach(i => i.classList.remove('active'));
+                this.classList.add('active');
+                currentCategory = this.dataset.category;
+                const searchTerm = document.getElementById('product-search').value;
+                displayProducts(currentCategory, searchTerm);
+            });
+        });
+
+        // Search functionality
+        const searchInput = document.getElementById('product-search');
+        if (searchInput) {
+            searchInput.addEventListener('input', function(e) {
+                const searchTerm = e.target.value;
+                displayProducts(currentCategory, searchTerm);
+            });
+        }
+
+        // Add product to cart (imageType = product.image so cart shows correct icon, not tablet)
+        function addProductToCart(id, name, price, imageType) {
+            if (typeof window.addToCart === 'function') {
+                window.addToCart({
+                    id: id,
+                    name: name,
+                    price: price,
+                    type: 'medicine',
+                    imageType: imageType || 'cube'
+                });
+            } else {
+                alert(`Added ${name} to cart!`);
+            }
+        }
+
+        // Make function globally accessible
+        window.addProductToCart = addProductToCart;
+
+        // Initialize on page load
+        window.addEventListener('load', function() {
+            displayProducts('All Products');
+        });
+    </script>
+</body>
+</html>
+
