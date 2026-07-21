@@ -1,0 +1,384 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign Up - Medify</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <!-- Navigation Bar -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <i class="fas fa-heartbeat"></i>
+                <a href="index.html" style="text-decoration: none; color: inherit;"><span>Medify</span></a>
+            </div>
+            <ul class="nav-menu">
+                <li class="nav-item"><a href="index.html" class="nav-link">Home</a></li>
+                <li class="nav-item"><a href="index.html#login" class="nav-link login-btn">Login</a></li>
+            </ul>
+            <div class="hamburger">
+                <span class="bar"></span>
+                <span class="bar"></span>
+                <span class="bar"></span>
+            </div>
+        </div>
+    </nav>
+
+    <main class="signup-page">
+        <div class="container">
+            <h1 class="signup-title">Create Account</h1>
+            <p class="signup-subtitle">Choose your account type and fill in the details.</p>
+
+            <!-- Role selector -->
+            <div class="signup-role-tabs">
+                <button type="button" class="signup-role-tab active" data-role="customer">Customer</button>
+                <button type="button" class="signup-role-tab" data-role="pharmacist">Pharmacist</button>
+                <button type="button" class="signup-role-tab" data-role="delivery">Delivery Partner</button>
+            </div>
+
+            <form id="signup-form" class="signup-form">
+                <div class="signup-form-grid">
+                    <!-- Left: Basic info -->
+                    <div class="signup-col signup-col-basic">
+                        <div class="signup-section">
+                            <h3 class="signup-section-title">Basic Information</h3>
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label>Full Name <span class="required">*</span></label>
+                                    <input type="text" name="fullName" placeholder="Full name" required>
+                                </div>
+                                <div class="form-group">
+                                    <label>Email <span class="required">*</span></label>
+                                    <input type="email" name="email" placeholder="Email" required>
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label>Phone <span class="required">*</span></label>
+                                    <input type="tel" name="phone" placeholder="Phone" required>
+                                </div>
+                                <div class="form-group">
+                                    <label>Password <span class="required">*</span></label>
+                                    <input type="password" name="password" placeholder="Password" required>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label>Address <span class="required">*</span></label>
+                                <textarea name="address" rows="1" placeholder="Address" required></textarea>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Right: Role-specific -->
+                    <div class="signup-col signup-col-role">
+                        <!-- Customer -->
+                        <div id="signup-customer" class="signup-role-form">
+                            <div class="signup-section">
+                                <h3 class="signup-section-title">Additional Details</h3>
+                                <div class="form-row">
+                                    <div class="form-group">
+                                        <label>City</label>
+                                        <input type="text" name="city" placeholder="City">
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Pincode</label>
+                                        <input type="text" name="pincode" placeholder="Pincode" pattern="[0-9]{6}" maxlength="6">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Delivery Partner -->
+                        <div id="signup-delivery" class="signup-role-form" style="display: none;">
+                            <div class="signup-section">
+                                <h3 class="signup-section-title">Delivery Partner Details</h3>
+                                <div class="form-row form-row-3">
+                                    <div class="form-group">
+                                        <label>Vehicle Type <span class="required">*</span></label>
+                                        <select name="vehicleType">
+                                            <option value="">Select</option>
+                                            <option value="bike">Bike</option>
+                                            <option value="scooter">Scooter</option>
+                                            <option value="car">Car</option>
+                                        </select>
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Vehicle No.</label>
+                                        <input type="text" name="vehicleNumber" placeholder="e.g. MH 12 AB 1234">
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Service Area <span class="required">*</span></label>
+                                        <input type="text" name="serviceArea" placeholder="e.g. Mumbai, Thane">
+                                    </div>
+                                </div>
+                                <div class="form-row">
+                                    <div class="form-group">
+                                        <label>Aadhaar Card <span class="required">*</span></label>
+                                        <input type="file" name="deliveryAadhaar" accept="image/*,application/pdf">
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Driving License <span class="required">*</span></label>
+                                        <input type="file" name="deliveryLicense" accept="image/*,application/pdf">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Pharmacist: documents + location in grid -->
+                        <div id="signup-pharmacist" class="signup-role-form" style="display: none;">
+                            <div class="signup-section signup-section-compact">
+                                <h3 class="signup-section-title">Documents</h3>
+                                <div class="signup-doc-list">
+                                    <div class="form-group"><label>1. Degree (D.Pharm/B.Pharm/Pharm.D) <span class="required">*</span></label><input type="file" name="degreeCertificate" accept="image/*,application/pdf"></div>
+                                    <div class="form-group"><label>2. Final Year Marksheet <span class="required">*</span></label><input type="file" name="finalYearMarksheet" accept="image/*,application/pdf"></div>
+                                    <div class="form-group"><label>3. Renewal Cert. (if any)</label><input type="file" name="renewalCertificate" accept="image/*,application/pdf"></div>
+                                    <div class="form-group"><label>4. Aadhaar <span class="required">*</span></label><input type="file" name="aadhaarCard" accept="image/*,application/pdf"></div>
+                                    <div class="form-group"><label>5. PAN <span class="required">*</span></label><input type="file" name="panCard" accept="image/*,application/pdf"></div>
+                                    <div class="form-group"><label>6. Passport Photo <span class="required">*</span></label><input type="file" name="passportPhoto" accept="image/*"></div>
+                                    <div class="form-group"><label>7. Address Proof <span class="required">*</span></label><input type="file" name="addressProof" accept="image/*,application/pdf"></div>
+                                    <div class="form-group"><label>8. Experience Cert. (if any)</label><input type="file" name="experienceCertificate" accept="image/*,application/pdf"></div>
+                                </div>
+                            </div>
+                            <div class="signup-section signup-section-compact">
+                                <h3 class="signup-section-title">Pharmacy Location</h3>
+                                <div class="form-row">
+                                    <div class="form-group">
+                                        <label>Store Name <span class="required">*</span></label>
+                                        <input type="text" name="pharmacyName" placeholder="Pharmacy / store name">
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Reg. No. (if any)</label>
+                                        <input type="text" name="pharmacyRegNumber" placeholder="Registration number">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label>Address <span class="required">*</span></label>
+                                    <textarea name="medicalLocationAddress" rows="1" placeholder="Full address"></textarea>
+                                </div>
+                                <div class="form-row">
+                                    <div class="form-group"><label>City</label><input type="text" name="pharmacyCity" placeholder="City"></div>
+                                    <div class="form-group"><label>Pincode</label><input type="text" name="pharmacyPincode" placeholder="Pincode" pattern="[0-9]{6}" maxlength="6"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <input type="hidden" name="role" id="signup-role" value="customer">
+                <div class="signup-form-footer">
+                    <button type="submit" class="btn btn-primary signup-submit">Create Account</button>
+                </div>
+            </form>
+
+            <p class="signup-login-link">Already have an account? <a href="index.html#login">Login</a></p>
+        </div>
+    </main>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-bottom">
+                <p>&copy; 2024 Medify. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://www.gstatic.com/firebasejs/10.7.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.0/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.0/firebase-firestore-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.0/firebase-storage-compat.js"></script>
+    <script src="firebase-config.js"></script>
+    <script>
+        (function() {
+            var roleTabs = document.querySelectorAll('.signup-role-tab');
+            var roleForms = {
+                customer: document.getElementById('signup-customer'),
+                pharmacist: document.getElementById('signup-pharmacist'),
+                delivery: document.getElementById('signup-delivery')
+            };
+            var roleInput = document.getElementById('signup-role');
+            var form = document.getElementById('signup-form');
+            var submitBtn = form.querySelector('.signup-submit');
+
+            function getVal(name) {
+                var el = form.querySelector('[name="' + name + '"]');
+                return el ? el.value.trim() : '';
+            }
+            function getFile(name) {
+                var el = form.querySelector('[name="' + name + '"]');
+                return el && el.files && el.files[0] ? el.files[0] : null;
+            }
+
+            // Pre-select role from URL ?role=pharmacist etc.
+            var params = new URLSearchParams(window.location.search);
+            var urlRole = params.get('role');
+            function setRequiredForRole(role) {
+                var pharmaFiles = form.querySelectorAll('[name="degreeCertificate"], [name="finalYearMarksheet"], [name="aadhaarCard"], [name="panCard"], [name="passportPhoto"], [name="addressProof"]');
+                pharmaFiles.forEach(function(inp) { inp.required = role === 'pharmacist'; });
+                var pharmaName = form.querySelector('[name="pharmacyName"]');
+                var pharmaAddr = form.querySelector('[name="medicalLocationAddress"]');
+                if (pharmaName) pharmaName.required = role === 'pharmacist';
+                if (pharmaAddr) pharmaAddr.required = role === 'pharmacist';
+                var vType = form.querySelector('[name="vehicleType"]');
+                var delAadhaar = form.querySelector('[name="deliveryAadhaar"]');
+                var delLicense = form.querySelector('[name="deliveryLicense"]');
+                var serviceArea = form.querySelector('[name="serviceArea"]');
+                if (vType) vType.required = role === 'delivery';
+                if (delAadhaar) delAadhaar.required = role === 'delivery';
+                if (delLicense) delLicense.required = role === 'delivery';
+                if (serviceArea) serviceArea.required = role === 'delivery';
+            }
+
+            if (urlRole && roleForms[urlRole]) {
+                roleInput.value = urlRole;
+                document.querySelectorAll('.signup-role-tab').forEach(function(t) {
+                    t.classList.toggle('active', t.dataset.role === urlRole);
+                });
+                Object.keys(roleForms).forEach(function(r) {
+                    roleForms[r].style.display = r === urlRole ? 'block' : 'none';
+                });
+                setRequiredForRole(urlRole);
+            } else {
+                setRequiredForRole('customer');
+            }
+
+            roleTabs.forEach(function(tab) {
+                tab.addEventListener('click', function() {
+                    var role = this.dataset.role;
+                    roleInput.value = role;
+                    roleTabs.forEach(function(t) { t.classList.remove('active'); });
+                    this.classList.add('active');
+                    Object.keys(roleForms).forEach(function(r) {
+                        roleForms[r].style.display = r === role ? 'block' : 'none';
+                    });
+                    setRequiredForRole(role);
+                });
+            });
+
+            function uploadFile(path, file) {
+                if (!window.firebaseStorage || !file) return Promise.resolve(null);
+                var ref = window.firebaseStorage.ref(path);
+                return ref.put(file, { contentType: file.type }).then(function() { return ref.getDownloadURL(); });
+            }
+
+            function isValidEmail(str) {
+                if (!str || str.length < 5) return false;
+                var at = str.indexOf('@');
+                if (at < 1 || at === str.length - 1) return false;
+                var dot = str.indexOf('.', at + 1);
+                if (dot < at + 2 || dot === str.length - 1) return false;
+                return true;
+            }
+            function isValidPassword(str) {
+                if (!str || str.length < 6) return false;
+                if (!/[a-zA-Z]/.test(str)) return false;
+                if (!/[0-9]/.test(str)) return false;
+                return true;
+            }
+
+            form.addEventListener('submit', function(e) {
+                e.preventDefault();
+                var role = roleInput.value;
+                var email = getVal('email');
+                var password = getVal('password');
+                if (!email || !password) {
+                    alert('Please enter email and password.');
+                    return;
+                }
+                if (!isValidEmail(email)) {
+                    alert('Please enter a valid email address (e.g. name@example.com).');
+                    return;
+                }
+                if (!isValidPassword(password)) {
+                    alert('Password must be at least 6 characters and contain both a letter and a number.');
+                    return;
+                }
+                if (typeof firebase === 'undefined' || !window.firebaseAuth || !window.firebaseDb) {
+                    alert('Firebase is not loaded. Please refresh and try again.');
+                    return;
+                }
+
+                submitBtn.disabled = true;
+                submitBtn.textContent = 'Creating account...';
+
+                window.firebaseAuth.createUserWithEmailAndPassword(email, password)
+                    .then(function(userCredential) {
+                        var uid = userCredential.user.uid;
+                        var basePath = 'signup_docs/' + uid + '/';
+                        var uploads = [];
+
+                        if (role === 'delivery') {
+                            var aadhaar = getFile('deliveryAadhaar');
+                            var license = getFile('deliveryLicense');
+                            if (aadhaar) uploads.push(uploadFile(basePath + 'aadhaar', aadhaar).then(function(url) { return { k: 'aadhaarUrl', v: url }; }));
+                            if (license) uploads.push(uploadFile(basePath + 'license', license).then(function(url) { return { k: 'licenseUrl', v: url }; }));
+                        }
+                        if (role === 'pharmacist') {
+                            var docNames = ['degreeCertificate', 'finalYearMarksheet', 'renewalCertificate', 'aadhaarCard', 'panCard', 'passportPhoto', 'addressProof', 'experienceCertificate'];
+                            docNames.forEach(function(n) {
+                                var file = getFile(n);
+                                if (file) uploads.push(uploadFile(basePath + n, file).then(function(url) { return { k: n + 'Url', v: url }; }));
+                            });
+                        }
+
+                        return Promise.all(uploads).then(function(results) {
+                            var docUrls = {};
+                            results.forEach(function(r) { if (r && r.v) docUrls[r.k] = r.v; });
+                            return { uid: uid, docUrls: docUrls };
+                        });
+                    })
+                    .then(function(_ref) {
+                        var uid = _ref.uid;
+                        var docUrls = _ref.docUrls || {};
+                        var userData = {
+                            fullName: getVal('fullName'),
+                            email: getVal('email'),
+                            phone: getVal('phone'),
+                            address: getVal('address'),
+                            role: role,
+                            createdAt: firebase.firestore.FieldValue.serverTimestamp()
+                        };
+                        if (role === 'customer') {
+                            userData.city = getVal('city');
+                            userData.pincode = getVal('pincode');
+                        }
+                        if (role === 'delivery') {
+                            userData.vehicleType = getVal('vehicleType');
+                            userData.vehicleNumber = getVal('vehicleNumber');
+                            userData.serviceArea = getVal('serviceArea');
+                            userData.aadhaarUrl = docUrls.aadhaarUrl || null;
+                            userData.licenseUrl = docUrls.licenseUrl || null;
+                        }
+                        if (role === 'pharmacist') {
+                            userData.pharmacyName = getVal('pharmacyName');
+                            userData.medicalLocationAddress = getVal('medicalLocationAddress');
+                            userData.pharmacyCity = getVal('pharmacyCity');
+                            userData.pharmacyPincode = getVal('pharmacyPincode');
+                            userData.pharmacyRegNumber = getVal('pharmacyRegNumber');
+                            userData.degreeCertificateUrl = docUrls.degreeCertificateUrl || null;
+                            userData.finalYearMarksheetUrl = docUrls.finalYearMarksheetUrl || null;
+                            userData.renewalCertificateUrl = docUrls.renewalCertificateUrl || null;
+                            userData.aadhaarCardUrl = docUrls.aadhaarCardUrl || null;
+                            userData.panCardUrl = docUrls.panCardUrl || null;
+                            userData.passportPhotoUrl = docUrls.passportPhotoUrl || null;
+                            userData.addressProofUrl = docUrls.addressProofUrl || null;
+                            userData.experienceCertificateUrl = docUrls.experienceCertificateUrl || null;
+                        }
+                        return window.firebaseDb.collection('users').doc(uid).set(userData);
+                    })
+                    .then(function() {
+                        alert('Account created successfully. You can now login.');
+                        window.location.href = 'index.html';
+                    })
+                    .catch(function(err) {
+                        submitBtn.disabled = false;
+                        submitBtn.textContent = 'Create Account';
+                        alert(err.message || 'Sign up failed. Please try again.');
+                    });
+            });
+        })();
+    </script>
+</body>
+</html>
