@@ -1,0 +1,1390 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Doctor Dashboard - Medify</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body class="doctor-dashboard-page">
+    <!-- Doctor Dashboard Layout -->
+    <aside class="doc-sidebar" id="doc-sidebar">
+        <div class="doc-sidebar-header">
+            <a href="index.html" class="doc-logo">
+                <i class="fas fa-heartbeat"></i>
+                <span>Medify</span>
+            </a>
+            <button type="button" class="doc-sidebar-close" id="doc-sidebar-close" aria-label="Close menu">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+        <nav class="doc-nav">
+            <a href="#" class="doc-nav-item active" data-section="overview">
+                <i class="fas fa-th-large"></i>
+                <span>Overview</span>
+                <span class="doc-nav-badge" id="badge-today">0</span>
+            </a>
+            <a href="#" class="doc-nav-item" data-section="appointments">
+                <i class="fas fa-calendar-check"></i>
+                <span>Appointments</span>
+            </a>
+            <a href="#" class="doc-nav-item" data-section="schedule">
+                <i class="fas fa-clock"></i>
+                <span>My Schedule</span>
+            </a>
+            <a href="#" class="doc-nav-item" data-section="patient-history">
+                <i class="fas fa-history"></i>
+                <span>Patient History</span>
+            </a>
+            <a href="#" class="doc-nav-item" data-section="profile">
+                <i class="fas fa-user-md"></i>
+                <span>Profile</span>
+            </a>
+        </nav>
+        <div class="doc-sidebar-footer">
+            <a href="index.html" class="doc-nav-item doc-nav-logout">
+                <i class="fas fa-sign-out-alt"></i>
+                <span>Back to Medify</span>
+            </a>
+            <button type="button" class="doc-logout-btn" id="doc-logout-btn">
+                <i class="fas fa-power-off"></i>
+                <span>Log out</span>
+            </button>
+        </div>
+    </aside>
+
+    <div class="doc-main-wrap">
+        <header class="doc-topbar">
+            <button type="button" class="doc-menu-btn" id="doc-menu-btn" aria-label="Open menu">
+                <i class="fas fa-bars"></i>
+            </button>
+            <div class="doc-topbar-title">
+                <h1>Dashboard</h1>
+                <p class="doc-greeting" id="doc-greeting">Welcome back</p>
+            </div>
+            <div class="doc-topbar-actions">
+                <div class="doc-notification-wrap">
+                    <button type="button" class="doc-icon-btn" aria-label="Notifications">
+                        <i class="fas fa-bell"></i>
+                        <span class="doc-notification-dot" id="doc-notification-dot"></span>
+                    </button>
+                </div>
+                <div class="doc-avatar-wrap" id="doc-avatar-wrap">
+                    <span class="doc-avatar" id="doc-avatar"><i class="fas fa-user-md"></i></span>
+                    <span class="doc-name-short" id="doc-name-short">Dr</span>
+                </div>
+            </div>
+        </header>
+
+        <main class="doc-content">
+            <div id="doc-wrong-account-wrap" class="doc-wrong-account" style="display:none;">
+                <div class="doc-wrong-account-inner">
+                    <i class="fas fa-user-md"></i>
+                    <h2>Doctor dashboard</h2>
+                    <p>You're signed in as <strong id="doc-wrong-account-email">—</strong>. This page is for doctor accounts.</p>
+                    <p>To view the doctor dashboard, log in with your doctor account in this tab, or open the dashboard in a tab where you're already signed in as a doctor.</p>
+                    <a href="index.html#login" class="doc-btn doc-btn-primary">Go to login</a>
+                </div>
+            </div>
+            <div id="doc-dashboard-content">
+            <!-- Overview Section (default) -->
+            <section class="doc-section doc-section-overview" id="section-overview">
+                <div class="doc-stats-grid">
+                    <div class="doc-stat-card">
+                        <div class="doc-stat-icon doc-stat-icon-teal">
+                            <i class="fas fa-calendar-day"></i>
+                        </div>
+                        <div class="doc-stat-body">
+                            <span class="doc-stat-value" id="stat-today">0</span>
+                            <span class="doc-stat-label">Today's appointments</span>
+                        </div>
+                    </div>
+                    <div class="doc-stat-card">
+                        <div class="doc-stat-icon doc-stat-icon-blue">
+                            <i class="fas fa-calendar-week"></i>
+                        </div>
+                        <div class="doc-stat-body">
+                            <span class="doc-stat-value" id="stat-week">0</span>
+                            <span class="doc-stat-label">This week</span>
+                        </div>
+                    </div>
+                    <div class="doc-stat-card">
+                        <div class="doc-stat-icon doc-stat-icon-amber">
+                            <i class="fas fa-hourglass-half"></i>
+                        </div>
+                        <div class="doc-stat-body">
+                            <span class="doc-stat-value" id="stat-pending">0</span>
+                            <span class="doc-stat-label">Pending requests</span>
+                        </div>
+                    </div>
+                    <div class="doc-stat-card">
+                        <div class="doc-stat-icon doc-stat-icon-green">
+                            <i class="fas fa-rupee-sign"></i>
+                        </div>
+                        <div class="doc-stat-body">
+                            <span class="doc-stat-value" id="stat-earnings">₹0</span>
+                            <span class="doc-stat-label">Earnings (this month)</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="doc-cards-row">
+                    <div class="doc-card doc-card-today">
+                        <div class="doc-card-header">
+                            <h2><i class="fas fa-list"></i> Today's appointments</h2>
+                            <a href="#" class="doc-card-link" data-section="appointments">View all</a>
+                        </div>
+                        <div class="doc-appointments-list" id="today-appointments-list">
+                            <div class="doc-empty-state" id="today-empty">
+                                <i class="fas fa-calendar-check"></i>
+                                <p>No appointments scheduled for today</p>
+                                <span>New requests will appear here</span>
+                            </div>
+                            <template id="today-appointment-item-tpl">
+                                <div class="doc-appointment-item" data-id="">
+                                    <div class="doc-apt-time"></div>
+                                    <div class="doc-apt-info">
+                                        <strong class="doc-apt-name"></strong>
+                                        <span class="doc-apt-type"></span>
+                                    </div>
+                                    <div class="doc-apt-actions">
+                                        <button type="button" class="doc-btn doc-btn-sm doc-btn-primary start-call-btn">Start call</button>
+                                        <button type="button" class="doc-btn doc-btn-sm doc-btn-ghost view-btn">View</button>
+                                    </div>
+                                </div>
+                            </template>
+                        </div>
+                    </div>
+                    <div class="doc-card doc-card-upcoming">
+                        <div class="doc-card-header">
+                            <h2><i class="fas fa-clock"></i> Upcoming</h2>
+                            <a href="#" class="doc-card-link" data-section="appointments">View all</a>
+                        </div>
+                        <div class="doc-appointments-list" id="upcoming-appointments-list">
+                            <div class="doc-empty-state" id="upcoming-empty">
+                                <i class="fas fa-clock"></i>
+                                <p>No upcoming appointments</p>
+                            </div>
+                            <template id="upcoming-appointment-item-tpl">
+                                <div class="doc-appointment-item doc-appointment-item-upcoming" data-id="">
+                                    <div class="doc-apt-date"></div>
+                                    <div class="doc-apt-time"></div>
+                                    <div class="doc-apt-info">
+                                        <strong class="doc-apt-name"></strong>
+                                        <span class="doc-apt-type"></span>
+                                    </div>
+                                    <button type="button" class="doc-btn doc-btn-sm doc-btn-ghost view-btn">View</button>
+                                </div>
+                            </template>
+                        </div>
+                    </div>
+                    <div class="doc-card doc-card-pending">
+                        <div class="doc-card-header">
+                            <h2><i class="fas fa-inbox"></i> Pending requests</h2>
+                            <a href="#" class="doc-card-link" data-section="appointments">View all</a>
+                        </div>
+                        <div class="doc-appointments-list" id="pending-requests-list">
+                            <div class="doc-empty-state" id="pending-empty">
+                                <i class="fas fa-inbox"></i>
+                                <p>No pending requests</p>
+                                <span>New appointment requests will appear here</span>
+                            </div>
+                            <template id="pending-request-item-tpl">
+                                <div class="doc-appointment-item doc-appointment-item-pending" data-id="">
+                                    <div class="doc-apt-date"></div>
+                                    <div class="doc-apt-time"></div>
+                                    <div class="doc-apt-info">
+                                        <strong class="doc-apt-name"></strong>
+                                        <span class="doc-apt-type"></span>
+                                    </div>
+                                    <div class="doc-apt-actions">
+                                        <button type="button" class="doc-btn doc-btn-sm doc-btn-primary view-btn">View</button>
+                                    </div>
+                                </div>
+                            </template>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="doc-quick-actions">
+                    <h3>Quick actions</h3>
+                    <div class="doc-quick-actions-grid">
+                        <button type="button" class="doc-quick-action" id="doc-set-availability">
+                            <i class="fas fa-calendar-alt"></i>
+                            <span>Set availability</span>
+                        </button>
+                        <button type="button" class="doc-quick-action" id="doc-view-profile">
+                            <i class="fas fa-user-md"></i>
+                            <span>View my profile</span>
+                        </button>
+                        <a href="video-call.html" class="doc-quick-action" target="_blank" rel="noopener">
+                            <i class="fas fa-video"></i>
+                            <span>Test video call</span>
+                        </a>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Appointments Section -->
+            <section class="doc-section doc-section-appointments" id="section-appointments" style="display: none;">
+                <div class="doc-section-header">
+                    <h2>All appointments</h2>
+                    <div class="doc-filter-tabs">
+                        <button type="button" class="doc-filter-tab active" data-filter="upcoming">Upcoming</button>
+                        <button type="button" class="doc-filter-tab" data-filter="past">Past</button>
+                    </div>
+                </div>
+                <div class="doc-table-wrap">
+                    <table class="doc-table" id="all-appointments-table">
+                        <thead>
+                            <tr>
+                                <th>Date & time</th>
+                                <th>Patient</th>
+                                <th>Type</th>
+                                <th>Status</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody id="all-appointments-tbody">
+                            <tr class="doc-table-empty">
+                                <td colspan="5">No appointments to show</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+            <!-- Patient History Section -->
+            <section class="doc-section doc-section-patient-history" id="section-patient-history" style="display: none;">
+                <div class="doc-section-header">
+                    <h2>Patient History</h2>
+                    <p class="doc-section-desc">Search by patient name to view full health history, vitals, and reports.</p>
+                </div>
+                <div class="doc-patient-search-wrap">
+                    <div class="doc-patient-search-box">
+                        <i class="fas fa-search"></i>
+                        <input type="text" id="doc-patient-search-input" placeholder="Search by patient name" autocomplete="off">
+                        <button type="button" class="doc-btn doc-btn-primary" id="doc-patient-search-btn">Search</button>
+                    </div>
+                    <div class="doc-patient-search-actions">
+                        <button type="button" class="doc-btn doc-btn-secondary" id="doc-new-patient-btn"><i class="fas fa-user-plus"></i> New patient</button>
+                        <p class="doc-patient-search-hint">Search by name or add a new patient to start records.</p>
+                    </div>
+                </div>
+                <div class="doc-patient-result" id="doc-patient-result" style="display: none;">
+                    <div class="doc-patient-summary-card">
+                        <div class="doc-patient-summary-left">
+                            <div class="doc-patient-avatar"><i class="fas fa-user-injured"></i></div>
+                            <div class="doc-patient-summary-body">
+                                <h3 id="doc-patient-name">—</h3>
+                                <div class="doc-patient-meta">
+                                    <span><i class="fas fa-birthday-cake"></i> <span id="doc-patient-dob">—</span></span>
+                                    <span><i class="fas fa-tint"></i> Blood group: <span id="doc-patient-blood">—</span></span>
+                                    <span><i class="fas fa-calendar-check"></i> Last visit: <span id="doc-patient-last-visit">—</span></span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="doc-patient-add-actions" id="doc-patient-add-actions">
+                            <button type="button" class="doc-btn doc-btn-action doc-add-vitals-btn"><i class="fas fa-heartbeat"></i><span>Add vitals</span></button>
+                            <button type="button" class="doc-btn doc-btn-action doc-add-visit-btn"><i class="fas fa-calendar-plus"></i><span>Add visit</span></button>
+                            <button type="button" class="doc-btn doc-btn-action doc-add-medication-btn"><i class="fas fa-pills"></i><span>Add medication</span></button>
+                            <button type="button" class="doc-btn doc-btn-action doc-add-lab-btn"><i class="fas fa-vial"></i><span>Add lab result</span></button>
+                        </div>
+                    </div>
+                    <div class="doc-patient-tabs">
+                        <button type="button" class="doc-patient-tab active" data-tab="overview">Overview</button>
+                        <button type="button" class="doc-patient-tab" data-tab="vitals">Vitals</button>
+                        <button type="button" class="doc-patient-tab" data-tab="visits">Visits</button>
+                        <button type="button" class="doc-patient-tab" data-tab="medications">Medications</button>
+                        <button type="button" class="doc-patient-tab" data-tab="lab">Lab Results</button>
+                    </div>
+                    <div class="doc-patient-tab-content" id="doc-tab-overview">
+                        <div class="doc-patient-charts-row">
+                            <div class="doc-chart-card">
+                                <h4>Blood Pressure (last 6 months)</h4>
+                                <canvas id="chart-bp" height="200"></canvas>
+                            </div>
+                            <div class="doc-chart-card">
+                                <h4>Weight trend (kg)</h4>
+                                <canvas id="chart-weight" height="200"></canvas>
+                            </div>
+                        </div>
+                        <div class="doc-patient-charts-row">
+                            <div class="doc-chart-card">
+                                <h4>Blood Sugar (fasting mg/dL)</h4>
+                                <canvas id="chart-glucose" height="200"></canvas>
+                            </div>
+                            <div class="doc-chart-card">
+                                <h4>Heart Rate (bpm)</h4>
+                                <canvas id="chart-hr" height="200"></canvas>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="doc-patient-tab-content" id="doc-tab-vitals" style="display: none;">
+                        <div class="doc-vitals-table-wrap">
+                            <table class="doc-table">
+                                <thead>
+                                    <tr>
+                                        <th>Date</th>
+                                        <th>BP (mmHg)</th>
+                                        <th>Pulse</th>
+                                        <th>Temp (°F)</th>
+                                        <th>Weight (kg)</th>
+                                        <th>Blood Sugar</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="doc-vitals-tbody"></tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="doc-patient-tab-content" id="doc-tab-visits" style="display: none;">
+                        <div class="doc-visits-list" id="doc-visits-list"></div>
+                    </div>
+                    <div class="doc-patient-tab-content" id="doc-tab-medications" style="display: none;">
+                        <div class="doc-meds-list" id="doc-meds-list"></div>
+                    </div>
+                    <div class="doc-patient-tab-content" id="doc-tab-lab" style="display: none;">
+                        <div class="doc-lab-table-wrap">
+                            <table class="doc-table">
+                                <thead>
+                                    <tr>
+                                        <th>Date</th>
+                                        <th>Test</th>
+                                        <th>Result</th>
+                                        <th>Unit</th>
+                                        <th>Ref. range</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="doc-lab-tbody"></tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <div class="doc-patient-empty" id="doc-patient-empty">
+                    <i class="fas fa-search"></i>
+                    <p>Search for a patient by name to view their health history</p>
+                </div>
+            </section>
+
+            <!-- Schedule Section -->
+            <section class="doc-section doc-section-schedule" id="section-schedule" style="display: none;">
+                <div class="doc-section-header">
+                    <h2>My schedule</h2>
+                    <p class="doc-section-desc">Set your weekly availability for online and in-clinic consultations.</p>
+                </div>
+                <div class="doc-schedule-card">
+                    <div class="doc-schedule-day">
+                        <strong>Monday – Friday</strong>
+                        <p>9:00 AM – 1:00 PM, 4:00 PM – 8:00 PM</p>
+                    </div>
+                    <div class="doc-schedule-day">
+                        <strong>Saturday</strong>
+                        <p>9:00 AM – 1:00 PM</p>
+                    </div>
+                    <div class="doc-schedule-day">
+                        <strong>Sunday</strong>
+                        <p>Not available</p>
+                    </div>
+                    <button type="button" class="doc-btn doc-btn-primary" id="doc-edit-schedule">Edit schedule</button>
+                </div>
+            </section>
+
+            <!-- Profile Section -->
+            <section class="doc-section doc-section-profile" id="section-profile" style="display: none;">
+                <div class="doc-section-header">
+                    <h2>Profile</h2>
+                    <p class="doc-section-desc">Your professional profile as shown to patients.</p>
+                </div>
+                <div class="doc-profile-card">
+                    <div class="doc-profile-avatar-lg">
+                        <i class="fas fa-user-md"></i>
+                    </div>
+                    <div class="doc-profile-details">
+                        <h3 id="doc-profile-name">Dr. [Your name]</h3>
+                        <p id="doc-profile-specialty">General Physician</p>
+                        <p id="doc-profile-email" class="doc-profile-meta">—</p>
+                        <button type="button" class="doc-btn doc-btn-secondary">Edit profile</button>
+                    </div>
+                </div>
+            </section>
+            </div>
+        </main>
+    </div>
+
+    <!-- New patient modal -->
+    <div class="doc-modal-overlay" id="doc-new-patient-modal" aria-hidden="true">
+        <div class="doc-modal doc-modal-box">
+            <div class="doc-modal-header"><h2><i class="fas fa-user-plus"></i> New patient</h2><button type="button" class="doc-modal-close doc-close-new-patient" aria-label="Close">&times;</button></div>
+            <div class="doc-modal-body">
+                <div class="doc-form-group"><label>Full name <span class="required">*</span></label><input type="text" id="doc-new-patient-name" placeholder="Patient name"></div>
+                <div class="doc-form-group"><label>Date of birth</label><input type="text" id="doc-new-patient-dob" placeholder="e.g. 15 Mar 1985"></div>
+                <div class="doc-form-group"><label>Blood group</label><input type="text" id="doc-new-patient-blood" placeholder="e.g. B+"></div>
+            </div>
+            <div class="doc-modal-footer"><button type="button" class="doc-btn doc-btn-ghost doc-close-new-patient">Cancel</button><button type="button" class="doc-btn doc-btn-primary" id="doc-new-patient-submit">Save patient</button></div>
+        </div>
+    </div>
+    <!-- Add vitals modal -->
+    <div class="doc-modal-overlay" id="doc-add-vitals-modal" aria-hidden="true">
+        <div class="doc-modal doc-modal-box">
+            <div class="doc-modal-header"><h2><i class="fas fa-heartbeat"></i> Add vitals</h2><button type="button" class="doc-modal-close doc-close-add-vitals" aria-label="Close">&times;</button></div>
+            <div class="doc-modal-body">
+                <p class="doc-modal-hint">Record the patient’s vital signs for this visit.</p>
+                <div class="doc-form-row">
+                    <div class="doc-form-group"><label>Date</label><input type="text" id="doc-vitals-date" placeholder="e.g. Jan 2025"></div>
+                    <div class="doc-form-group"><label>BP (mmHg)</label><input type="text" id="doc-vitals-bp" placeholder="e.g. 120/80"></div>
+                </div>
+                <div class="doc-form-row">
+                    <div class="doc-form-group"><label>Pulse (bpm)</label><input type="number" id="doc-vitals-pulse" placeholder="72"></div>
+                    <div class="doc-form-group"><label>Temp (°F)</label><input type="number" id="doc-vitals-temp" placeholder="98.4" step="0.1"></div>
+                </div>
+                <div class="doc-form-row">
+                    <div class="doc-form-group"><label>Weight (kg)</label><input type="number" id="doc-vitals-weight" placeholder="70"></div>
+                    <div class="doc-form-group"><label>Blood sugar (mg/dL)</label><input type="number" id="doc-vitals-glucose" placeholder="95"></div>
+                </div>
+            </div>
+            <div class="doc-modal-footer"><button type="button" class="doc-btn doc-btn-ghost doc-close-add-vitals">Cancel</button><button type="button" class="doc-btn doc-btn-primary doc-btn-save" id="doc-add-vitals-submit"><i class="fas fa-check"></i> Save vitals</button></div>
+        </div>
+    </div>
+    <!-- Add visit modal -->
+    <div class="doc-modal-overlay" id="doc-add-visit-modal" aria-hidden="true">
+        <div class="doc-modal doc-modal-box">
+            <div class="doc-modal-header"><h2><i class="fas fa-calendar-plus"></i> Add visit</h2><button type="button" class="doc-modal-close doc-close-add-visit" aria-label="Close">&times;</button></div>
+            <div class="doc-modal-body">
+                <p class="doc-modal-hint">Log a consultation or clinic visit.</p>
+                <div class="doc-form-group"><label>Date <span class="required">*</span></label><input type="text" id="doc-visit-date" placeholder="e.g. 28 Jan 2025"></div>
+                <div class="doc-form-group"><label>Reason for visit</label><input type="text" id="doc-visit-reason" placeholder="e.g. Follow-up for hypertension"></div>
+                <div class="doc-form-group"><label>Diagnosis</label><input type="text" id="doc-visit-diagnosis" placeholder="e.g. BP under control"></div>
+                <div class="doc-form-group"><label>Notes</label><textarea id="doc-visit-notes" rows="3" placeholder="Clinical notes"></textarea></div>
+            </div>
+            <div class="doc-modal-footer"><button type="button" class="doc-btn doc-btn-ghost doc-close-add-visit">Cancel</button><button type="button" class="doc-btn doc-btn-primary doc-btn-save" id="doc-add-visit-submit"><i class="fas fa-check"></i> Save visit</button></div>
+        </div>
+    </div>
+    <!-- Add medication modal -->
+    <div class="doc-modal-overlay" id="doc-add-medication-modal" aria-hidden="true">
+        <div class="doc-modal doc-modal-box">
+            <div class="doc-modal-header"><h2><i class="fas fa-pills"></i> Add medication</h2><button type="button" class="doc-modal-close doc-close-add-medication" aria-label="Close">&times;</button></div>
+            <div class="doc-modal-body">
+                <p class="doc-modal-hint">Add a medication to the patient’s record.</p>
+                <div class="doc-form-group"><label>Medication name <span class="required">*</span></label><input type="text" id="doc-med-name" placeholder="e.g. Amlodipine 5mg"></div>
+                <div class="doc-form-group"><label>Dosage</label><input type="text" id="doc-med-dosage" placeholder="e.g. Once daily"></div>
+                <div class="doc-form-group"><label>For (indication)</label><input type="text" id="doc-med-for" placeholder="e.g. Blood pressure"></div>
+                <div class="doc-form-group"><label>Since</label><input type="text" id="doc-med-since" placeholder="e.g. Jun 2024"></div>
+            </div>
+            <div class="doc-modal-footer"><button type="button" class="doc-btn doc-btn-ghost doc-close-add-medication">Cancel</button><button type="button" class="doc-btn doc-btn-primary doc-btn-save" id="doc-add-medication-submit"><i class="fas fa-check"></i> Save medication</button></div>
+        </div>
+    </div>
+    <!-- Add lab result modal -->
+    <div class="doc-modal-overlay" id="doc-add-lab-modal" aria-hidden="true">
+        <div class="doc-modal doc-modal-box">
+            <div class="doc-modal-header"><h2><i class="fas fa-vial"></i> Add lab result</h2><button type="button" class="doc-modal-close doc-close-add-lab" aria-label="Close">&times;</button></div>
+            <div class="doc-modal-body">
+                <p class="doc-modal-hint">Enter a lab test result.</p>
+                <div class="doc-form-group"><label>Date</label><input type="text" id="doc-lab-date" placeholder="e.g. 28 Jan 2025"></div>
+                <div class="doc-form-group"><label>Test name <span class="required">*</span></label><input type="text" id="doc-lab-test" placeholder="e.g. HbA1c"></div>
+                <div class="doc-form-row">
+                    <div class="doc-form-group"><label>Result</label><input type="text" id="doc-lab-result" placeholder="e.g. 5.8"></div>
+                    <div class="doc-form-group"><label>Unit</label><input type="text" id="doc-lab-unit" placeholder="e.g. %"></div>
+                </div>
+                <div class="doc-form-group"><label>Reference range</label><input type="text" id="doc-lab-ref" placeholder="e.g. 4.0 - 5.6"></div>
+            </div>
+            <div class="doc-modal-footer"><button type="button" class="doc-btn doc-btn-ghost doc-close-add-lab">Cancel</button><button type="button" class="doc-btn doc-btn-primary doc-btn-save" id="doc-add-lab-submit"><i class="fas fa-check"></i> Save result</button></div>
+        </div>
+    </div>
+
+    <!-- Appointment detail modal -->
+    <div class="doc-modal-overlay" id="doc-apt-detail-modal" aria-hidden="true">
+        <div class="doc-modal doc-apt-detail-modal">
+            <div class="doc-modal-header">
+                <h2><i class="fas fa-calendar-check"></i> Appointment details</h2>
+                <button type="button" class="doc-modal-close" id="doc-apt-detail-close" aria-label="Close">&times;</button>
+            </div>
+            <div class="doc-modal-body" id="doc-apt-detail-body">
+                <div class="doc-apt-detail-row">
+                    <span class="doc-apt-detail-label">Patient</span>
+                    <span class="doc-apt-detail-value" id="doc-apt-detail-patient">—</span>
+                </div>
+                <div class="doc-apt-detail-row">
+                    <span class="doc-apt-detail-label">Date</span>
+                    <span class="doc-apt-detail-value" id="doc-apt-detail-date">—</span>
+                </div>
+                <div class="doc-apt-detail-row">
+                    <span class="doc-apt-detail-label">Time</span>
+                    <span class="doc-apt-detail-value" id="doc-apt-detail-time">—</span>
+                </div>
+                <div class="doc-apt-detail-row">
+                    <span class="doc-apt-detail-label">Type</span>
+                    <span class="doc-apt-detail-value" id="doc-apt-detail-type">—</span>
+                </div>
+                <div class="doc-apt-detail-row">
+                    <span class="doc-apt-detail-label">Status</span>
+                    <span class="doc-apt-detail-value" id="doc-apt-detail-status"><span class="doc-status doc-status-pending">—</span></span>
+                </div>
+            </div>
+            <div class="doc-modal-footer" id="doc-apt-detail-footer">
+                <button type="button" class="doc-btn doc-btn-ghost" id="doc-apt-detail-close-btn">Close</button>
+                <div class="doc-apt-detail-actions" id="doc-apt-detail-actions">
+                    <button type="button" class="doc-btn doc-btn-secondary" id="doc-apt-reject-btn">Reject</button>
+                    <button type="button" class="doc-btn doc-btn-primary" id="doc-apt-accept-btn">Accept</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://www.gstatic.com/firebasejs/10.7.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.0/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.0/firebase-firestore-compat.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+    <script src="firebase-config.js"></script>
+    <script>
+        (function() {
+            // Use doctor auth so doctor login doesn't override other roles.
+            var auth = window.firebaseDoctorAuth;
+            if (!auth) {
+                console.warn('Doctor auth not initialized. Ensure firebase-config.js is loaded after firebase-auth-compat.js');
+                return;
+            }
+
+            var allowedDoctorEmails = ['doctor@medify.com'];
+            auth.onAuthStateChanged(function(user) {
+                if (!user) {
+                    if (window._docAppointmentUnsubscribe) {
+                        try { window._docAppointmentUnsubscribe(); } catch (e) {}
+                        window._docAppointmentUnsubscribe = null;
+                    }
+                    if (window._docTokenRefreshInterval) {
+                        clearInterval(window._docTokenRefreshInterval);
+                        window._docTokenRefreshInterval = null;
+                    }
+                    window.location.href = 'index.html#login';
+                    return;
+                }
+                var isDoctor = allowedDoctorEmails.indexOf(user.email) !== -1;
+                var wrapWrong = document.getElementById('doc-wrong-account-wrap');
+                var contentWrap = document.getElementById('doc-dashboard-content');
+                if (!isDoctor && wrapWrong && contentWrap) {
+                    var elEmail = document.getElementById('doc-wrong-account-email');
+                    if (elEmail) elEmail.textContent = user.email || '—';
+                    wrapWrong.style.display = 'block';
+                    contentWrap.style.display = 'none';
+                    return;
+                }
+                if (wrapWrong && contentWrap) {
+                    wrapWrong.style.display = 'none';
+                    contentWrap.style.display = '';
+                }
+                var displayName = user.displayName || user.email || 'Doctor';
+                var shortName = (displayName.split(' ')[0] || 'Dr').substring(0, 2);
+                var greeting = 'Welcome back, ' + (user.displayName || 'Doctor') + '.';
+                var elGreeting = document.getElementById('doc-greeting');
+                var elNameShort = document.getElementById('doc-name-short');
+                var elProfileName = document.getElementById('doc-profile-name');
+                var elProfileEmail = document.getElementById('doc-profile-email');
+                if (elGreeting) elGreeting.textContent = greeting;
+                if (elNameShort) elNameShort.textContent = shortName;
+                if (elProfileName) elProfileName.textContent = user.displayName ? 'Dr. ' + user.displayName : 'Dr. ' + (user.email || '');
+                if (elProfileEmail) elProfileEmail.textContent = user.email || '—';
+
+                // Load appointment requests for this doctor from Firestore (real-time)
+                // Refresh ID token first so Firestore has a valid token (avoids expiry after ~1 hour)
+                if (window._docAppointmentUnsubscribe) {
+                    try { window._docAppointmentUnsubscribe(); } catch (e) {}
+                    window._docAppointmentUnsubscribe = null;
+                }
+                function startDoctorData() {
+                    loadDoctorAppointmentRequests(user.email);
+                }
+                user.getIdToken(true).then(startDoctorData).catch(function() { startDoctorData(); });
+
+                // Keep token fresh: refresh every 50 min so data doesn't disappear
+                if (window._docTokenRefreshInterval) clearInterval(window._docTokenRefreshInterval);
+                window._docTokenRefreshInterval = setInterval(function() {
+                    var u = auth.currentUser;
+                    if (u && u.email) {
+                        u.getIdToken(true).then(function() {
+                            if (window._docAppointmentUnsubscribe) {
+                                try { window._docAppointmentUnsubscribe(); } catch (e) {}
+                                window._docAppointmentUnsubscribe = null;
+                            }
+                            loadDoctorAppointmentRequests(u.email);
+                        }).catch(function() {});
+                    }
+                }, 50 * 60 * 1000);
+            });
+
+            function loadDoctorAppointmentRequests(doctorEmail) {
+                var db = window.firebaseDoctorDb || window.firebaseDb;
+                if (!db || !doctorEmail) return;
+                var todayStr = new Date().toISOString().split('T')[0];
+                var todayStart = new Date(todayStr);
+                todayStart.setHours(0, 0, 0, 0);
+                var weekEnd = new Date(todayStart);
+                weekEnd.setDate(weekEnd.getDate() + 7);
+
+                function applyRequests(snap) {
+                        var requests = [];
+                        snap.forEach(function(doc) {
+                            var d = doc.data();
+                            d.id = doc.id;
+                            requests.push(d);
+                        });
+                        requests.sort(function(a, b) {
+                            var da = (a.createdAt && a.createdAt.toDate) ? a.createdAt.toDate().getTime() : (a.date || '').replace(/-/g, '');
+                            var db = (b.createdAt && b.createdAt.toDate) ? b.createdAt.toDate().getTime() : (b.date || '').replace(/-/g, '');
+                            return db - da;
+                        });
+                        window._docAppointmentRequestsMap = {};
+                        requests.forEach(function(r) { window._docAppointmentRequestsMap[r.id] = r; });
+                        var pending = requests.filter(function(r) { return r.status === 'pending'; });
+                        var todayReqs = requests.filter(function(r) { return r.date === todayStr; });
+                        var weekReqs = requests.filter(function(r) {
+                            var d = r.date ? new Date(r.date) : null;
+                            return d && d >= todayStart && d < weekEnd;
+                        });
+                        // Stats
+                        var elToday = document.getElementById('stat-today');
+                        var elWeek = document.getElementById('stat-week');
+                        var elPending = document.getElementById('stat-pending');
+                        var elEarnings = document.getElementById('stat-earnings');
+                        var badgeToday = document.getElementById('badge-today');
+                        if (elToday) elToday.textContent = todayReqs.length;
+                        if (elWeek) elWeek.textContent = weekReqs.length;
+                        if (elPending) elPending.textContent = pending.length;
+                        if (badgeToday) badgeToday.textContent = todayReqs.length;
+                        var monthStart = new Date();
+                        monthStart.setDate(1);
+                        monthStart.setHours(0, 0, 0, 0);
+                        var earningsTotal = 0;
+                        requests.forEach(function(r) {
+                            if (r.paymentStatus === 'paid' && r.amountPaid) {
+                                var paidAt = r.paidAt && r.paidAt.toDate ? r.paidAt.toDate() : null;
+                                if (paidAt && paidAt >= monthStart) earningsTotal += (r.amountPaid || 0);
+                            }
+                        });
+                        if (elEarnings) elEarnings.textContent = '₹' + earningsTotal;
+                        // Today list
+                        var todayList = document.getElementById('today-appointments-list');
+                        var todayEmpty = document.getElementById('today-empty');
+                        var todayTpl = document.getElementById('today-appointment-item-tpl');
+                        if (todayList) {
+                            todayEmpty.style.display = todayReqs.length ? 'none' : 'block';
+                            todayList.querySelectorAll('.doc-appointment-item').forEach(function(el) { el.remove(); });
+                            todayReqs.forEach(function(r) {
+                                var node = todayTpl.content.cloneNode(true);
+                                var wrap = node.querySelector('.doc-appointment-item');
+                                wrap.setAttribute('data-id', r.id);
+                                wrap.querySelector('.doc-apt-time').textContent = (r.timeSlot || '').replace(/^(\d+):(\d+)$/, function(_, h, m) {
+                                    var hh = parseInt(h, 10); return (hh % 12 || 12) + ':' + m + (hh >= 12 ? ' PM' : ' AM');
+                                });
+                                wrap.querySelector('.doc-apt-name').textContent = r.patientName || r.patientEmail || 'Patient';
+                                wrap.querySelector('.doc-apt-type').textContent = (r.consultationType || 'Consultation');
+                                todayList.appendChild(node);
+                            });
+                        }
+                        // Upcoming list (future dates, not today)
+                        var upcomingReqs = requests.filter(function(r) { return r.date && r.date > todayStr; });
+                        var upList = document.getElementById('upcoming-appointments-list');
+                        var upEmpty = document.getElementById('upcoming-empty');
+                        var upTpl = document.getElementById('upcoming-appointment-item-tpl');
+                        if (upList) {
+                            upEmpty.style.display = upcomingReqs.length ? 'none' : 'block';
+                            upList.querySelectorAll('.doc-appointment-item').forEach(function(el) { el.remove(); });
+                            upcomingReqs.slice(0, 5).forEach(function(r) {
+                                var node = upTpl.content.cloneNode(true);
+                                var wrap = node.querySelector('.doc-appointment-item');
+                                wrap.setAttribute('data-id', r.id);
+                                wrap.querySelector('.doc-apt-date').textContent = r.date ? new Date(r.date).toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' }) : '';
+                                wrap.querySelector('.doc-apt-time').textContent = (r.timeSlot || '').replace(/^(\d+):(\d+)$/, function(_, h, m) {
+                                    var hh = parseInt(h, 10); return (hh % 12 || 12) + ':' + m + (hh >= 12 ? ' PM' : ' AM');
+                                });
+                                wrap.querySelector('.doc-apt-name').textContent = r.patientName || r.patientEmail || 'Patient';
+                                wrap.querySelector('.doc-apt-type').textContent = (r.consultationType || 'Consultation');
+                                upList.appendChild(node);
+                            });
+                        }
+                        // Pending requests list (Overview)
+                        var pendingList = document.getElementById('pending-requests-list');
+                        var pendingEmpty = document.getElementById('pending-empty');
+                        var pendingTpl = document.getElementById('pending-request-item-tpl');
+                        if (pendingList && pendingTpl) {
+                            if (pendingEmpty) pendingEmpty.style.display = pending.length ? 'none' : 'block';
+                            pendingList.querySelectorAll('.doc-appointment-item-pending').forEach(function(el) { el.remove(); });
+                            pending.slice(0, 5).forEach(function(r) {
+                                var node = pendingTpl.content.cloneNode(true);
+                                var wrap = node.querySelector('.doc-appointment-item');
+                                wrap.setAttribute('data-id', r.id);
+                                wrap.querySelector('.doc-apt-date').textContent = r.date ? new Date(r.date).toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' }) : '—';
+                                wrap.querySelector('.doc-apt-time').textContent = (r.timeSlot || '').replace(/^(\d+):(\d+)$/, function(_, h, m) {
+                                    var hh = parseInt(h, 10); return (hh % 12 || 12) + ':' + m + (hh >= 12 ? ' PM' : ' AM');
+                                });
+                                wrap.querySelector('.doc-apt-name').textContent = r.patientName || r.patientEmail || 'Patient';
+                                wrap.querySelector('.doc-apt-type').textContent = (r.consultationType || 'Consultation');
+                                pendingList.appendChild(node);
+                            });
+                        }
+                        // All appointments table: show pending requests always, plus today/future
+                        var tbody = document.getElementById('all-appointments-tbody');
+                        if (tbody) {
+                            tbody.innerHTML = '';
+                            var showReqs = requests.filter(function(r) {
+                                return r.status === 'pending' || !r.date || r.date >= todayStr;
+                            });
+                            if (showReqs.length === 0) {
+                                tbody.innerHTML = '<tr class="doc-table-empty"><td colspan="5">No appointments to show</td></tr>';
+                            } else {
+                                showReqs.forEach(function(r) {
+                                    var dateStr = r.date ? new Date(r.date).toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' }) : '';
+                                    var timeStr = (r.timeSlot || '').replace(/^(\d+):(\d+)$/, function(_, h, m) {
+                                        var hh = parseInt(h, 10); return (hh % 12 || 12) + ':' + m + (hh >= 12 ? ' PM' : ' AM');
+                                    });
+                                    var tr = document.createElement('tr');
+                                    tr.innerHTML = '<td>' + dateStr + ' ' + timeStr + '</td><td>' + (r.patientName || r.patientEmail || '—') + '</td><td>' + (r.consultationType || '—') + '</td><td><span class="doc-status doc-status-' + (r.status || 'pending') + '">' + (r.status || 'pending') + '</span></td><td><button type="button" class="doc-btn doc-btn-sm doc-btn-ghost view-apt-btn" data-id="' + r.id + '">View</button></td>';
+                                    tbody.appendChild(tr);
+                                });
+                            }
+                        }
+                }
+
+                var q = db.collection('appointment_requests').where('doctorEmail', '==', doctorEmail);
+                window._docAppointmentUnsubscribe = q.onSnapshot(
+                    function(snap) { applyRequests(snap); },
+                    function(err) {
+                        console.warn('Appointment requests load failed', err);
+                        var code = err && (err.code || err.codeName);
+                        var isAuthError = code === 7 || code === 'permission-denied' || code === 16 || code === 'unauthenticated' || (err.message && (err.message.indexOf('permission') !== -1 || err.message.indexOf('token') !== -1));
+                        if (isAuthError && auth && auth.currentUser) {
+                            var u = auth.currentUser;
+                            u.getIdToken(true).then(function() {
+                                if (window._docAppointmentUnsubscribe) {
+                                    try { window._docAppointmentUnsubscribe(); } catch (e) {}
+                                    window._docAppointmentUnsubscribe = null;
+                                }
+                                loadDoctorAppointmentRequests(u.email);
+                            }).catch(function() {});
+                        }
+                    }
+                );
+            }
+
+            document.getElementById('doc-logout-btn').addEventListener('click', function() {
+                auth.signOut().then(function() {
+                    try { sessionStorage.removeItem('medify_doctor_role'); } catch (e) {}
+                    window.location.href = 'index.html';
+                });
+            });
+
+            function openAppointmentDetail(requestId) {
+                var map = window._docAppointmentRequestsMap;
+                var req = map && map[requestId];
+                var modal = document.getElementById('doc-apt-detail-modal');
+                if (!modal || !req) return;
+                var dateStr = req.date ? new Date(req.date).toLocaleDateString('en-IN', { weekday: 'short', day: 'numeric', month: 'short', year: 'numeric' }) : '—';
+                var timeStr = (req.timeSlot || '—').replace(/^(\d+):(\d+)$/, function(_, h, m) {
+                    var hh = parseInt(h, 10); return (hh % 12 || 12) + ':' + m + (hh >= 12 ? ' PM' : ' AM');
+                });
+                document.getElementById('doc-apt-detail-patient').textContent = req.patientName || req.patientEmail || '—';
+                document.getElementById('doc-apt-detail-date').textContent = dateStr;
+                document.getElementById('doc-apt-detail-time').textContent = timeStr;
+                document.getElementById('doc-apt-detail-type').textContent = req.consultationType || '—';
+                var statusEl = document.getElementById('doc-apt-detail-status');
+                statusEl.innerHTML = '<span class="doc-status doc-status-' + (req.status || 'pending') + '">' + (req.status || 'pending') + '</span>';
+                var actionsEl = document.getElementById('doc-apt-detail-actions');
+                if (actionsEl) actionsEl.style.display = (req.status === 'pending') ? 'flex' : 'none';
+                modal.setAttribute('aria-hidden', 'false');
+                modal.classList.add('open');
+                document.body.style.overflow = 'hidden';
+                window._docCurrentAptId = requestId;
+            }
+
+            function closeAppointmentDetailModal() {
+                var modal = document.getElementById('doc-apt-detail-modal');
+                if (modal) {
+                    modal.classList.remove('open');
+                    modal.setAttribute('aria-hidden', 'true');
+                    document.body.style.overflow = '';
+                }
+                window._docCurrentAptId = null;
+            }
+
+            document.addEventListener('click', function(e) {
+                var btn = e.target.closest('.view-btn') || e.target.closest('.view-apt-btn');
+                if (!btn) return;
+                var id = btn.getAttribute('data-id') || (btn.closest('.doc-appointment-item') && btn.closest('.doc-appointment-item').getAttribute('data-id'));
+                if (id) openAppointmentDetail(id);
+            });
+
+            document.addEventListener('click', function(e) {
+                var startBtn = e.target.closest('.start-call-btn');
+                if (!startBtn) return;
+                var item = startBtn.closest('.doc-appointment-item');
+                var id = item ? item.getAttribute('data-id') : null;
+                if (!id) return;
+                var req = window._docAppointmentRequestsMap && window._docAppointmentRequestsMap[id];
+                var doctorName = (req && req.doctorName) ? req.doctorName : 'Doctor';
+                var patientName = (req && (req.patientName || req.patientEmail)) ? (req.patientName || req.patientEmail) : 'Patient';
+                var url = 'video-call.html?doctor=' + encodeURIComponent(doctorName) + '&patient=' + encodeURIComponent(patientName) + '&role=doctor';
+                window.open(url, '_blank', 'noopener,noreferrer');
+            });
+
+            var aptDetailClose = document.getElementById('doc-apt-detail-close');
+            var aptDetailCloseBtn = document.getElementById('doc-apt-detail-close-btn');
+            if (aptDetailClose) aptDetailClose.addEventListener('click', closeAppointmentDetailModal);
+            if (aptDetailCloseBtn) aptDetailCloseBtn.addEventListener('click', closeAppointmentDetailModal);
+            document.getElementById('doc-apt-detail-modal').addEventListener('click', function(e) {
+                if (e.target === this) closeAppointmentDetailModal();
+            });
+            document.addEventListener('keydown', function(e) {
+                if (e.key === 'Escape' && document.getElementById('doc-apt-detail-modal').classList.contains('open')) closeAppointmentDetailModal();
+            });
+
+            document.getElementById('doc-apt-accept-btn').addEventListener('click', function() {
+                var id = window._docCurrentAptId;
+                var db = window.firebaseDoctorDb || window.firebaseDb;
+                var req = id && window._docAppointmentRequestsMap ? window._docAppointmentRequestsMap[id] : null;
+                if (!id || !db) return;
+                var fee = (req && req.consultationFee) ? req.consultationFee : 750;
+                var updateData = { status: 'confirmed' };
+                if (!(req && req.consultationFee)) updateData.consultationFee = 750;
+                db.collection('appointment_requests').doc(id).update(updateData).then(function() {
+                    if (req && req.patientId) {
+                        var timeStr = (req.timeSlot || '').replace(/^(\d+):(\d+)$/, function(_, h, m) {
+                            var hh = parseInt(h, 10); return (hh % 12 || 12) + ':' + m + (hh >= 12 ? ' PM' : ' AM');
+                        });
+                        var dateStr = req.date ? new Date(req.date).toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' }) : '';
+                        var body = (req.doctorName || 'Your doctor') + ' has accepted your appointment for ' + dateStr + ' at ' + timeStr + '. Complete payment of ₹' + fee + ' to confirm your slot.';
+                        db.collection('notifications').add({
+                            userId: req.patientId,
+                            type: 'appointment_accepted',
+                            title: 'Appointment confirmed',
+                            body: body,
+                            appointmentRequestId: id,
+                            amount: fee,
+                            read: false,
+                            createdAt: firebase.firestore.FieldValue.serverTimestamp()
+                        }).catch(function() {});
+                    }
+                    closeAppointmentDetailModal();
+                    if (auth && auth.currentUser) loadDoctorAppointmentRequests(auth.currentUser.email);
+                }).catch(function(err) { console.warn('Accept failed', err); });
+            });
+            document.getElementById('doc-apt-reject-btn').addEventListener('click', function() {
+                var id = window._docCurrentAptId;
+                var db = window.firebaseDoctorDb || window.firebaseDb;
+                if (!id || !db) return;
+                db.collection('appointment_requests').doc(id).update({ status: 'cancelled' }).then(function() {
+                    closeAppointmentDetailModal();
+                    if (auth && auth.currentUser) loadDoctorAppointmentRequests(auth.currentUser.email);
+                }).catch(function(err) { console.warn('Reject failed', err); });
+            });
+        })();
+
+        (function() {
+            var sidebar = document.getElementById('doc-sidebar');
+            var menuBtn = document.getElementById('doc-menu-btn');
+            var closeBtn = document.getElementById('doc-sidebar-close');
+
+            function openSidebar() { sidebar.classList.add('open'); document.body.style.overflow = 'hidden'; }
+            function closeSidebar() { sidebar.classList.remove('open'); document.body.style.overflow = ''; }
+
+            if (menuBtn) menuBtn.addEventListener('click', openSidebar);
+            if (closeBtn) closeBtn.addEventListener('click', closeSidebar);
+            sidebar.addEventListener('click', function(e) {
+                if (e.target === sidebar) closeSidebar();
+            });
+
+            document.querySelectorAll('.doc-nav-item[data-section]').forEach(function(item) {
+                item.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    var section = this.getAttribute('data-section');
+                    document.querySelectorAll('.doc-section').forEach(function(s) { s.style.display = 'none'; });
+                    document.querySelectorAll('.doc-nav-item').forEach(function(n) { n.classList.remove('active'); });
+                    var sectionEl = document.getElementById('section-' + section);
+                    if (sectionEl) sectionEl.style.display = 'block';
+                    this.classList.add('active');
+                    var titles = { overview: 'Dashboard', appointments: 'Appointments', schedule: 'My Schedule', 'patient-history': 'Patient History', profile: 'Profile' };
+                    document.querySelector('.doc-topbar-title h1').textContent = titles[section] || (section.charAt(0).toUpperCase() + section.slice(1));
+                    closeSidebar();
+                });
+            });
+
+            document.querySelectorAll('.doc-card-link[data-section]').forEach(function(link) {
+                link.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    var section = this.getAttribute('data-section');
+                    var nav = document.querySelector('.doc-nav-item[data-section="' + section + '"]');
+                    if (nav) nav.click();
+                });
+            });
+
+            document.getElementById('doc-set-availability').addEventListener('click', function() {
+                document.querySelector('.doc-nav-item[data-section="schedule"]').click();
+            });
+            document.getElementById('doc-view-profile').addEventListener('click', function() {
+                document.querySelector('.doc-nav-item[data-section="profile"]').click();
+            });
+        })();
+
+        (function() {
+            var dummyPatients = [
+                {
+                    name: 'Rahul Sharma',
+                    dob: '15 Mar 1985',
+                    bloodGroup: 'B+',
+                    lastVisit: '28 Jan 2025',
+                    vitals: [
+                        { date: 'Aug 2024', bp: '128/82', bpSys: 128, bpDia: 82, pulse: 72, temp: 98.4, weight: 78, bloodSugar: 98, heartRate: 72 },
+                        { date: 'Sep 2024', bp: '130/84', bpSys: 130, bpDia: 84, pulse: 74, temp: 98.2, weight: 77.5, bloodSugar: 102, heartRate: 74 },
+                        { date: 'Oct 2024', bp: '125/80', bpSys: 125, bpDia: 80, pulse: 70, temp: 98.6, weight: 77, bloodSugar: 95, heartRate: 70 },
+                        { date: 'Nov 2024', bp: '132/85', bpSys: 132, bpDia: 85, pulse: 76, temp: 98.3, weight: 78.2, bloodSugar: 108, heartRate: 76 },
+                        { date: 'Dec 2024', bp: '127/81', bpSys: 127, bpDia: 81, pulse: 71, temp: 98.5, weight: 76.8, bloodSugar: 99, heartRate: 71 },
+                        { date: 'Jan 2025', bp: '124/79', bpSys: 124, bpDia: 79, pulse: 69, temp: 98.4, weight: 76, bloodSugar: 94, heartRate: 69 }
+                    ],
+                    visits: [
+                        { date: '28 Jan 2025', reason: 'Follow-up for hypertension', diagnosis: 'BP under control', notes: 'Continue Amlodipine 5mg' },
+                        { date: '10 Dec 2024', reason: 'Routine check-up', diagnosis: 'Healthy', notes: 'Annual labs advised' },
+                        { date: '15 Nov 2024', reason: 'Chest discomfort', diagnosis: 'Anxiety-related', notes: 'ECG normal' },
+                        { date: '20 Oct 2024', reason: 'Cold & cough', diagnosis: 'Upper respiratory infection', notes: 'Prescribed antibiotics' }
+                    ],
+                    medications: [
+                        { name: 'Amlodipine 5mg', dosage: 'Once daily', for: 'Blood pressure', since: 'Jun 2024' },
+                        { name: 'Aspirin 75mg', dosage: 'Once daily', for: 'Cardiac protection', since: 'Jun 2024' }
+                    ],
+                    lab: [
+                        { date: '28 Jan 2025', test: 'HbA1c', result: '5.8', unit: '%', ref: '4.0 - 5.6' },
+                        { date: '28 Jan 2025', test: 'Fasting Glucose', result: '94', unit: 'mg/dL', ref: '70 - 100' },
+                        { date: '28 Jan 2025', test: 'Total Cholesterol', result: '198', unit: 'mg/dL', ref: '< 200' },
+                        { date: '10 Dec 2024', test: 'Creatinine', result: '0.9', unit: 'mg/dL', ref: '0.7 - 1.2' },
+                        { date: '10 Dec 2024', test: 'Hb', result: '14.2', unit: 'g/dL', ref: '13 - 17' }
+                    ]
+                },
+                {
+                    name: 'Priya Singh',
+                    dob: '22 Jul 1992',
+                    bloodGroup: 'O+',
+                    lastVisit: '5 Feb 2025',
+                    vitals: [
+                        { date: 'Aug 2024', bp: '118/76', bpSys: 118, bpDia: 76, pulse: 68, temp: 98.2, weight: 62, bloodSugar: 88, heartRate: 68 },
+                        { date: 'Sep 2024', bp: '120/78', bpSys: 120, bpDia: 78, pulse: 70, temp: 98.4, weight: 62.5, bloodSugar: 92, heartRate: 70 },
+                        { date: 'Oct 2024', bp: '115/74', bpSys: 115, bpDia: 74, pulse: 66, temp: 98.1, weight: 61.8, bloodSugar: 85, heartRate: 66 },
+                        { date: 'Nov 2024', bp: '122/79', bpSys: 122, bpDia: 79, pulse: 72, temp: 98.5, weight: 63, bloodSugar: 96, heartRate: 72 },
+                        { date: 'Dec 2024', bp: '119/77', bpSys: 119, bpDia: 77, pulse: 69, temp: 98.3, weight: 62.2, bloodSugar: 90, heartRate: 69 },
+                        { date: 'Jan 2025', bp: '117/75', bpSys: 117, bpDia: 75, pulse: 67, temp: 98.4, weight: 61.5, bloodSugar: 87, heartRate: 67 }
+                    ],
+                    visits: [
+                        { date: '5 Feb 2025', reason: 'Thyroid follow-up', diagnosis: 'Hypothyroidism - stable', notes: 'Continue Thyronorm 50mcg' },
+                        { date: '18 Jan 2025', reason: 'Vitamin D deficiency', diagnosis: 'Low Vitamin D', notes: 'Started supplement' },
+                        { date: '2 Dec 2024', reason: 'Fatigue', diagnosis: 'Thyroid adjusted', notes: 'Labs repeated' },
+                        { date: '10 Nov 2024', reason: 'Annual check-up', diagnosis: 'Overall good', notes: 'Thyroid panel ordered' }
+                    ],
+                    medications: [
+                        { name: 'Thyronorm 50mcg', dosage: 'Once daily empty stomach', for: 'Hypothyroidism', since: 'Mar 2023' },
+                        { name: 'Vitamin D3 60K', dosage: 'Once weekly', for: 'Vitamin D deficiency', since: 'Jan 2025' }
+                    ],
+                    lab: [
+                        { date: '5 Feb 2025', test: 'TSH', result: '2.4', unit: 'mIU/L', ref: '0.4 - 4.0' },
+                        { date: '5 Feb 2025', test: 'T4 Free', result: '1.1', unit: 'ng/dL', ref: '0.8 - 1.8' },
+                        { date: '18 Jan 2025', test: 'Vitamin D', result: '18', unit: 'ng/mL', ref: '30 - 100' },
+                        { date: '2 Dec 2024', test: 'Hb', result: '12.8', unit: 'g/dL', ref: '12 - 16' }
+                    ]
+                },
+                {
+                    name: 'Amit Kumar',
+                    dob: '8 Nov 1978',
+                    bloodGroup: 'A+',
+                    lastVisit: '1 Feb 2025',
+                    vitals: [
+                        { date: 'Aug 2024', bp: '142/92', bpSys: 142, bpDia: 92, pulse: 82, temp: 98.6, weight: 88, bloodSugar: 118, heartRate: 82 },
+                        { date: 'Sep 2024', bp: '138/90', bpSys: 138, bpDia: 90, pulse: 80, temp: 98.4, weight: 86.5, bloodSugar: 112, heartRate: 80 },
+                        { date: 'Oct 2024', bp: '135/88', bpSys: 135, bpDia: 88, pulse: 78, temp: 98.5, weight: 85, bloodSugar: 108, heartRate: 78 },
+                        { date: 'Nov 2024', bp: '132/86', bpSys: 132, bpDia: 86, pulse: 76, temp: 98.3, weight: 84, bloodSugar: 105, heartRate: 76 },
+                        { date: 'Dec 2024', bp: '128/84', bpSys: 128, bpDia: 84, pulse: 74, temp: 98.4, weight: 83, bloodSugar: 102, heartRate: 74 },
+                        { date: 'Jan 2025', bp: '126/82', bpSys: 126, bpDia: 82, pulse: 72, temp: 98.2, weight: 82, bloodSugar: 98, heartRate: 72 }
+                    ],
+                    visits: [
+                        { date: '1 Feb 2025', reason: 'Diabetes & BP follow-up', diagnosis: 'Controlled on medication', notes: 'Diet compliance good' },
+                        { date: '12 Jan 2025', reason: 'Blood sugar review', diagnosis: 'Type 2 DM - improving', notes: 'Metformin dose unchanged' },
+                        { date: '5 Dec 2024', reason: 'Hypertension', diagnosis: 'BP improved', notes: 'Lifestyle advice given' },
+                        { date: '20 Nov 2024', reason: 'New onset diabetes', diagnosis: 'Type 2 DM', notes: 'Started Metformin' }
+                    ],
+                    medications: [
+                        { name: 'Metformin 500mg', dosage: 'Twice daily', for: 'Type 2 Diabetes', since: 'Nov 2024' },
+                        { name: 'Telma 40', dosage: 'Once daily', for: 'Hypertension', since: 'Nov 2024' },
+                        { name: 'Ecosprin 75mg', dosage: 'Once daily', for: 'Cardiac protection', since: 'Dec 2024' }
+                    ],
+                    lab: [
+                        { date: '1 Feb 2025', test: 'HbA1c', result: '6.2', unit: '%', ref: '4.0 - 5.6' },
+                        { date: '1 Feb 2025', test: 'Fasting Glucose', result: '98', unit: 'mg/dL', ref: '70 - 100' },
+                        { date: '12 Jan 2025', test: 'PP Sugar', result: '128', unit: 'mg/dL', ref: '< 140' },
+                        { date: '20 Nov 2024', test: 'HbA1c', result: '8.1', unit: '%', ref: '4.0 - 5.6' }
+                    ]
+                }
+            ];
+
+            var chartInstances = { bp: null, weight: null, glucose: null, hr: null };
+
+            function renderCharts(patient) {
+                var vitals = patient.vitals || [];
+                var labels = vitals.map(function(v) { return v.date; });
+
+                function destroyChart(id) {
+                    if (chartInstances[id]) {
+                        chartInstances[id].destroy();
+                        chartInstances[id] = null;
+                    }
+                }
+                destroyChart('bp');
+                destroyChart('weight');
+                destroyChart('glucose');
+                destroyChart('hr');
+
+                if (typeof Chart === 'undefined' || !labels.length) return;
+
+                var gridColor = 'rgba(0,0,0,0.06)';
+                var fontColor = '#546e7a';
+
+                chartInstances.bp = new Chart(document.getElementById('chart-bp'), {
+                    type: 'line',
+                    data: {
+                        labels: labels,
+                        datasets: [
+                            { label: 'Systolic', data: vitals.map(function(v) { return v.bpSys; }), borderColor: '#c62828', backgroundColor: 'rgba(198,40,40,0.1)', fill: true, tension: 0.3 },
+                            { label: 'Diastolic', data: vitals.map(function(v) { return v.bpDia; }), borderColor: '#1565c0', backgroundColor: 'rgba(21,101,192,0.1)', fill: true, tension: 0.3 }
+                        ]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        plugins: { legend: { position: 'top' } },
+                        scales: { x: { grid: { color: gridColor }, ticks: { color: fontColor } }, y: { grid: { color: gridColor }, ticks: { color: fontColor } } }
+                    }
+                });
+                chartInstances.weight = new Chart(document.getElementById('chart-weight'), {
+                    type: 'line',
+                    data: {
+                        labels: labels,
+                        datasets: [{ label: 'Weight (kg)', data: vitals.map(function(v) { return v.weight; }), borderColor: '#2e7d32', backgroundColor: 'rgba(46,125,50,0.15)', fill: true, tension: 0.3 }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        plugins: { legend: { position: 'top' } },
+                        scales: { x: { grid: { color: gridColor }, ticks: { color: fontColor } }, y: { grid: { color: gridColor }, ticks: { color: fontColor } } }
+                    }
+                });
+                chartInstances.glucose = new Chart(document.getElementById('chart-glucose'), {
+                    type: 'line',
+                    data: {
+                        labels: labels,
+                        datasets: [{ label: 'Fasting (mg/dL)', data: vitals.map(function(v) { return v.bloodSugar; }), borderColor: '#f9a825', backgroundColor: 'rgba(249,168,37,0.15)', fill: true, tension: 0.3 }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        plugins: { legend: { position: 'top' } },
+                        scales: { x: { grid: { color: gridColor }, ticks: { color: fontColor } }, y: { grid: { color: gridColor }, ticks: { color: fontColor } } }
+                    }
+                });
+                chartInstances.hr = new Chart(document.getElementById('chart-hr'), {
+                    type: 'line',
+                    data: {
+                        labels: labels,
+                        datasets: [{ label: 'Heart rate (bpm)', data: vitals.map(function(v) { return v.heartRate; }), borderColor: '#7b1fa2', backgroundColor: 'rgba(123,31,162,0.15)', fill: true, tension: 0.3 }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        plugins: { legend: { position: 'top' } },
+                        scales: { x: { grid: { color: gridColor }, ticks: { color: fontColor } }, y: { grid: { color: gridColor }, ticks: { color: fontColor } } }
+                    }
+                });
+            }
+
+            function firestorePatientToView(doc) {
+                var d = doc.data();
+                var vitals = (d.vitals || []).map(function(v) {
+                    var bp = v.bp || (v.bpSys != null && v.bpDia != null ? v.bpSys + '/' + v.bpDia : '—');
+                    return { date: v.date, bp: bp, bpSys: v.bpSys, bpDia: v.bpDia, pulse: v.pulse, temp: v.temp, weight: v.weight, bloodSugar: v.bloodSugar, heartRate: v.heartRate != null ? v.heartRate : v.pulse };
+                });
+                return { id: doc.id, name: d.name, dob: d.dob || '—', bloodGroup: d.bloodGroup || '—', lastVisit: d.lastVisit || '—', vitals: vitals, visits: d.visits || [], medications: d.medications || [], lab: d.lab || [] };
+            }
+
+            function showPatient(patient) {
+                window._docCurrentPatientId = patient.id || null;
+                window._docCurrentPatient = patient;
+                document.getElementById('doc-patient-empty').style.display = 'none';
+                document.getElementById('doc-patient-result').style.display = 'block';
+                document.getElementById('doc-patient-name').textContent = patient.name;
+                document.getElementById('doc-patient-dob').textContent = patient.dob || '—';
+                document.getElementById('doc-patient-blood').textContent = patient.bloodGroup || '—';
+                document.getElementById('doc-patient-last-visit').textContent = patient.lastVisit || '—';
+
+                document.querySelectorAll('.doc-patient-tab').forEach(function(t) { t.classList.remove('active'); });
+                document.querySelector('.doc-patient-tab[data-tab="overview"]').classList.add('active');
+                document.querySelectorAll('.doc-patient-tab-content').forEach(function(c) { c.style.display = 'none'; });
+                document.getElementById('doc-tab-overview').style.display = 'block';
+
+                var tbody = document.getElementById('doc-vitals-tbody');
+                tbody.innerHTML = (patient.vitals || []).map(function(v) {
+                    return '<tr><td>' + v.date + '</td><td>' + v.bp + '</td><td>' + v.pulse + '</td><td>' + v.temp + '</td><td>' + v.weight + '</td><td>' + v.bloodSugar + '</td></tr>';
+                }).join('') || '<tr><td colspan="6">No vitals recorded</td></tr>';
+
+                var visitsList = document.getElementById('doc-visits-list');
+                visitsList.innerHTML = (patient.visits || []).map(function(v) {
+                    return '<div class="doc-visit-item"><strong>' + v.date + '</strong> — ' + v.reason + '<br><span class="doc-visit-diagnosis">' + v.diagnosis + '</span><p class="doc-visit-notes">' + v.notes + '</p></div>';
+                }).join('') || '<p class="doc-empty-tab">No visits recorded</p>';
+
+                var medsList = document.getElementById('doc-meds-list');
+                medsList.innerHTML = (patient.medications || []).map(function(m) {
+                    return '<div class="doc-med-item"><strong>' + m.name + '</strong> — ' + m.dosage + '<br><span class="doc-med-for">For: ' + m.for + '</span> (Since ' + m.since + ')</div>';
+                }).join('') || '<p class="doc-empty-tab">No medications</p>';
+
+                var labTbody = document.getElementById('doc-lab-tbody');
+                labTbody.innerHTML = (patient.lab || []).map(function(l) {
+                    return '<tr><td>' + l.date + '</td><td>' + l.test + '</td><td>' + l.result + '</td><td>' + l.unit + '</td><td>' + l.ref + '</td></tr>';
+                }).join('') || '<tr><td colspan="5">No lab results</td></tr>';
+
+                renderCharts(patient);
+            }
+
+            var emptyStateHtml = document.getElementById('doc-patient-empty').innerHTML;
+            var db = window.firebaseDoctorDb || window.firebaseDb;
+            var auth = window.firebaseDoctorAuth;
+
+            function doPatientSearch() {
+                var q = (document.getElementById('doc-patient-search-input').value || '').trim().toLowerCase();
+                if (!q) {
+                    document.getElementById('doc-patient-empty').innerHTML = emptyStateHtml;
+                    document.getElementById('doc-patient-empty').style.display = 'block';
+                    document.getElementById('doc-patient-result').style.display = 'none';
+                    return;
+                }
+                function tryFirestoreThenDummy() {
+                    if (!db) {
+                        tryDummy();
+                        return;
+                    }
+                    db.collection('patients').get().then(function(snap) {
+                        var list = [];
+                        snap.forEach(function(doc) {
+                            var d = doc.data();
+                            if ((d.nameLower || (d.name || '').toLowerCase()).indexOf(q) !== -1)
+                                list.push(firestorePatientToView(doc));
+                        });
+                        if (list.length) { showPatient(list[0]); return; }
+                        tryDummy();
+                    }).catch(function() { tryDummy(); });
+                }
+                function tryDummy() {
+                    var found = dummyPatients.filter(function(p) { return p.name.toLowerCase().indexOf(q) !== -1; })[0];
+                    if (found) showPatient(found);
+                    else {
+                        document.getElementById('doc-patient-empty').innerHTML = '<i class="fas fa-user-slash"></i><p>No patient found for &quot;' + q + '&quot;</p><span>Search by name or add a new patient.</span>';
+                        document.getElementById('doc-patient-empty').style.display = 'block';
+                        document.getElementById('doc-patient-result').style.display = 'none';
+                    }
+                }
+                tryFirestoreThenDummy();
+            }
+
+            document.getElementById('doc-patient-search-btn').addEventListener('click', doPatientSearch);
+
+            document.getElementById('doc-patient-search-input').addEventListener('keydown', function(e) {
+                if (e.key === 'Enter') document.getElementById('doc-patient-search-btn').click();
+            });
+
+            function openModal(id) { document.getElementById(id).classList.add('open'); document.getElementById(id).setAttribute('aria-hidden', 'false'); document.body.style.overflow = 'hidden'; }
+            function closeModal(id) { document.getElementById(id).classList.remove('open'); document.getElementById(id).setAttribute('aria-hidden', 'true'); document.body.style.overflow = ''; }
+
+            document.getElementById('doc-new-patient-btn').addEventListener('click', function() {
+                document.getElementById('doc-new-patient-name').value = '';
+                document.getElementById('doc-new-patient-dob').value = '';
+                document.getElementById('doc-new-patient-blood').value = '';
+                openModal('doc-new-patient-modal');
+            });
+            document.querySelectorAll('.doc-close-new-patient').forEach(function(btn) { btn.addEventListener('click', function() { closeModal('doc-new-patient-modal'); }); });
+            document.getElementById('doc-new-patient-submit').addEventListener('click', function() {
+                var name = (document.getElementById('doc-new-patient-name').value || '').trim();
+                if (!name) { alert('Enter patient name.'); return; }
+                if (!db || !auth || !auth.currentUser) { alert('Not available.'); return; }
+                var dob = (document.getElementById('doc-new-patient-dob').value || '').trim();
+                var blood = (document.getElementById('doc-new-patient-blood').value || '').trim();
+                db.collection('patients').add({
+                    name: name,
+                    nameLower: name.toLowerCase(),
+                    dob: dob || '—',
+                    bloodGroup: blood || '—',
+                    lastVisit: '—',
+                    vitals: [],
+                    visits: [],
+                    medications: [],
+                    lab: [],
+                    createdBy: auth.currentUser.uid,
+                    createdAt: firebase.firestore.FieldValue.serverTimestamp()
+                }).then(function(ref) {
+                    closeModal('doc-new-patient-modal');
+                    document.getElementById('doc-patient-search-input').value = name;
+                    doPatientSearch();
+                }).catch(function() { alert('Failed to save patient.'); });
+            });
+
+            function ensurePatientForAdd(cb) {
+                var pid = window._docCurrentPatientId;
+                var p = window._docCurrentPatient;
+                if (!p) { alert('Select a patient first.'); return; }
+                if (pid) { cb(pid, p); return; }
+                if (!db || !auth || !auth.currentUser) { alert('Save patient to records first (create from New patient or add details to save).'); return; }
+                db.collection('patients').add({
+                    name: p.name,
+                    nameLower: (p.name || '').toLowerCase(),
+                    dob: p.dob || '—',
+                    bloodGroup: p.bloodGroup || '—',
+                    lastVisit: p.lastVisit || '—',
+                    vitals: p.vitals || [],
+                    visits: p.visits || [],
+                    medications: p.medications || [],
+                    lab: p.lab || [],
+                    createdBy: auth.currentUser.uid,
+                    createdAt: firebase.firestore.FieldValue.serverTimestamp()
+                }).then(function(ref) {
+                    window._docCurrentPatientId = ref.id;
+                    cb(ref.id, p);
+                }).catch(function() { alert('Failed to create patient record.'); });
+            }
+
+            document.querySelectorAll('.doc-add-vitals-btn').forEach(function(btn) {
+                btn.addEventListener('click', function() {
+                    document.getElementById('doc-vitals-date').value = '';
+                    document.getElementById('doc-vitals-bp').value = '';
+                    document.getElementById('doc-vitals-pulse').value = '';
+                    document.getElementById('doc-vitals-temp').value = '';
+                    document.getElementById('doc-vitals-weight').value = '';
+                    document.getElementById('doc-vitals-glucose').value = '';
+                    openModal('doc-add-vitals-modal');
+                });
+            });
+            document.querySelectorAll('.doc-close-add-vitals').forEach(function(b) { b.addEventListener('click', function() { closeModal('doc-add-vitals-modal'); }); });
+            document.getElementById('doc-add-vitals-submit').addEventListener('click', function() {
+                var date = (document.getElementById('doc-vitals-date').value || '').trim() || new Date().toLocaleDateString('en-IN', { month: 'short', year: 'numeric' });
+                var bpStr = (document.getElementById('doc-vitals-bp').value || '').trim();
+                var pulse = parseInt(document.getElementById('doc-vitals-pulse').value, 10) || 0;
+                var temp = parseFloat(document.getElementById('doc-vitals-temp').value) || 0;
+                var weight = parseFloat(document.getElementById('doc-vitals-weight').value) || 0;
+                var glucose = parseInt(document.getElementById('doc-vitals-glucose').value, 10) || 0;
+                var bpSys = 0, bpDia = 0;
+                if (bpStr && bpStr.indexOf('/') !== -1) { var parts = bpStr.split('/'); bpSys = parseInt(parts[0], 10) || 0; bpDia = parseInt(parts[1], 10) || 0; }
+                var entry = { date: date, bp: bpStr || (bpSys + '/' + bpDia), bpSys: bpSys, bpDia: bpDia, pulse: pulse, temp: temp, weight: weight, bloodSugar: glucose, heartRate: pulse };
+                ensurePatientForAdd(function(pid) {
+                    var ref = db.collection('patients').doc(pid);
+                    ref.get().then(function(doc) {
+                        var v = (doc.data().vitals || []).concat([entry]);
+                        return ref.update({ vitals: v });
+                    }).then(function() {
+                        closeModal('doc-add-vitals-modal');
+                        ref.get().then(function(doc) { showPatient(firestorePatientToView(doc)); });
+                    }).catch(function() { alert('Failed to save vitals.'); });
+                });
+            });
+
+            document.querySelectorAll('.doc-add-visit-btn').forEach(function(btn) {
+                btn.addEventListener('click', function() {
+                    document.getElementById('doc-visit-date').value = '';
+                    document.getElementById('doc-visit-reason').value = '';
+                    document.getElementById('doc-visit-diagnosis').value = '';
+                    document.getElementById('doc-visit-notes').value = '';
+                    openModal('doc-add-visit-modal');
+                });
+            });
+            document.querySelectorAll('.doc-close-add-visit').forEach(function(b) { b.addEventListener('click', function() { closeModal('doc-add-visit-modal'); }); });
+            document.getElementById('doc-add-visit-submit').addEventListener('click', function() {
+                var date = (document.getElementById('doc-visit-date').value || '').trim();
+                if (!date) { alert('Enter date.'); return; }
+                var reason = (document.getElementById('doc-visit-reason').value || '').trim();
+                var diagnosis = (document.getElementById('doc-visit-diagnosis').value || '').trim();
+                var notes = (document.getElementById('doc-visit-notes').value || '').trim();
+                var entry = { date: date, reason: reason, diagnosis: diagnosis, notes: notes };
+                ensurePatientForAdd(function(pid) {
+                    var ref = db.collection('patients').doc(pid);
+                    ref.get().then(function(doc) {
+                        var vis = (doc.data().visits || []).concat([entry]);
+                        return ref.update({ visits: vis, lastVisit: date });
+                    }).then(function() {
+                        closeModal('doc-add-visit-modal');
+                        ref.get().then(function(doc) { showPatient(firestorePatientToView(doc)); });
+                    }).catch(function() { alert('Failed to save visit.'); });
+                });
+            });
+
+            document.querySelectorAll('.doc-add-medication-btn').forEach(function(btn) {
+                btn.addEventListener('click', function() {
+                    document.getElementById('doc-med-name').value = '';
+                    document.getElementById('doc-med-dosage').value = '';
+                    document.getElementById('doc-med-for').value = '';
+                    document.getElementById('doc-med-since').value = '';
+                    openModal('doc-add-medication-modal');
+                });
+            });
+            document.querySelectorAll('.doc-close-add-medication').forEach(function(b) { b.addEventListener('click', function() { closeModal('doc-add-medication-modal'); }); });
+            document.getElementById('doc-add-medication-submit').addEventListener('click', function() {
+                var name = (document.getElementById('doc-med-name').value || '').trim();
+                if (!name) { alert('Enter medication name.'); return; }
+                var dosage = (document.getElementById('doc-med-dosage').value || '').trim();
+                var for_ = (document.getElementById('doc-med-for').value || '').trim();
+                var since = (document.getElementById('doc-med-since').value || '').trim();
+                var entry = { name: name, dosage: dosage, for: for_, since: since };
+                ensurePatientForAdd(function(pid) {
+                    var ref = db.collection('patients').doc(pid);
+                    ref.get().then(function(doc) {
+                        var meds = (doc.data().medications || []).concat([entry]);
+                        return ref.update({ medications: meds });
+                    }).then(function() {
+                        closeModal('doc-add-medication-modal');
+                        ref.get().then(function(doc) { showPatient(firestorePatientToView(doc)); });
+                    }).catch(function() { alert('Failed to save medication.'); });
+                });
+            });
+
+            document.querySelectorAll('.doc-add-lab-btn').forEach(function(btn) {
+                btn.addEventListener('click', function() {
+                    document.getElementById('doc-lab-date').value = '';
+                    document.getElementById('doc-lab-test').value = '';
+                    document.getElementById('doc-lab-result').value = '';
+                    document.getElementById('doc-lab-unit').value = '';
+                    document.getElementById('doc-lab-ref').value = '';
+                    openModal('doc-add-lab-modal');
+                });
+            });
+            document.querySelectorAll('.doc-close-add-lab').forEach(function(b) { b.addEventListener('click', function() { closeModal('doc-add-lab-modal'); }); });
+            document.getElementById('doc-add-lab-submit').addEventListener('click', function() {
+                var test = (document.getElementById('doc-lab-test').value || '').trim();
+                if (!test) { alert('Enter test name.'); return; }
+                var date = (document.getElementById('doc-lab-date').value || '').trim();
+                var result = (document.getElementById('doc-lab-result').value || '').trim();
+                var unit = (document.getElementById('doc-lab-unit').value || '').trim();
+                var refRange = (document.getElementById('doc-lab-ref').value || '').trim();
+                var entry = { date: date, test: test, result: result, unit: unit, ref: refRange };
+                ensurePatientForAdd(function(pid) {
+                    var ref = db.collection('patients').doc(pid);
+                    ref.get().then(function(doc) {
+                        var lab = (doc.data().lab || []).concat([entry]);
+                        return ref.update({ lab: lab });
+                    }).then(function() {
+                        closeModal('doc-add-lab-modal');
+                        ref.get().then(function(doc) { showPatient(firestorePatientToView(doc)); });
+                    }).catch(function() { alert('Failed to save lab result.'); });
+                });
+            });
+
+            document.querySelectorAll('.doc-patient-tab').forEach(function(tab) {
+                tab.addEventListener('click', function() {
+                    var tabId = this.getAttribute('data-tab');
+                    document.querySelectorAll('.doc-patient-tab').forEach(function(t) { t.classList.remove('active'); });
+                    this.classList.add('active');
+                    document.querySelectorAll('.doc-patient-tab-content').forEach(function(c) { c.style.display = 'none'; });
+                    var el = document.getElementById('doc-tab-' + tabId);
+                    if (el) el.style.display = 'block';
+                });
+            });
+        })();
+    </script>
+</body>
+</html>

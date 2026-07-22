@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create Test Doctor Account - Medify</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .create-account-page {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, #e0f2f1 0%, #b2dfdb 100%);
+            padding: 2rem;
+        }
+        .create-account-card {
+            background: #fff;
+            border-radius: 16px;
+            padding: 2.5rem;
+            max-width: 440px;
+            width: 100%;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.1);
+            text-align: center;
+        }
+        .create-account-card h1 { color: #00695c; font-size: 1.5rem; margin-bottom: 0.5rem; }
+        .create-account-card p { color: #546e7a; font-size: 0.95rem; margin-bottom: 1.5rem; }
+        .create-account-btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            padding: 0.9rem 1.5rem;
+            background: linear-gradient(135deg, #00695c 0%, #00897b 100%);
+            color: #fff;
+            border: none;
+            border-radius: 10px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            width: 100%;
+            transition: opacity 0.2s;
+        }
+        .create-account-btn:hover { opacity: 0.95; }
+        .create-account-btn:disabled { opacity: 0.7; cursor: not-allowed; }
+        .credentials-box {
+            margin-top: 1.5rem;
+            padding: 1.25rem;
+            background: #e0f2f1;
+            border: 1px solid #80cbc4;
+            border-radius: 10px;
+            text-align: left;
+            display: none;
+        }
+        .credentials-box.show { display: block; }
+        .credentials-box h3 { margin: 0 0 0.75rem; font-size: 1rem; color: #00695c; }
+        .credentials-box .row { margin-bottom: 0.5rem; font-size: 0.95rem; }
+        .credentials-box .label { color: #546e7a; margin-right: 0.5rem; }
+        .credentials-box .value { font-weight: 600; color: #263238; font-family: monospace; }
+        .credentials-box .hint { margin-top: 0.75rem; font-size: 0.85rem; color: #004d40; }
+        .create-account-error {
+            margin-top: 1rem;
+            padding: 0.75rem;
+            background: #ffebee;
+            border-radius: 8px;
+            font-size: 0.9rem;
+            color: #c62828;
+            display: none;
+        }
+        .create-account-error.show { display: block; }
+        .back-link { display: inline-block; margin-top: 1.5rem; color: #00695c; text-decoration: none; font-size: 0.9rem; }
+        .back-link:hover { text-decoration: underline; }
+    </style>
+</head>
+<body>
+    <div class="create-account-page">
+        <div class="create-account-card">
+            <h1><i class="fas fa-user-md"></i> Test Doctor (Cardiology)</h1>
+            <p>Creates a doctor account and adds him to the Cardiology listing so he appears with other doctors.</p>
+
+            <button type="button" class="create-account-btn" id="create-btn">
+                <i class="fas fa-user-plus"></i>
+                Create doctor@medify.com + add to Cardiology
+            </button>
+
+            <div class="credentials-box" id="credentials-box">
+                <h3><i class="fas fa-check-circle"></i> Login as Doctor</h3>
+                <div class="row"><span class="label">Email:</span><span class="value" id="cred-email">doctor@medify.com</span></div>
+                <div class="row"><span class="label">Password:</span><span class="value" id="cred-password">MedifyDoctor@123</span></div>
+                <p class="hint">On the home page, click Login → choose <strong>Doctor</strong> → enter the email and password above. Then open <strong>Consult Doctor</strong> → <strong>Cardiology</strong> to see this doctor in the list.</p>
+            </div>
+
+            <div class="create-account-error" id="error-msg"></div>
+
+            <a href="index.html" class="back-link"><i class="fas fa-arrow-left"></i> Back to Medify</a>
+        </div>
+    </div>
+
+    <script src="https://www.gstatic.com/firebasejs/10.7.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.0/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.0/firebase-firestore-compat.js"></script>
+    <script src="firebase-config.js"></script>
+    <script>
+        (function() {
+            var TEST_EMAIL = 'doctor@medify.com';
+            var TEST_PASSWORD = 'MedifyDoctor@123';
+
+            var btn = document.getElementById('create-btn');
+            var credentialsBox = document.getElementById('credentials-box');
+            var errorMsg = document.getElementById('error-msg');
+
+            function showError(msg) {
+                errorMsg.textContent = msg;
+                errorMsg.classList.add('show');
+                credentialsBox.classList.remove('show');
+            }
+
+            function showSuccess() {
+                errorMsg.classList.remove('show');
+                document.getElementById('cred-email').textContent = TEST_EMAIL;
+                document.getElementById('cred-password').textContent = TEST_PASSWORD;
+                credentialsBox.classList.add('show');
+            }
+
+            function addDoctorToFirestore(uid) {
+                if (!window.firebaseDb) return Promise.resolve();
+                return window.firebaseDb.collection('doctors').doc(uid).set({
+                    name: 'Dr. Test Doctor',
+                    fullName: 'Test Doctor',
+                    specialty: 'Cardiology',
+                    credentials: 'MBBS, MD, DM (Cardiology)',
+                    location: 'Mumbai',
+                    clinic: 'Medify Clinic - Maharashtra, Mumbai',
+                    price: 750,
+                    experience: 12,
+                    onlineAvailable: true,
+                    hospitalVisit: true,
+                    languages: ['English', 'Hindi'],
+                    email: TEST_EMAIL
+                });
+            }
+
+            btn.addEventListener('click', function() {
+                // Use doctor auth instance so creating/logging in a doctor
+                // does not affect customer or other staff sessions.
+                if (!window.firebaseDoctorAuth) {
+                    showError('Firebase is not loaded. Check your connection.');
+                    return;
+                }
+                btn.disabled = true;
+                btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Creating...';
+                errorMsg.classList.remove('show');
+
+                window.firebaseDoctorAuth.createUserWithEmailAndPassword(TEST_EMAIL, TEST_PASSWORD)
+                    .then(function(userCredential) {
+                        var uid = userCredential.user.uid;
+                        return addDoctorToFirestore(uid).then(function() {
+                            btn.innerHTML = '<i class="fas fa-check"></i> Done';
+                            showSuccess();
+                        });
+                    })
+                    .catch(function(err) {
+                        btn.disabled = false;
+                        btn.innerHTML = '<i class="fas fa-user-plus"></i> Create doctor@medify.com + add to Cardiology';
+                        if (err.code === 'auth/email-already-in-use') {
+                            showSuccess();
+                            credentialsBox.querySelector('.hint').innerHTML = 'This account already exists. Use the credentials above to login as <strong>Doctor</strong>. Open Consult Doctor → Cardiology to see the doctor in the list.';
+                            btn.innerHTML = '<i class="fas fa-check"></i> Account exists';
+                        } else {
+                            showError(err.message || 'Could not create account. Try again.');
+                        }
+                    });
+            });
+        })();
+    </script>
+</body>
+</html>
