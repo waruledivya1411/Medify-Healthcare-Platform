@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Checkout - Medify</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <!-- Navigation Bar -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <i class="fas fa-heartbeat"></i>
+                <a href="index.html" style="text-decoration: none; color: inherit;"><span>Medify</span></a>
+            </div>
+            <ul class="nav-menu">
+                <li class="nav-item"><a href="index.html" class="nav-link">Home</a></li>
+                <li class="nav-item"><a href="medicines.html" class="nav-link">Medicines</a></li>
+            </ul>
+            <div class="hamburger">
+                <span class="bar"></span>
+                <span class="bar"></span>
+                <span class="bar"></span>
+            </div>
+        </div>
+    </nav>
+
+    <main class="checkout-page">
+        <div class="container">
+            <h1 class="checkout-title">Checkout</h1>
+
+            <div id="checkout-empty" class="checkout-empty" style="display: none;">
+                <i class="fas fa-shopping-cart"></i>
+                <p>Your cart is empty.</p>
+                <a href="medicines.html" class="btn btn-primary">Continue Shopping</a>
+            </div>
+
+            <div id="checkout-content" class="checkout-content">
+                <div class="checkout-grid">
+                    <!-- Order summary -->
+                    <section class="checkout-section checkout-order">
+                        <h2 class="checkout-section-title">Order Summary</h2>
+                        <ul id="checkout-items" class="checkout-items"></ul>
+                        <div class="checkout-total-row">
+                            <strong>Total</strong>
+                            <strong id="checkout-total">₹0</strong>
+                        </div>
+                    </section>
+
+                    <!-- Delivery & Place order -->
+                    <section class="checkout-section checkout-delivery">
+                        <h2 class="checkout-section-title">Delivery Details</h2>
+                        <div class="form-group">
+                            <label>Delivery Address <span class="required">*</span></label>
+                            <textarea id="checkout-address" rows="3" placeholder="Enter your full delivery address" required></textarea>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label>Phone <span class="required">*</span></label>
+                                <input type="tel" id="checkout-phone" placeholder="Contact number" required>
+                            </div>
+                            <div class="form-group">
+                                <label>Pincode</label>
+                                <input type="text" id="checkout-pincode" placeholder="Pincode" maxlength="6" pattern="[0-9]{6}">
+                            </div>
+                        </div>
+
+                        <h2 class="checkout-section-title">Payment</h2>
+                        <div class="payment-methods">
+                            <label class="payment-option">
+                                <input type="radio" name="payment-method" value="upi">
+                                <span class="payment-option-box">
+                                    <i class="fab fa-google-pay"></i>
+                                    <span>UPI (GPay, PhonePe, Paytm, etc.)</span>
+                                </span>
+                            </label>
+                            <div id="payment-upi-detail" class="payment-detail" style="display: none;">
+                                <input type="text" id="checkout-upi-id" placeholder="Your UPI ID (e.g. name@paytm)" class="payment-input">
+                            </div>
+                            <label class="payment-option">
+                                <input type="radio" name="payment-method" value="card">
+                                <span class="payment-option-box">
+                                    <i class="fas fa-credit-card"></i>
+                                    <span>Debit / Credit Card</span>
+                                </span>
+                            </label>
+                            <label class="payment-option">
+                                <input type="radio" name="payment-method" value="netbanking">
+                                <span class="payment-option-box">
+                                    <i class="fas fa-university"></i>
+                                    <span>Net Banking</span>
+                                </span>
+                            </label>
+                            <label class="payment-option">
+                                <input type="radio" name="payment-method" value="cod">
+                                <span class="payment-option-box">
+                                    <i class="fas fa-money-bill-wave"></i>
+                                    <span>Cash on Delivery (COD)</span>
+                                </span>
+                            </label>
+                        </div>
+                        <p class="payment-note">Card and Net Banking payments will be processed on the next step via secure payment gateway.</p>
+
+                        <div class="checkout-actions">
+                            <button type="button" class="btn btn-primary btn-block" id="place-order-btn">Place Order</button>
+                            <a href="medicines.html" class="checkout-back">← Back to cart / Continue shopping</a>
+                        </div>
+                    </section>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-bottom">
+                <p>&copy; 2024 Medify. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://www.gstatic.com/firebasejs/10.7.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.0/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.0/firebase-firestore-compat.js"></script>
+    <script src="firebase-config.js"></script>
+    <script>
+        (function() {
+            var cart = [];
+            try {
+                var saved = sessionStorage.getItem('medify_checkout_cart');
+                if (saved) cart = JSON.parse(saved);
+            } catch (e) {}
+
+            var authUser = null;
+            if (typeof firebase !== 'undefined' && window.firebaseAuth) {
+                window.firebaseAuth.onAuthStateChanged(function(user) {
+                    authUser = user;
+                });
+            }
+
+            var emptyEl = document.getElementById('checkout-empty');
+            var contentEl = document.getElementById('checkout-content');
+            var itemsEl = document.getElementById('checkout-items');
+            var totalEl = document.getElementById('checkout-total');
+            var placeOrderBtn = document.getElementById('place-order-btn');
+
+            if (cart.length === 0) {
+                emptyEl.style.display = 'block';
+                contentEl.style.display = 'none';
+            } else {
+                var total = 0;
+                itemsEl.innerHTML = cart.map(function(item) {
+                    var subtotal = item.price * item.quantity;
+                    total += subtotal;
+                    return '<li class="checkout-item">' +
+                        '<span class="checkout-item-name">' + (item.name || 'Item') + ' × ' + (item.quantity || 1) + '</span>' +
+                        '<span class="checkout-item-price">₹' + subtotal + '</span>' +
+                        '</li>';
+                }).join('');
+                totalEl.textContent = '₹' + total;
+            }
+
+            function getSelectedPayment() {
+                var radios = document.querySelectorAll('input[name="payment-method"]');
+                for (var i = 0; i < radios.length; i++) {
+                    if (radios[i].checked) return radios[i].value;
+                }
+                return null;
+            }
+
+            var paymentRadios = document.querySelectorAll('input[name="payment-method"]');
+            var upiDetail = document.getElementById('payment-upi-detail');
+            for (var i = 0; i < paymentRadios.length; i++) {
+                paymentRadios[i].addEventListener('change', function() {
+                    if (upiDetail) upiDetail.style.display = this.value === 'upi' ? 'block' : 'none';
+                });
+            }
+
+            if (placeOrderBtn) {
+                placeOrderBtn.addEventListener('click', function() {
+                    // Login required: no order without being logged in
+                    var isLoggedIn = authUser && authUser.uid;
+                    if (!isLoggedIn) {
+                        alert('Please log in to place your order.');
+                        try {
+                            sessionStorage.setItem('medify_return_after_login', 'checkout.html');
+                        } catch (e) {}
+                        window.location.href = 'index.html#login';
+                        return;
+                    }
+                    var address = document.getElementById('checkout-address');
+                    var phone = document.getElementById('checkout-phone');
+                    if (!address || !address.value.trim()) {
+                        alert('Please enter delivery address.');
+                        return;
+                    }
+                    if (!phone || !phone.value.trim()) {
+                        alert('Please enter contact number.');
+                        return;
+                    }
+                    var payment = getSelectedPayment();
+                    if (!payment) {
+                        alert('Please select a payment method.');
+                        return;
+                    }
+                    if (payment === 'upi') {
+                        var upiId = document.getElementById('checkout-upi-id');
+                        if (!upiId || !upiId.value.trim()) {
+                            alert('Please enter your UPI ID for UPI payment.');
+                            return;
+                        }
+                        if (!/^[\w.-]+@[\w.-]+$/.test(upiId.value.trim())) {
+                            alert('Please enter a valid UPI ID (e.g. name@paytm).');
+                            return;
+                        }
+                    }
+                    placeOrderBtn.disabled = true;
+                    placeOrderBtn.textContent = 'Placing order...';
+                    var paymentLabel = { upi: 'UPI', card: 'Card', netbanking: 'Net Banking', cod: 'Cash on Delivery' }[payment];
+                    var pincodeEl = document.getElementById('checkout-pincode');
+                    var total = 0;
+                    cart.forEach(function(item) { total += (item.price || 0) * (item.quantity || 1); });
+                    var orderData = {
+                        items: cart,
+                        total: total,
+                        address: (address && address.value.trim()) || '',
+                        phone: (phone && phone.value.trim()) || '',
+                        pincode: (pincodeEl && pincodeEl.value.trim()) || '',
+                        paymentMethod: payment,
+                        paymentLabel: paymentLabel,
+                        status: 'pending',
+                        customerId: authUser.uid,
+                        customerEmail: authUser.email || '',
+                        customerName: authUser.displayName || null,
+                        createdAt: firebase.firestore.FieldValue.serverTimestamp()
+                    };
+                    if (payment === 'upi') {
+                        var upiId = document.getElementById('checkout-upi-id');
+                        orderData.upiId = (upiId && upiId.value.trim()) || '';
+                    }
+                    var db = window.firebaseDb;
+                    if (db) {
+                        db.collection('orders').add(orderData).then(function() {
+                            sessionStorage.removeItem('medify_checkout_cart');
+                            alert('Order placed successfully!\nPayment: ' + paymentLabel + '.\nWe will deliver to your address soon.');
+                            window.location.href = 'index.html';
+                        }).catch(function(err) {
+                            placeOrderBtn.disabled = false;
+                            placeOrderBtn.textContent = 'Place Order';
+                            alert('Could not place order. Please try again.');
+                        });
+                    } else {
+                        setTimeout(function() {
+                            sessionStorage.removeItem('medify_checkout_cart');
+                            alert('Order placed successfully!\nPayment: ' + paymentLabel + '.\nWe will deliver to your address soon.');
+                            window.location.href = 'index.html';
+                        }, 800);
+                    }
+                });
+            }
+        })();
+    </script>
+</body>
+</html>

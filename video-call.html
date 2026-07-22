@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Video Consultation - Medify</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body {
+            background-color: #f0f2f5;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+        .video-container {
+            flex: 1;
+            display: flex;
+            background: #000;
+            position: relative;
+            margin: 20px;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+        }
+        .main-video {
+            flex: 1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: white;
+            position: relative;
+        }
+        .main-video img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            opacity: 0.8;
+        }
+        .doctor-overlay {
+            position: absolute;
+            bottom: 20px;
+            left: 20px;
+            background: rgba(0,0,0,0.6);
+            padding: 8px 16px;
+            border-radius: 4px;
+            color: white;
+        }
+        .self-video {
+            position: absolute;
+            bottom: 20px;
+            right: 20px;
+            width: 180px;
+            height: 120px;
+            background: #333;
+            border: 2px solid white;
+            border-radius: 8px;
+            overflow: hidden;
+            z-index: 10;
+        }
+        .controls {
+            background: #1a1a1a;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            align-items: center;
+        }
+        .control-btn {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            border: none;
+            background: #333;
+            color: white;
+            font-size: 1.2rem;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .control-btn:hover {
+            background: #444;
+        }
+        .control-btn.end-call {
+            background: #dc3545;
+        }
+        .control-btn.end-call:hover {
+            background: #c82333;
+        }
+        .control-btn.active {
+            background: white;
+            color: #333;
+        }
+        .status-bar {
+            background: white;
+            padding: 15px 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+        }
+        .timer {
+            font-weight: 600;
+            color: #dc3545;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .timer::before {
+            content: '';
+            display: block;
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: #dc3545;
+        }
+    </style>
+</head>
+<body>
+    <div class="status-bar">
+        <div class="doctor-info" style="display: flex; align-items: center; gap: 15px;">
+            <i class="fas fa-user-md" style="font-size: 1.5rem; color: var(--primary-teal);"></i>
+            <div>
+                <h3 id="doctor-name" style="margin: 0; font-size: 1.1rem;">Connecting...</h3>
+                <span style="font-size: 0.9rem; color: #666;">Online Consultation</span>
+            </div>
+        </div>
+        <div class="timer" id="timer">00:00</div>
+    </div>
+
+    <div class="video-container">
+        <div class="main-video">
+            <i class="fas fa-user-md" style="font-size: 5rem; color: #666;"></i>
+            <div class="doctor-overlay" id="doctor-label">Waiting for doctor...</div>
+        </div>
+        <div class="self-video">
+            <div style="width: 100%; height: 100%; background: #222; display: flex; align-items: center; justify-content: center; color: white;">
+                <i class="fas fa-user"></i>
+            </div>
+        </div>
+    </div>
+
+    <div class="controls">
+        <button class="control-btn" onclick="toggleMute(this)"><i class="fas fa-microphone"></i></button>
+        <button class="control-btn" onclick="toggleVideo(this)"><i class="fas fa-video"></i></button>
+        <button class="control-btn end-call" onclick="endCall()"><i class="fas fa-phone-slash"></i></button>
+        <button class="control-btn" onclick="toggleChat()"><i class="fas fa-comment-alt"></i></button>
+        <button class="control-btn" onclick="showSettings()"><i class="fas fa-cog"></i></button>
+    </div>
+
+    <script>
+        // Get URL parameters
+        const urlParams = new URLSearchParams(window.location.search);
+        const doctorName = urlParams.get('doctor') || 'Doctor';
+        const patientName = urlParams.get('patient') || '';
+        const role = urlParams.get('role') || '';
+        
+        document.getElementById('doctor-name').textContent = doctorName;
+        const labelEl = document.getElementById('doctor-label');
+        if (role === 'doctor' && patientName) {
+            labelEl.textContent = 'Consultation with ' + patientName;
+        } else {
+            labelEl.textContent = doctorName;
+        }
+
+        // Timer functionality
+        let seconds = 0;
+        setInterval(() => {
+            seconds++;
+            const mins = Math.floor(seconds / 60).toString().padStart(2, '0');
+            const secs = (seconds % 60).toString().padStart(2, '0');
+            document.getElementById('timer').textContent = `${mins}:${secs}`;
+        }, 1000);
+
+        function toggleMute(btn) {
+            const icon = btn.querySelector('i');
+            if (icon.classList.contains('fa-microphone')) {
+                icon.classList.replace('fa-microphone', 'fa-microphone-slash');
+                btn.style.background = '#dc3545';
+                btn.style.color = 'white';
+            } else {
+                icon.classList.replace('fa-microphone-slash', 'fa-microphone');
+                btn.style.background = '#333';
+                btn.style.color = 'white';
+            }
+        }
+
+        function toggleVideo(btn) {
+            const icon = btn.querySelector('i');
+            if (icon.classList.contains('fa-video')) {
+                icon.classList.replace('fa-video', 'fa-video-slash');
+                btn.style.background = '#dc3545';
+                btn.style.color = 'white';
+            } else {
+                icon.classList.replace('fa-video-slash', 'fa-video');
+                btn.style.background = '#333';
+                btn.style.color = 'white';
+            }
+        }
+
+        function endCall() {
+            if (confirm('Are you sure you want to end the consultation?')) {
+                window.location.href = 'index.html';
+            }
+        }
+
+        function toggleChat() {
+            alert('Chat feature would open here');
+        }
+
+        function showSettings() {
+            alert('Settings would open here');
+        }
+    </script>
+</body>
+</html>
