@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Find Doctors - Medify</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+
+<body>
+    <!-- Navigation Bar -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <i class="fas fa-heartbeat"></i>
+                <a href="index.html" style="text-decoration: none; color: inherit;"><span>Medify</span></a>
+            </div>
+
+            <div class="nav-address" id="delivery-address-selector">
+                <i class="fas fa-map-marker-alt"></i>
+                <div class="address-text">
+                    <div class="address-label">Delivery Address</div>
+                    <div class="address-value">
+                        <span id="selected-address">Select Address</span>
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                </div>
+            </div>
+
+            <ul class="nav-menu">
+                <li class="nav-item">
+                    <a href="index.html#about" class="nav-link">About Us</a>
+                </li>
+                <li class="nav-item nav-item-notifications" id="nav-notifications-wrap" style="display: none;">
+                    <button type="button" class="nav-link nav-notifications-btn" id="nav-notifications-btn" aria-label="Notifications">
+                        <i class="fas fa-bell"></i>
+                        <span class="nav-notifications-badge" id="nav-notifications-badge">0</span>
+                    </button>
+                    <div class="nav-notifications-dropdown" id="nav-notifications-dropdown">
+                        <div class="nav-notifications-header">Notifications</div>
+                        <div class="nav-notifications-list" id="nav-notifications-list"></div>
+                        <div class="nav-notifications-empty" id="nav-notifications-empty">No notifications</div>
+                    </div>
+                </li>
+                <li class="nav-item">
+                    <a href="#cart" class="nav-link cart-icon" id="cart-icon">
+                        <i class="fas fa-shopping-cart"></i>
+                        <span class="cart-badge" id="cart-count">0</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="#login" class="nav-link login-btn" id="login-btn">
+                        <span id="login-text">Login</span>
+                        <i class="fas fa-user-circle" id="profile-icon" style="display: none; font-size: 1.5rem;"></i>
+                    </a>
+                </li>
+            </ul>
+
+            <div class="hamburger">
+                <span class="bar"></span>
+                <span class="bar"></span>
+                <span class="bar"></span>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Doctors Listing Section -->
+    <section class="booking-section">
+        <div class="container doctors-listing-container">
+            <div class="breadcrumb">
+                <a href="index.html">Home</a> <span>/</span>
+                <a href="consultation.html">Doctors</a> <span>/</span>
+                <span id="breadcrumb-specialty"></span>
+            </div>
+
+            <div class="doctors-listing-layout">
+                <!-- Left Sidebar Filters -->
+                <aside class="filters-sidebar">
+                    <div class="filters-header">
+                        <h3>Filters</h3>
+                        <a href="#" class="clear-all" id="clear-filters">Clear All</a>
+                    </div>
+
+                    <button class="btn-show-nearby">
+                        <i class="fas fa-map-marker-alt"></i> Show Doctors Near Me
+                    </button>
+
+                    <div class="filter-section">
+                        <h4>Mode of Consult</h4>
+                        <label class="checkbox-label">
+                            <input type="checkbox" id="filter-hospital" checked>
+                            <span>Hospital Visit</span>
+                        </label>
+                        <label class="checkbox-label">
+                            <input type="checkbox" id="filter-online" checked>
+                            <span>Online Consult</span>
+                        </label>
+                    </div>
+
+                    <div class="filter-section">
+                        <h4>Experience (In Years)</h4>
+                        <label class="checkbox-label">
+                            <input type="checkbox" class="filter-experience" value="0-5">
+                            <span>0-5</span>
+                        </label>
+                        <label class="checkbox-label">
+                            <input type="checkbox" class="filter-experience" value="6-10">
+                            <span>6-10</span>
+                        </label>
+                        <label class="checkbox-label">
+                            <input type="checkbox" class="filter-experience" value="11-16">
+                            <span>11-16</span>
+                        </label>
+                        <label class="checkbox-label">
+                            <input type="checkbox" class="filter-experience" value="17+">
+                            <span>17+</span>
+                        </label>
+                    </div>
+
+                    <div class="filter-section">
+                        <h4>Fees (In Rupees)</h4>
+                        <label class="checkbox-label">
+                            <input type="checkbox" class="filter-fees" value="100-500">
+                            <span>100-500</span>
+                        </label>
+                        <label class="checkbox-label">
+                            <input type="checkbox" class="filter-fees" value="500-1000">
+                            <span>500-1000</span>
+                        </label>
+                        <label class="checkbox-label">
+                            <input type="checkbox" class="filter-fees" value="1000+">
+                            <span>1000+</span>
+                        </label>
+                    </div>
+
+                    <div class="filter-section">
+                        <h4>Language</h4>
+                        <label class="checkbox-label">
+                            <input type="checkbox" class="filter-language" value="English">
+                            <span>English</span>
+                        </label>
+                        <label class="checkbox-label">
+                            <input type="checkbox" class="filter-language" value="Hindi">
+                            <span>Hindi</span>
+                        </label>
+                    </div>
+                </aside>
+
+                <!-- Main Content Area -->
+                <div class="doctors-main-content">
+                    <div class="doctors-header">
+                        <div class="header-left">
+                            <h1 id="doctors-page-title">Consult Doctors Online</h1>
+                            <span class="doctors-count" id="doctors-count">(0 doctors)</span>
+                        </div>
+                        <div class="header-right">
+                            <select class="sort-dropdown" id="sort-doctors">
+                                <option value="relevance">Relevance</option>
+                                <option value="rating">Rating</option>
+                                <option value="experience">Experience</option>
+                                <option value="fees-low">Fees: Low to High</option>
+                                <option value="fees-high">Fees: High to Low</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="doctors-list-container" id="doctors-list-container">
+                        <!-- Doctors will be inserted here -->
+                    </div>
+                </div>
+
+                <!-- Right Sidebar Ad -->
+                <aside class="help-sidebar">
+                    <div class="help-box">
+                        <div class="help-doctors">
+                            <div class="help-doctor-avatar"><i class="fas fa-user-md"></i></div>
+                            <div class="help-doctor-avatar"><i class="fas fa-user-md"></i></div>
+                            <div class="help-doctor-avatar"><i class="fas fa-user-md"></i></div>
+                        </div>
+                        <h3>Need help consult the right doctor?</h3>
+                        <p>Call <a href="tel:+918040245807">+91-8040245807</a> to book instantly</p>
+                    </div>
+                </aside>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>Medify</h3>
+                    <p>Your trusted healthcare partner</p>
+                </div>
+                <div class="footer-section">
+                    <h4>Quick Links</h4>
+                    <ul>
+                        <li><a href="index.html#medicines">Order Medicines</a></li>
+                        <li><a href="index.html#prescription">Upload Prescription</a></li>
+                        <li><a href="consultation.html">Video Consultation</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Contact</h4>
+                    <ul>
+                        <li><i class="fas fa-phone"></i> +91 9822961688</li>
+                        <li><i class="fas fa-envelope"></i> support@medify.com</li>
+                        <li><i class="fas fa-map-marker-alt"></i> Vivekanandnagar , Kopargaon , Maharashtra , India</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2024 Medify. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Booking Modal -->
+    <div id="booking-modal" class="modal">
+        <div class="modal-content booking-modal">
+            <div class="booking-header">
+                <span class="back-arrow" onclick="closeBookingModal()">
+                    <i class="fas fa-arrow-left"></i>
+                </span>
+                <h2 id="booking-title">Schedule Appointment</h2>
+                <span class="close" id="close-booking-modal" style="position: static; float: none;">&times;</span>
+            </div>
+            <div class="booking-body" id="booking-body">
+                <!-- Content will be dynamically inserted -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Payment modal (confirmed appointment) -->
+    <div class="payment-modal-overlay" id="payment-modal-overlay" aria-hidden="true">
+        <div class="payment-modal">
+            <div class="payment-modal-header">
+                <h2><i class="fas fa-credit-card"></i> Complete payment</h2>
+                <button type="button" class="payment-modal-close" id="payment-modal-close" aria-label="Close">&times;</button>
+            </div>
+            <div class="payment-modal-body">
+                <p class="payment-modal-text">Your appointment has been confirmed. Pay the consultation fee to confirm your slot.</p>
+                <div class="payment-modal-amount-wrap">
+                    <span class="payment-modal-amount" id="payment-modal-amount">₹0</span>
+                </div>
+                <button type="button" class="btn btn-primary btn-block" id="payment-modal-pay-btn">Pay now</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/10.7.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.0/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.0/firebase-firestore-compat.js"></script>
+    <script src="firebase-config.js"></script>
+    <script src="script-v2.js?v=2"></script>
+    <script src="doctors.js?v=3"></script>
+    <script>
+        // Close booking modal handlers
+        document.addEventListener('DOMContentLoaded', function () {
+            const closeBtn = document.getElementById('close-booking-modal');
+            if (closeBtn) {
+                closeBtn.addEventListener('click', function () {
+                    if (typeof window.closeBookingModal === 'function') {
+                        window.closeBookingModal();
+                    }
+                });
+            }
+        });
+    </script>
+</body>
+
+</html>

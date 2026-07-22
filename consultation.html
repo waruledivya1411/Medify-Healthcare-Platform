@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Consult Doctors - Medify</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+
+<body>
+    <!-- Navigation Bar -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <i class="fas fa-heartbeat"></i>
+                <a href="index.html" style="text-decoration: none; color: inherit;"><span>Medify</span></a>
+            </div>
+
+            <div class="nav-address" id="delivery-address-selector">
+                <i class="fas fa-map-marker-alt"></i>
+                <div class="address-text">
+                    <div class="address-label">Delivery Address</div>
+                    <div class="address-value">
+                        <span id="selected-address">Select Address</span>
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                </div>
+            </div>
+
+            <ul class="nav-menu">
+                <li class="nav-item">
+                    <a href="index.html#about" class="nav-link">About Us</a>
+                </li>
+                <li class="nav-item nav-item-notifications" id="nav-notifications-wrap" style="display: none;">
+                    <button type="button" class="nav-link nav-notifications-btn" id="nav-notifications-btn" aria-label="Notifications">
+                        <i class="fas fa-bell"></i>
+                        <span class="nav-notifications-badge" id="nav-notifications-badge">0</span>
+                    </button>
+                    <div class="nav-notifications-dropdown" id="nav-notifications-dropdown">
+                        <div class="nav-notifications-header">Notifications</div>
+                        <div class="nav-notifications-list" id="nav-notifications-list"></div>
+                        <div class="nav-notifications-empty" id="nav-notifications-empty">No notifications</div>
+                    </div>
+                </li>
+                <li class="nav-item">
+                    <a href="#cart" class="nav-link cart-icon" id="cart-icon">
+                        <i class="fas fa-shopping-cart"></i>
+                        <span class="cart-badge" id="cart-count">0</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="#login" class="nav-link login-btn" id="login-btn">
+                        <span id="login-text">Login</span>
+                        <i class="fas fa-user-circle" id="profile-icon" style="display: none; font-size: 1.5rem;"></i>
+                    </a>
+                </li>
+            </ul>
+
+            <div class="hamburger">
+                <span class="bar"></span>
+                <span class="bar"></span>
+                <span class="bar"></span>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Video Consultation Section - Specialties -->
+    <section id="consultation" class="consultation-section">
+        <div class="container">
+            <div class="consultation-header">
+                <a href="index.html" class="btn btn-consult-now" style="text-decoration: none; display: inline-block;">
+                    <i class="fas fa-arrow-left"></i> Back to Home
+                </a>
+                <h2 class="specialties-title">Browse by Specialties</h2>
+            </div>
+
+            <div class="specialties-grid" id="specialties-grid">
+                <a href="doctors.html?specialty=General Medicine" class="specialty-card-link">
+                    <div class="specialty-card" data-specialty="General Medicine">
+                        <div class="specialty-icon">
+                            <i class="fas fa-user-md"></i>
+                        </div>
+                        <span class="specialty-name">General Physician</span>
+                    </div>
+                </a>
+
+                <a href="doctors.html?specialty=Dermatology" class="specialty-card-link">
+                    <div class="specialty-card" data-specialty="Dermatology">
+                        <div class="specialty-icon">
+                            <i class="fas fa-spa"></i>
+                        </div>
+                        <span class="specialty-name">Dermatology</span>
+                    </div>
+                </a>
+
+                <a href="doctors.html?specialty=Gynecology" class="specialty-card-link">
+                    <div class="specialty-card" data-specialty="Gynecology">
+                        <div class="specialty-icon">
+                            <i class="fas fa-female"></i>
+                        </div>
+                        <span class="specialty-name">Obstetrics & Gynecology</span>
+                    </div>
+                </a>
+
+                <a href="doctors.html?specialty=Orthopedics" class="specialty-card-link">
+                    <div class="specialty-card" data-specialty="Orthopedics">
+                        <div class="specialty-icon">
+                            <i class="fas fa-bone"></i>
+                        </div>
+                        <span class="specialty-name">Orthopaedics</span>
+                    </div>
+                </a>
+
+                <a href="doctors.html?specialty=General Medicine" class="specialty-card-link">
+                    <div class="specialty-card" data-specialty="ENT">
+                        <div class="specialty-icon">
+                            <i class="fas fa-head-side-virus"></i>
+                        </div>
+                        <span class="specialty-name">ENT</span>
+                    </div>
+                </a>
+
+                <a href="doctors.html?specialty=General Medicine" class="specialty-card-link">
+                    <div class="specialty-card" data-specialty="Neurology">
+                        <div class="specialty-icon">
+                            <i class="fas fa-brain"></i>
+                        </div>
+                        <span class="specialty-name">Neurology</span>
+                    </div>
+                </a>
+
+                <a href="doctors.html?specialty=Cardiology" class="specialty-card-link">
+                    <div class="specialty-card" data-specialty="Cardiology">
+                        <div class="specialty-icon">
+                            <i class="fas fa-heartbeat"></i>
+                        </div>
+                        <span class="specialty-name">Cardiology</span>
+                    </div>
+                </a>
+
+                <a href="doctors.html?specialty=General Medicine" class="specialty-card-link">
+                    <div class="specialty-card" data-specialty="Urology">
+                        <div class="specialty-icon">
+                            <i class="fas fa-tint"></i>
+                        </div>
+                        <span class="specialty-name">Urology</span>
+                    </div>
+                </a>
+
+                <a href="doctors.html?specialty=General Medicine" class="specialty-card-link">
+                    <div class="specialty-card" data-specialty="Gastroenterology">
+                        <div class="specialty-icon">
+                            <i class="fas fa-stethoscope"></i>
+                        </div>
+                        <span class="specialty-name">Gastroenterology/GI Surgery</span>
+                    </div>
+                </a>
+
+                <a href="doctors.html?specialty=General Medicine" class="specialty-card-link">
+                    <div class="specialty-card" data-specialty="Psychiatry">
+                        <div class="specialty-icon">
+                            <i class="fas fa-brain"></i>
+                        </div>
+                        <span class="specialty-name">Psychiatry</span>
+                    </div>
+                </a>
+
+                <a href="doctors.html?specialty=Pediatrics" class="specialty-card-link">
+                    <div class="specialty-card" data-specialty="Pediatrics">
+                        <div class="specialty-icon">
+                            <i class="fas fa-baby"></i>
+                        </div>
+                        <span class="specialty-name">Paediatrics</span>
+                    </div>
+                </a>
+
+                <a href="doctors.html?specialty=General Medicine" class="specialty-card-link">
+                    <div class="specialty-card" data-specialty="Pulmonology">
+                        <div class="specialty-icon">
+                            <i class="fas fa-lungs"></i>
+                        </div>
+                        <span class="specialty-name">Pulmonology/Respiratory Medicine</span>
+                    </div>
+                </a>
+
+                <a href="doctors.html?specialty=General Medicine" class="specialty-card-link">
+                    <div class="specialty-card" data-specialty="Endocrinology">
+                        <div class="specialty-icon">
+                            <i class="fas fa-seedling"></i>
+                        </div>
+                        <span class="specialty-name">Endocrinology</span>
+                    </div>
+                </a>
+
+                <a href="doctors.html?specialty=General Medicine" class="specialty-card-link">
+                    <div class="specialty-card" data-specialty="Nephrology">
+                        <div class="specialty-icon">
+                            <i class="fas fa-stethoscope"></i>
+                        </div>
+                        <span class="specialty-name">Nephrology</span>
+                    </div>
+                </a>
+
+                <a href="doctors.html?specialty=General Medicine" class="specialty-card-link">
+                    <div class="specialty-card" data-specialty="Neurosurgery">
+                        <div class="specialty-icon">
+                            <i class="fas fa-brain"></i>
+                        </div>
+                        <span class="specialty-name">Neurosurgery</span>
+                    </div>
+                </a>
+
+                <a href="doctors.html?specialty=General Medicine" class="specialty-card-link">
+                    <div class="specialty-card" data-specialty="Rheumatology">
+                        <div class="specialty-icon">
+                            <i class="fas fa-hand-holding-heart"></i>
+                        </div>
+                        <span class="specialty-name">Rheumatology</span>
+                    </div>
+                </a>
+
+                <a href="doctors.html?specialty=General Medicine" class="specialty-card-link">
+                    <div class="specialty-card" data-specialty="Ophthalmology">
+                        <div class="specialty-icon">
+                            <i class="fas fa-eye"></i>
+                        </div>
+                        <span class="specialty-name">Ophthalmology</span>
+                    </div>
+                </a>
+
+                <a href="doctors.html?specialty=General Medicine" class="specialty-card-link">
+                    <div class="specialty-card" data-specialty="Surgical Gastroenterology">
+                        <div class="specialty-icon">
+                            <i class="fas fa-cut"></i>
+                        </div>
+                        <span class="specialty-name">Surgical Gastroenterology</span>
+                    </div>
+                </a>
+
+                <a href="doctors.html?specialty=General Medicine" class="specialty-card-link">
+                    <div class="specialty-card" data-specialty="Infectious Disease">
+                        <div class="specialty-icon">
+                            <i class="fas fa-virus"></i>
+                        </div>
+                        <span class="specialty-name">Infectious Disease</span>
+                    </div>
+                </a>
+
+                <a href="doctors.html?specialty=General Medicine" class="specialty-card-link">
+                    <div class="specialty-card" data-specialty="General Surgery">
+                        <div class="specialty-icon">
+                            <i class="fas fa-cut"></i>
+                        </div>
+                        <span class="specialty-name">General & Laparoscopic Surgery</span>
+                    </div>
+                </a>
+
+                <a href="doctors.html?specialty=General Medicine" class="specialty-card-link">
+                    <div class="specialty-card" data-specialty="Psychology">
+                        <div class="specialty-icon">
+                            <i class="fas fa-head-side-virus"></i>
+                        </div>
+                        <span class="specialty-name">Psychology</span>
+                    </div>
+                </a>
+
+                <a href="doctors.html?specialty=General Medicine" class="specialty-card-link">
+                    <div class="specialty-card" data-specialty="Oncology">
+                        <div class="specialty-icon">
+                            <i class="fas fa-ribbon"></i>
+                        </div>
+                        <span class="specialty-name">Medical Oncology</span>
+                    </div>
+                </a>
+
+                <a href="doctors.html?specialty=General Medicine" class="specialty-card-link">
+                    <div class="specialty-card" data-specialty="Diabetology">
+                        <div class="specialty-icon">
+                            <i class="fas fa-thermometer-half"></i>
+                        </div>
+                        <span class="specialty-name">Diabetology</span>
+                    </div>
+                </a>
+
+                <a href="doctors.html?specialty=General Medicine" class="specialty-card-link">
+                    <div class="specialty-card" data-specialty="Dentist">
+                        <div class="specialty-icon">
+                            <i class="fas fa-tooth"></i>
+                        </div>
+                        <span class="specialty-name">Dentist</span>
+                    </div>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>Medify</h3>
+                    <p>Your trusted healthcare partner</p>
+                </div>
+                <div class="footer-section">
+                    <h4>Quick Links</h4>
+                    <ul>
+                        <li><a href="index.html#medicines">Order Medicines</a></li>
+                        <li><a href="index.html#prescription">Upload Prescription</a></li>
+                        <li><a href="consultation.html">Video Consultation</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Contact</h4>
+                    <ul>
+                        <li><i class="fas fa-phone"></i> +91 9822961688</li>
+                        <li><i class="fas fa-envelope"></i> support@medify.com</li>
+                        <li><i class="fas fa-map-marker-alt"></i> Vivekanandnagar , Kopargaon , Maharashtra , India</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2024 Medify. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Payment modal (confirmed appointment) -->
+    <div class="payment-modal-overlay" id="payment-modal-overlay" aria-hidden="true">
+        <div class="payment-modal">
+            <div class="payment-modal-header">
+                <h2><i class="fas fa-credit-card"></i> Complete payment</h2>
+                <button type="button" class="payment-modal-close" id="payment-modal-close" aria-label="Close">&times;</button>
+            </div>
+            <div class="payment-modal-body">
+                <p class="payment-modal-text">Your appointment has been confirmed. Pay the consultation fee to confirm your slot.</p>
+                <div class="payment-modal-amount-wrap">
+                    <span class="payment-modal-amount" id="payment-modal-amount">₹0</span>
+                </div>
+                <button type="button" class="btn btn-primary btn-block" id="payment-modal-pay-btn">Pay now</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/10.7.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.0/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.0/firebase-firestore-compat.js"></script>
+    <script src="firebase-config.js"></script>
+    <script src="script-v2.js?v=2"></script>
+</body>
+
+</html>

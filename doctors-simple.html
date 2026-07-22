@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Doctors List - Simple</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f5f5f5;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        h1 {
+            color: #333;
+            margin-bottom: 30px;
+            text-align: center;
+        }
+
+        .doctors-list {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .doctor-card {
+            background: white;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            padding: 20px;
+            display: flex;
+            gap: 20px;
+            transition: box-shadow 0.3s;
+        }
+
+        .doctor-card:hover {
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+
+        .doctor-avatar {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            background: #e0f2f1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            font-size: 40px;
+            color: #0097a7;
+        }
+
+        .doctor-info {
+            flex: 1;
+        }
+
+        .doctor-name {
+            font-size: 24px;
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 8px;
+        }
+
+        .doctor-specialty {
+            color: #666;
+            font-size: 16px;
+            margin-bottom: 5px;
+        }
+
+        .doctor-details {
+            color: #888;
+            font-size: 14px;
+            margin-bottom: 5px;
+        }
+
+        .doctor-price {
+            font-size: 20px;
+            font-weight: bold;
+            color: #0097a7;
+            margin-top: 10px;
+        }
+
+        .doctor-button {
+            background: #0097a7;
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: 600;
+            margin-top: 10px;
+        }
+
+        .doctor-button:hover {
+            background: #007a87;
+        }
+
+        .best-badge {
+            background: #4CAF50;
+            color: white;
+            padding: 4px 10px;
+            border-radius: 4px;
+            font-size: 12px;
+            font-weight: bold;
+            margin-left: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Available Doctors</h1>
+        
+        <div class="doctors-list">
+            <!-- Doctor 1 -->
+            <div class="doctor-card">
+                <div class="doctor-avatar">👨‍⚕️</div>
+                <div class="doctor-info">
+                    <div class="doctor-name">
+                        Dr. Sanjay Mehta
+                        <span class="best-badge">BEST</span>
+                    </div>
+                    <div class="doctor-specialty">Cardiologist</div>
+                    <div class="doctor-details">20 Years Experience • MBBS, MD, DM (Cardiology)</div>
+                    <div class="doctor-details">📍 Mumbai • Medify Clinic</div>
+                    <div class="doctor-price">₹800</div>
+                    <button class="doctor-button">Book Appointment</button>
+                </div>
+            </div>
+
+            <!-- Doctor 2 -->
+            <div class="doctor-card">
+                <div class="doctor-avatar">👩‍⚕️</div>
+                <div class="doctor-info">
+                    <div class="doctor-name">
+                        Dr. Neha Gupta
+                        <span class="best-badge">BEST</span>
+                    </div>
+                    <div class="doctor-specialty">Cardiologist</div>
+                    <div class="doctor-details">18 Years Experience • MBBS, MD, DM (Cardiology)</div>
+                    <div class="doctor-details">📍 Delhi • Medify Clinic</div>
+                    <div class="doctor-price">₹750</div>
+                    <button class="doctor-button">Book Appointment</button>
+                </div>
+            </div>
+
+            <!-- Doctor 3 -->
+            <div class="doctor-card">
+                <div class="doctor-avatar">👨‍⚕️</div>
+                <div class="doctor-info">
+                    <div class="doctor-name">Dr. Amit Desai</div>
+                    <div class="doctor-specialty">Cardiologist</div>
+                    <div class="doctor-details">15 Years Experience • MBBS, MD, DM (Cardiology)</div>
+                    <div class="doctor-details">📍 Bangalore • Medify Clinic</div>
+                    <div class="doctor-price">₹700</div>
+                    <button class="doctor-button">Book Appointment</button>
+                </div>
+            </div>
+
+            <!-- Doctor 4 -->
+            <div class="doctor-card">
+                <div class="doctor-avatar">👩‍⚕️</div>
+                <div class="doctor-info">
+                    <div class="doctor-name">Dr. Kavita Reddy</div>
+                    <div class="doctor-specialty">Cardiologist</div>
+                    <div class="doctor-details">12 Years Experience • MBBS, MD, DM</div>
+                    <div class="doctor-details">📍 Hyderabad • Medify Clinic</div>
+                    <div class="doctor-price">₹650</div>
+                    <button class="doctor-button">Book Appointment</button>
+                </div>
+            </div>
+
+            <!-- Doctor 5 -->
+            <div class="doctor-card">
+                <div class="doctor-avatar">👨‍⚕️</div>
+                <div class="doctor-info">
+                    <div class="doctor-name">
+                        Dr. Ashok Menon
+                        <span class="best-badge">BEST</span>
+                    </div>
+                    <div class="doctor-specialty">Cardiologist</div>
+                    <div class="doctor-details">22 Years Experience • MBBS, MD, DM (Cardiology)</div>
+                    <div class="doctor-details">📍 Chennai • Medify Clinic</div>
+                    <div class="doctor-price">₹850</div>
+                    <button class="doctor-button">Book Appointment</button>
+                </div>
+            </div>
+
+            <!-- Doctor 6 -->
+            <div class="doctor-card">
+                <div class="doctor-avatar">👩‍⚕️</div>
+                <div class="doctor-info">
+                    <div class="doctor-name">
+                        Dr. Deepika Ramesh
+                        <span class="best-badge">BEST</span>
+                    </div>
+                    <div class="doctor-specialty">Cardiologist</div>
+                    <div class="doctor-details">16 Years Experience • MBBS, MD, DM (Cardiology)</div>
+                    <div class="doctor-details">📍 Pune • Medify Clinic</div>
+                    <div class="doctor-price">₹720</div>
+                    <button class="doctor-button">Book Appointment</button>
+                </div>
+            </div>
+
+            <!-- Doctor 7 -->
+            <div class="doctor-card">
+                <div class="doctor-avatar">👨‍⚕️</div>
+                <div class="doctor-info">
+                    <div class="doctor-name">
+                        Dr. Ravi Shankar
+                        <span class="best-badge">BEST</span>
+                    </div>
+                    <div class="doctor-specialty">Cardiologist</div>
+                    <div class="doctor-details">17 Years Experience • MBBS, MD, DM (Cardiology)</div>
+                    <div class="doctor-details">📍 Kolkata • Medify Clinic</div>
+                    <div class="doctor-price">₹730</div>
+                    <button class="doctor-button">Book Appointment</button>
+                </div>
+            </div>
+
+            <!-- Doctor 8 -->
+            <div class="doctor-card">
+                <div class="doctor-avatar">👩‍⚕️</div>
+                <div class="doctor-info">
+                    <div class="doctor-name">Dr. Sarika Pawar</div>
+                    <div class="doctor-specialty">Cardiologist</div>
+                    <div class="doctor-details">14 Years Experience • MBBS, MD, DM (Cardiology)</div>
+                    <div class="doctor-details">📍 Nagpur • Medify Clinic</div>
+                    <div class="doctor-price">₹680</div>
+                    <button class="doctor-button">Book Appointment</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Simple JavaScript to handle button clicks
+        document.querySelectorAll('.doctor-button').forEach(button => {
+            button.addEventListener('click', function() {
+                const doctorCard = this.closest('.doctor-card');
+                const doctorName = doctorCard.querySelector('.doctor-name').textContent.trim();
+                alert(`Booking appointment with ${doctorName}`);
+            });
+        });
+    </script>
+</body>
+</html>
+
