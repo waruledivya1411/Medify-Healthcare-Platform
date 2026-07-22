@@ -1,0 +1,1188 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Health Insurance - Medify</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .insurance-page {
+            padding-top: 6rem;
+            background: linear-gradient(to bottom, #f8f9fa 0%, #ffffff 50%);
+            min-height: 100vh;
+        }
+
+        .insurance-hero {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 3rem;
+            padding: 3rem 0;
+            align-items: center;
+        }
+
+        .insurance-left {
+            position: relative;
+            padding: 2rem;
+        }
+
+        .insurance-badge-small {
+            display: inline-block;
+            background: #ff9800;
+            color: white;
+            padding: 0.3rem 0.8rem;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+        }
+
+        .insurance-title {
+            font-size: 3rem;
+            font-weight: 800;
+            color: #ff9800;
+            margin-bottom: 0.5rem;
+            line-height: 1.1;
+        }
+
+        .insurance-subtitle {
+            font-size: 1.5rem;
+            color: #333;
+            margin-bottom: 2rem;
+            font-weight: 600;
+        }
+
+        .insurance-description {
+            font-size: 1.1rem;
+            color: #666;
+            margin-bottom: 2rem;
+            line-height: 1.6;
+        }
+
+        .family-image-container {
+            position: relative;
+            margin: 2rem 0;
+            text-align: center;
+        }
+
+        .family-image {
+            width: 100%;
+            max-width: 400px;
+            height: auto;
+            border-radius: 15px;
+        }
+
+        .family-placeholder {
+            width: 100%;
+            max-width: 400px;
+            height: 300px;
+            background: linear-gradient(135deg, #ffe0b2 0%, #ffcc80 100%);
+            border-radius: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto;
+            position: relative;
+        }
+
+        .family-placeholder i {
+            font-size: 5rem;
+            color: #ff9800;
+            opacity: 0.3;
+        }
+
+        .insurance-badges {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+            margin-top: 2rem;
+        }
+
+        .insurance-badge {
+            background: linear-gradient(135deg, #ffd54f 0%, #ffb300 100%);
+            color: #333;
+            padding: 1rem 1.5rem;
+            border-radius: 50px;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 0.9rem;
+            font-weight: 600;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+
+        .insurance-badge i {
+            font-size: 1.2rem;
+        }
+
+        .decorative-stars {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            pointer-events: none;
+            overflow: hidden;
+        }
+
+        .star {
+            position: absolute;
+            color: #ff9800;
+            opacity: 0.2;
+            font-size: 1.5rem;
+            animation: float 3s ease-in-out infinite;
+        }
+
+        .star:nth-child(1) { top: 10%; left: 5%; animation-delay: 0s; }
+        .star:nth-child(2) { top: 20%; right: 10%; animation-delay: 0.5s; }
+        .star:nth-child(3) { bottom: 30%; left: 15%; animation-delay: 1s; }
+        .star:nth-child(4) { bottom: 20%; right: 20%; animation-delay: 1.5s; }
+        .star:nth-child(5) { top: 50%; left: 8%; animation-delay: 2s; }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px) rotate(0deg); }
+            50% { transform: translateY(-10px) rotate(180deg); }
+        }
+
+        .insurance-right {
+            background: white;
+            border-radius: 15px;
+            padding: 2.5rem;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+        }
+
+        .plan-selector-title {
+            font-size: 1.3rem;
+            color: #333;
+            margin-bottom: 2rem;
+            font-weight: 600;
+        }
+
+        .plan-selector-title .highlight {
+            color: #ff9800;
+            font-weight: 700;
+        }
+
+        .form-section {
+            margin-bottom: 2rem;
+        }
+
+        .form-section-label {
+            font-size: 0.9rem;
+            color: #666;
+            margin-bottom: 0.75rem;
+            font-weight: 600;
+        }
+
+        .gender-buttons {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .gender-btn {
+            flex: 1;
+            padding: 0.75rem 1.5rem;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            background: white;
+            color: #333;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .gender-btn.active {
+            background: #333;
+            color: white;
+            border-color: #333;
+        }
+
+        .gender-btn:hover {
+            border-color: #ff9800;
+        }
+
+        .members-list {
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+        }
+
+        .member-item {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 0.75rem;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .member-item:hover {
+            border-color: #ff9800;
+            background: #fff8e1;
+        }
+
+        .member-item.selected {
+            border-color: #ff9800;
+            background: #fff8e1;
+        }
+
+        .member-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: #e0e0e0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+
+        .member-avatar i {
+            font-size: 1.2rem;
+            color: #666;
+        }
+
+        .member-info {
+            flex: 1;
+        }
+
+        .member-name {
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 0.2rem;
+        }
+
+        .member-age {
+            font-size: 0.85rem;
+            color: #666;
+        }
+
+        .member-age-editable {
+            cursor: pointer;
+            text-decoration: underline;
+            text-decoration-style: dotted;
+        }
+
+        .member-age-editable:hover {
+            color: #ff9800;
+        }
+
+        .insurance-plans-results {
+            padding: 3rem 0;
+            background: #f8f9fa;
+        }
+
+        .plans-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+
+        .plan-card {
+            background: white;
+            border-radius: 12px;
+            padding: 1.5rem;
+            box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+        }
+
+        .plan-card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 1rem;
+        }
+
+        .plan-card-header h3 {
+            margin: 0;
+            font-size: 1.2rem;
+            color: #333;
+        }
+
+        .plan-badge {
+            background: #ff9800;
+            color: white;
+            font-size: 0.75rem;
+            padding: 0.25rem 0.5rem;
+            border-radius: 4px;
+            font-weight: 600;
+        }
+
+        .plan-sum-insured {
+            color: #0097a7;
+            font-weight: 600;
+            margin: 0 0 0.5rem;
+        }
+
+        .plan-premium {
+            margin: 0 0 1rem;
+            color: #333;
+        }
+
+        .plan-features {
+            margin: 0 0 1rem;
+            padding-left: 1.2rem;
+            color: #666;
+            font-size: 0.9rem;
+        }
+
+        .plan-card .btn {
+            width: 100%;
+        }
+
+        .member-checkbox {
+            width: 24px;
+            height: 24px;
+            border: 2px solid #ddd;
+            border-radius: 4px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .member-item.selected .member-checkbox {
+            background: #ff9800;
+            border-color: #ff9800;
+        }
+
+        .member-checkbox i {
+            color: white;
+            font-size: 0.8rem;
+            display: none;
+        }
+
+        .member-item.selected .member-checkbox i {
+            display: block;
+        }
+
+        .add-member-link {
+            color: #e91e63;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 0.9rem;
+            margin-top: 0.5rem;
+            display: inline-block;
+        }
+
+        .add-member-link:hover {
+            text-decoration: underline;
+        }
+
+        .children-section {
+            margin-top: 1.5rem;
+        }
+
+        .children-buttons {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .add-child-btn {
+            flex: 1;
+            padding: 0.75rem;
+            border: 2px dashed #ff9800;
+            border-radius: 8px;
+            background: white;
+            color: #ff9800;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .add-child-btn:hover {
+            background: #fff8e1;
+            border-style: solid;
+        }
+
+        .view-plans-btn {
+            width: 100%;
+            padding: 1rem;
+            background: #333;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 1.1rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: background 0.3s;
+            margin-top: 1.5rem;
+        }
+
+        .view-plans-btn:hover {
+            background: #ff9800;
+        }
+
+        .disclaimer {
+            font-size: 0.75rem;
+            color: #999;
+            text-align: center;
+            margin-top: 1rem;
+            line-height: 1.4;
+        }
+
+        .disclaimer a {
+            color: #0097a7;
+            text-decoration: none;
+        }
+
+        .disclaimer a:hover {
+            text-decoration: underline;
+        }
+
+        .insurance-info-section {
+            background: white;
+            padding: 3rem 0;
+            margin-top: 3rem;
+        }
+
+        .breadcrumb {
+            color: #666;
+            font-size: 0.9rem;
+            margin-bottom: 1rem;
+        }
+
+        .breadcrumb a {
+            color: #0097a7;
+            text-decoration: none;
+        }
+
+        .breadcrumb a:hover {
+            text-decoration: underline;
+        }
+
+        .info-title {
+            font-size: 2rem;
+            font-weight: 700;
+            color: #333;
+            margin-bottom: 1rem;
+        }
+
+        .info-description {
+            font-size: 1rem;
+            color: #666;
+            line-height: 1.8;
+            max-width: 800px;
+        }
+
+        .quick-links {
+            margin-top: 2rem;
+            padding-top: 2rem;
+            border-top: 1px solid #e0e0e0;
+        }
+
+        .quick-links-title {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 1rem;
+        }
+
+        .quick-links-list {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .quick-links-list a {
+            color: #0097a7;
+            text-decoration: none;
+            font-size: 0.95rem;
+        }
+
+        .quick-links-list a:hover {
+            text-decoration: underline;
+        }
+
+        /* Lifestages Section */
+        .lifestages-section {
+            background: white;
+            padding: 4rem 0;
+        }
+
+        .lifestages-title {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: #333;
+            margin-bottom: 1.5rem;
+            text-align: center;
+        }
+
+        .lifestages-description {
+            font-size: 1.1rem;
+            color: #666;
+            line-height: 1.8;
+            max-width: 900px;
+            margin: 0 auto 3rem;
+            text-align: center;
+        }
+
+        .lifestages-table-wrapper {
+            overflow-x: auto;
+            margin-top: 2rem;
+        }
+
+        .lifestages-table {
+            width: 100%;
+            border-collapse: collapse;
+            background: white;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        .lifestages-table thead {
+            background: #f5f5f5;
+        }
+
+        .lifestages-table th {
+            padding: 1.2rem;
+            text-align: left;
+            font-weight: 700;
+            color: #333;
+            font-size: 0.95rem;
+            border-bottom: 2px solid #e0e0e0;
+        }
+
+        .lifestages-table td {
+            padding: 1.2rem;
+            border-bottom: 1px solid #f0f0f0;
+            color: #666;
+            font-size: 0.95rem;
+            line-height: 1.6;
+        }
+
+        .lifestages-table tbody tr:nth-child(even) {
+            background: #fafafa;
+        }
+
+        .lifestages-table tbody tr:hover {
+            background: #fff8e1;
+        }
+
+        .lifestages-table tbody tr:last-child td {
+            border-bottom: none;
+        }
+
+        .life-stage-name {
+            font-weight: 700;
+            color: #333;
+            font-size: 1rem;
+        }
+
+        .coverage-features {
+            max-width: 300px;
+        }
+
+        .sum-insured {
+            font-weight: 600;
+            color: #0097a7;
+        }
+
+        .premium-range {
+            font-weight: 600;
+            color: #ff9800;
+        }
+
+        .key-benefits {
+            max-width: 280px;
+        }
+
+        @media (max-width: 968px) {
+            .insurance-hero {
+                grid-template-columns: 1fr;
+            }
+
+            .insurance-title {
+                font-size: 2rem;
+            }
+
+            .insurance-subtitle {
+                font-size: 1.2rem;
+            }
+
+            .lifestages-title {
+                font-size: 2rem;
+            }
+
+            .lifestages-table {
+                font-size: 0.85rem;
+            }
+
+            .lifestages-table th,
+            .lifestages-table td {
+                padding: 0.8rem;
+            }
+
+            .coverage-features,
+            .key-benefits {
+                max-width: 200px;
+                font-size: 0.85rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation Bar -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <i class="fas fa-heartbeat"></i>
+                <a href="index.html" style="text-decoration: none; color: inherit;"><span>Medify</span></a>
+            </div>
+            
+            <div class="nav-address" id="delivery-address-selector">
+                <i class="fas fa-map-marker-alt"></i>
+                <div class="address-text">
+                    <div class="address-label">Showing Premium For</div>
+                    <div class="address-value">
+                        <span id="selected-address">Hyderabad</span>
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                </div>
+            </div>
+            
+            <ul class="nav-menu">
+                <li class="nav-item">
+                    <a href="medicines.html" class="nav-link">Buy Medicines</a>
+                </li>
+                <li class="nav-item">
+                    <a href="consultation.html" class="nav-link">Find Doctors</a>
+                </li>
+                <li class="nav-item">
+                    <a href="labtest.html" class="nav-link">Lab Tests</a>
+                </li>
+                <li class="nav-item">
+                    <a href="#login" class="nav-link login-btn" id="login-btn">
+                        <span id="login-text">Login</span>
+                        <i class="fas fa-user-circle" id="profile-icon" style="display: none; font-size: 1.5rem;"></i>
+                    </a>
+                </li>
+            </ul>
+            
+            <div class="hamburger">
+                <span class="bar"></span>
+                <span class="bar"></span>
+                <span class="bar"></span>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Insurance Page -->
+    <div class="insurance-page">
+        <div class="container">
+            <div class="insurance-hero">
+                <!-- Left Section -->
+                <div class="insurance-left">
+                    <div class="decorative-stars">
+                        <i class="fas fa-star star"></i>
+                        <i class="fas fa-star star"></i>
+                        <i class="fas fa-star star"></i>
+                        <i class="fas fa-star star"></i>
+                        <i class="fas fa-star star"></i>
+                    </div>
+                    
+                    <div class="insurance-badge-small">ALWAYS ENOUGH</div>
+                    <h1 class="insurance-title">Health Insurance Plans</h1>
+                    <p class="insurance-subtitle">Smart health cover for every need</p>
+                    <p class="insurance-description">
+                        Protect your family's health with comprehensive insurance plans designed to meet all your medical needs. Get coverage for hospitalization, critical illnesses, and more with flexible premium options.
+                    </p>
+                    
+                    <div class="family-image-container">
+                        <div class="family-placeholder">
+                            <i class="fas fa-users"></i>
+                        </div>
+                    </div>
+                    
+                    <div class="insurance-badges">
+                        <div class="insurance-badge">
+                            <i class="fas fa-hospital"></i>
+                            <span>NETWORK 11000+ HOSPITALS</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Right Section - Plan Selector -->
+                <div class="insurance-right">
+                    <h2 class="plan-selector-title">
+                        Find plans starting from <span class="highlight">₹20/day*</span>
+                    </h2>
+                    
+                    <!-- Gender Selection -->
+                    <div class="form-section">
+                        <div class="form-section-label">Select your gender</div>
+                        <div class="gender-buttons">
+                            <button class="gender-btn active" data-gender="male">Male</button>
+                            <button class="gender-btn" data-gender="female">Female</button>
+                        </div>
+                    </div>
+                    
+                    <!-- Members Selection -->
+                    <div class="form-section">
+                        <div class="form-section-label">Select members</div>
+                        <div class="members-list" id="members-list">
+                            <div class="member-item selected" data-member="self">
+                                <div class="member-avatar">
+                                    <i class="fas fa-user"></i>
+                                </div>
+                                <div class="member-info">
+                                    <div class="member-name">Self</div>
+                                    <div class="member-age member-age-editable" data-age="25" title="Click to edit">25 Years</div>
+                                </div>
+                                <div class="member-checkbox">
+                                    <i class="fas fa-check"></i>
+                                </div>
+                            </div>
+                            
+                            <div class="member-item" data-member="wife">
+                                <div class="member-avatar">
+                                    <i class="fas fa-venus"></i>
+                                </div>
+                                <div class="member-info">
+                                    <div class="member-name">Wife</div>
+                                    <div class="member-age member-age-editable" data-age="" title="Click to add age">Add age</div>
+                                </div>
+                                <div class="member-checkbox">
+                                    <i class="fas fa-check"></i>
+                                </div>
+                            </div>
+                            
+                            <div class="member-item" data-member="mother">
+                                <div class="member-avatar">
+                                    <i class="fas fa-female"></i>
+                                </div>
+                                <div class="member-info">
+                                    <div class="member-name">Mother</div>
+                                    <div class="member-age member-age-editable" data-age="" title="Click to add age">Add age</div>
+                                </div>
+                                <div class="member-checkbox">
+                                    <i class="fas fa-check"></i>
+                                </div>
+                            </div>
+                            
+                            <div class="member-item" data-member="father">
+                                <div class="member-avatar">
+                                    <i class="fas fa-male"></i>
+                                </div>
+                                <div class="member-info">
+                                    <div class="member-name">Father</div>
+                                    <div class="member-age member-age-editable" data-age="" title="Click to add age">Add age</div>
+                                </div>
+                                <div class="member-checkbox">
+                                    <i class="fas fa-check"></i>
+                                </div>
+                            </div>
+                        </div>
+                        <a href="#" class="add-member-link">+ More members</a>
+                    </div>
+                    
+                    <!-- Children Selection -->
+                    <div class="form-section children-section">
+                        <div class="form-section-label">Select children (max 4)</div>
+                        <div class="children-buttons">
+                            <button class="add-child-btn" id="add-son">+ Son</button>
+                            <button class="add-child-btn" id="add-daughter">+ Daughter</button>
+                        </div>
+                    </div>
+                    
+                    <!-- View Plans Button -->
+                    <button class="view-plans-btn" id="view-plans-btn">View Plans</button>
+                    
+                    <!-- Member details modal -->
+                    <div id="member-details-modal" class="modal" style="display: none;">
+                        <div class="modal-content" style="max-width: 360px;">
+                            <span class="close" id="close-member-modal">&times;</span>
+                            <h2 style="margin-top: 0;">Member details</h2>
+                            <p class="form-section-label" id="member-modal-title">Add age for this member</p>
+                            <div class="form-group">
+                                <label>Age (years) <span style="color: #c62828;">*</span></label>
+                                <input type="number" id="member-detail-age" min="1" max="120" placeholder="e.g. 35">
+                            </div>
+                            <button type="button" class="btn btn-primary btn-block" id="member-detail-save">Save</button>
+                        </div>
+                    </div>
+                    
+                    <!-- Disclaimer -->
+                    <p class="disclaimer">
+                        By clicking on 'View Plans' you agree to our <a href="#">Privacy Policy</a>, <a href="#">Terms of Use</a> & <a href="#">Disclaimer</a>
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Plans results (shown after View Plans) -->
+        <div id="insurance-plans-results" class="insurance-plans-results" style="display: none;">
+            <div class="container">
+                <h2 class="lifestages-title">Plans for you</h2>
+                <p class="lifestages-description">Based on the members and details you selected. Compare and choose a plan.</p>
+                <div class="plans-grid" id="plans-grid">
+                    <div class="plan-card">
+                        <div class="plan-card-header">
+                            <h3>Family Health Floater</h3>
+                            <span class="plan-badge">Popular</span>
+                        </div>
+                        <div class="plan-card-body">
+                            <p class="plan-sum-insured">Sum insured: ₹10 Lakh</p>
+                            <p class="plan-premium">Premium from <strong>₹8,500</strong>/year</p>
+                            <ul class="plan-features">
+                                <li>Room rent no limit</li>
+                                <li>Restoration benefit</li>
+                                <li>Annual health check-up</li>
+                            </ul>
+                        </div>
+                        <button type="button" class="btn btn-primary">Get quote</button>
+                    </div>
+                    <div class="plan-card">
+                        <div class="plan-card-header">
+                            <h3>Comprehensive Care</h3>
+                        </div>
+                        <div class="plan-card-body">
+                            <p class="plan-sum-insured">Sum insured: ₹25 Lakh</p>
+                            <p class="plan-premium">Premium from <strong>₹18,000</strong>/year</p>
+                            <ul class="plan-features">
+                                <li>Critical illness cover</li>
+                                <li>11,000+ network hospitals</li>
+                                <li>Cashless claims</li>
+                            </ul>
+                        </div>
+                        <button type="button" class="btn btn-primary">Get quote</button>
+                    </div>
+                    <div class="plan-card">
+                        <div class="plan-card-header">
+                            <h3>Senior Secure</h3>
+                        </div>
+                        <div class="plan-card-body">
+                            <p class="plan-sum-insured">Sum insured: ₹15 Lakh</p>
+                            <p class="plan-premium">Premium from <strong>₹12,500</strong>/year</p>
+                            <ul class="plan-features">
+                                <li>Pre-existing disease cover</li>
+                                <li>No room rent cap</li>
+                                <li>Quick claim settlement</li>
+                            </ul>
+                        </div>
+                        <button type="button" class="btn btn-primary">Get quote</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Lifestages Section -->
+        <div class="lifestages-section">
+            <div class="container">
+                <h2 class="lifestages-title">Expert Guided Health Insurance Plans by Lifestages</h2>
+                <p class="lifestages-description">
+                    Your health insurance needs change as your life changes. Whether you're starting your career, growing your family, or planning for retirement, choosing the right plan at the right time can save money and offer better protection. Our experts help you select coverage that's tailored to your current life stage.
+                </p>
+                
+                <div class="lifestages-table-wrapper">
+                    <table class="lifestages-table">
+                        <thead>
+                            <tr>
+                                <th>Life Stage</th>
+                                <th>Recommended Coverage Features</th>
+                                <th>Suggested Sum Insured</th>
+                                <th>Typical Premium Range*</th>
+                                <th>Key Benefits</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>
+                                    <div class="life-stage-name">Young Professionals (20s-30s)</div>
+                                </td>
+                                <td class="coverage-features">
+                                    High coverage at low cost, no room rent cap, wellness rewards, annual health check-ups, OPD cover optional, minimal waiting periods
+                                </td>
+                                <td class="sum-insured">₹10-15 lakh</td>
+                                <td class="premium-range">₹5,000-₹12,000 annually</td>
+                                <td class="key-benefits">
+                                    Affordable premiums, early tax savings (Sec 80D), long-term premium lock-in, early PED coverage
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <div class="life-stage-name">Newly Married & Young Families</div>
+                                </td>
+                                <td class="coverage-features">
+                                    Family floater plan, maternity & newborn cover, vaccination & child wellness benefits, no-claim bonus, restoration benefit
+                                </td>
+                                <td class="sum-insured">₹15-20 lakh</td>
+                                <td class="premium-range">₹12,000-₹25,000 annually</td>
+                                <td class="key-benefits">
+                                    One plan for entire family, maternity support, cost-effective child coverage, bonus for claim-free years
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <div class="life-stage-name">Parents & Mid-Career (40s-50s)</div>
+                                </td>
+                                <td class="coverage-features">
+                                    Higher sum insured, critical illness rider, comprehensive lifestyle disease coverage, low co-pay, no disease-specific sub-limits
+                                </td>
+                                <td class="sum-insured">₹20-25 lakh</td>
+                                <td class="premium-range">₹20,000-₹40,000 annually</td>
+                                <td class="key-benefits">
+                                    Covers major illnesses, protects savings, faster claim settlement, broader treatment choices
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- Info Section -->
+        <div class="insurance-info-section">
+            <div class="container">
+                <div class="breadcrumb">
+                    <a href="index.html">Home</a> > Health Insurance
+                </div>
+                
+                <h2 class="info-title">Find Always Enough Health Insurance Plan</h2>
+                <p class="info-description">
+                    Our health insurance premium calculator helps you find the perfect health insurance plan tailored to your needs. Compare different plans, understand premium costs, and make informed decisions about your family's health coverage. With our comprehensive network of 11,000+ hospitals and licensed IRDAI-approved plans, you can rest assured that you're getting the best protection for your loved ones.
+                </p>
+                
+                <div class="quick-links">
+                    <h3 class="quick-links-title">Quick Links</h3>
+                    <div class="quick-links-list">
+                        <a href="#">Find Always Enough Health Insurance Plan</a>
+                        <a href="#">Compare Health Insurance Plans</a>
+                        <a href="#">Health Insurance Premium Calculator</a>
+                        <a href="#">Family Health Insurance</a>
+                        <a href="#">Individual Health Insurance</a>
+                        <a href="#">Senior Citizen Health Insurance</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>Medify</h3>
+                    <p>Your trusted healthcare partner</p>
+                </div>
+                <div class="footer-section">
+                    <h4>Quick Links</h4>
+                    <ul>
+                        <li><a href="medicines.html">Order Medicines</a></li>
+                        <li><a href="consultation.html">Video Consultation</a></li>
+                        <li><a href="labtest.html">Lab Tests</a></li>
+                        <li><a href="insurance.html">Health Insurance</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Contact</h4>
+                    <ul>
+                        <li><i class="fas fa-phone"></i> +91 9822961688</li>
+                        <li><i class="fas fa-envelope"></i> support@medify.com</li>
+                        <li><i class="fas fa-map-marker-alt"></i> Vivekanandnagar , Kopargaon , Maharashtra , India</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2024 Medify. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Delivery Address Modal -->
+    <div id="delivery-address-modal" class="modal">
+        <div class="modal-content delivery-modal">
+            <div class="delivery-modal-header">
+                <button class="back-btn" id="close-delivery-modal">
+                    <i class="fas fa-arrow-left"></i>
+                </button>
+                <h2>Select Location</h2>
+            </div>
+            <div class="delivery-options">
+                <button class="delivery-option-btn current-location-btn" id="use-current-location">
+                    <i class="fas fa-crosshairs"></i>
+                    <span>Current Location</span>
+                </button>
+                <div class="or-separator">
+                    <span>OR</span>
+                </div>
+                <button class="delivery-option-btn choose-location-btn" id="choose-location">
+                    <i class="fas fa-map-marker-alt"></i>
+                    <span>Choose a different location</span>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Login Modal -->
+    <div id="login-modal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2>Login to Your Account</h2>
+            <form class="login-form">
+                <div class="form-group">
+                    <label>Email / Phone Number</label>
+                    <input type="text" placeholder="Enter your email or phone">
+                </div>
+                <div class="form-group">
+                    <label>Password</label>
+                    <input type="password" placeholder="Enter your password">
+                </div>
+                <button type="submit" class="btn btn-primary btn-block">Login</button>
+                <p class="signup-link">Don't have an account? <a href="#">Sign Up</a></p>
+            </form>
+        </div>
+    </div>
+
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/10.7.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.0/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.0/firebase-firestore-compat.js"></script>
+    <script src="firebase-config.js"></script>
+    <script src="script.js"></script>
+    <script>
+        // Gender selection
+        document.querySelectorAll('.gender-btn').forEach(btn => {
+            btn.addEventListener('click', function() {
+                document.querySelectorAll('.gender-btn').forEach(b => b.classList.remove('active'));
+                this.classList.add('active');
+            });
+        });
+
+        // Member selection
+        document.querySelectorAll('.member-item').forEach(item => {
+            item.addEventListener('click', function() {
+                if (this.dataset.member === 'self') {
+                    // Self is always selected
+                    return;
+                }
+                this.classList.toggle('selected');
+            });
+        });
+
+        // Add children
+        let sonCount = 0;
+        let daughterCount = 0;
+        const maxChildren = 4;
+
+        document.getElementById('add-son').addEventListener('click', function() {
+            if (sonCount + daughterCount < maxChildren) {
+                sonCount++;
+                addChildToList('Son', sonCount);
+            } else {
+                alert('Maximum 4 children allowed');
+            }
+        });
+
+        document.getElementById('add-daughter').addEventListener('click', function() {
+            if (sonCount + daughterCount < maxChildren) {
+                daughterCount++;
+                addChildToList('Daughter', daughterCount);
+            } else {
+                alert('Maximum 4 children allowed');
+            }
+        });
+
+        function addChildToList(type, number) {
+            const membersList = document.getElementById('members-list');
+            const childItem = document.createElement('div');
+            childItem.className = 'member-item selected';
+            childItem.dataset.member = type.toLowerCase() + number;
+            
+            const avatarIcon = type === 'Son' ? 'fa-mars' : 'fa-venus';
+            
+            childItem.innerHTML = `
+                <div class="member-avatar">
+                    <i class="fas ${avatarIcon}"></i>
+                </div>
+                <div class="member-info">
+                    <div class="member-name">${type} ${number}</div>
+                    <div class="member-age member-age-editable" data-age="" title="Click to add age">Add age</div>
+                </div>
+                <div class="member-checkbox">
+                    <i class="fas fa-check"></i>
+                </div>
+            `;
+            
+            childItem.addEventListener('click', function() {
+                this.classList.toggle('selected');
+                if (!this.classList.contains('selected')) {
+                    if (type === 'Son') sonCount--;
+                    else daughterCount--;
+                    this.remove();
+                }
+            });
+            
+            membersList.appendChild(childItem);
+        }
+
+        // Member details modal: open when clicking any "Add age" / age
+        let currentAgeEl = null;
+        const memberModal = document.getElementById('member-details-modal');
+        const memberAgeInput = document.getElementById('member-detail-age');
+        const memberModalTitle = document.getElementById('member-modal-title');
+
+        document.getElementById('members-list').addEventListener('click', function(e) {
+            const ageEl = e.target.closest('.member-age-editable');
+            if (!ageEl) return;
+            e.preventDefault();
+            e.stopPropagation();
+            currentAgeEl = ageEl;
+            const memberName = ageEl.closest('.member-item').querySelector('.member-name');
+            memberModalTitle.textContent = 'Age for ' + (memberName ? memberName.textContent : 'member');
+            memberAgeInput.value = ageEl.getAttribute('data-age') || '';
+            memberAgeInput.placeholder = 'e.g. 35';
+            memberModal.style.display = 'flex';
+            memberAgeInput.focus();
+        });
+
+        function closeMemberModal() {
+            memberModal.style.display = 'none';
+            currentAgeEl = null;
+        }
+
+        document.getElementById('close-member-modal').addEventListener('click', closeMemberModal);
+        memberModal.addEventListener('click', function(e) {
+            if (e.target === memberModal) closeMemberModal();
+        });
+
+        document.getElementById('member-detail-save').addEventListener('click', function() {
+            const age = parseInt(memberAgeInput.value, 10);
+            if (isNaN(age) || age < 1 || age > 120) {
+                alert('Please enter a valid age (1–120).');
+                return;
+            }
+            if (currentAgeEl) {
+                currentAgeEl.setAttribute('data-age', age);
+                currentAgeEl.textContent = age + ' Years';
+            }
+            closeMemberModal();
+        });
+
+        // View Plans button: validate all selected members have age, then show plans
+        document.getElementById('view-plans-btn').addEventListener('click', function() {
+            const selected = document.querySelectorAll('.member-item.selected');
+            const missing = [];
+            selected.forEach(function(item) {
+                const ageEl = item.querySelector('.member-age-editable');
+                const nameEl = item.querySelector('.member-name');
+                const name = nameEl ? nameEl.textContent : item.dataset.member;
+                const age = ageEl ? ageEl.getAttribute('data-age') : '';
+                if (!age || age === '') missing.push(name);
+            });
+            if (missing.length > 0) {
+                alert('Please add age for: ' + missing.join(', '));
+                return;
+            }
+            document.getElementById('insurance-plans-results').style.display = 'block';
+            document.getElementById('insurance-plans-results').scrollIntoView({ behavior: 'smooth', block: 'start' });
+        });
+    </script>
+</body>
+</html>
+
