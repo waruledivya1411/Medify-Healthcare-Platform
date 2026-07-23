@@ -1,0 +1,911 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Clinic Dashboard - Medify</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body class="clinic-dashboard-page">
+    <aside class="cl-sidebar" id="cl-sidebar">
+        <div class="cl-sidebar-header">
+            <a href="index.html" class="cl-logo">
+                <i class="fas fa-heartbeat"></i>
+                <span>Medify</span>
+            </a>
+            <button type="button" class="cl-sidebar-close" id="cl-sidebar-close" aria-label="Close menu">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+        <nav class="cl-nav">
+            <a href="#" class="cl-nav-item active" data-section="overview">
+                <i class="fas fa-th-large"></i>
+                <span>Overview</span>
+                <span class="cl-nav-badge" id="cl-badge-today">0</span>
+            </a>
+            <a href="#" class="cl-nav-item" data-section="appointments">
+                <i class="fas fa-calendar-check"></i>
+                <span>Appointments</span>
+            </a>
+            <a href="#" class="cl-nav-item" data-section="labtests">
+                <i class="fas fa-vial"></i>
+                <span>Lab tests</span>
+                <span class="cl-nav-badge" id="cl-badge-lab">0</span>
+            </a>
+            <a href="#" class="cl-nav-item" data-section="schedule">
+                <i class="fas fa-clock"></i>
+                <span>Clinic Hours</span>
+            </a>
+            <a href="#" class="cl-nav-item" data-section="patient-records">
+                <i class="fas fa-history"></i>
+                <span>Patient records</span>
+            </a>
+            <a href="#" class="cl-nav-item" data-section="profile">
+                <i class="fas fa-building"></i>
+                <span>Profile</span>
+            </a>
+        </nav>
+        <div class="cl-sidebar-footer">
+            <a href="index.html" class="cl-nav-item cl-nav-back">
+                <i class="fas fa-arrow-left"></i>
+                <span>Back to Medify</span>
+            </a>
+            <button type="button" class="cl-logout-btn" id="cl-logout-btn">
+                <i class="fas fa-power-off"></i>
+                <span>Log out</span>
+            </button>
+        </div>
+    </aside>
+
+    <div class="cl-main-wrap">
+        <header class="cl-topbar">
+            <button type="button" class="cl-menu-btn" id="cl-menu-btn" aria-label="Open menu">
+                <i class="fas fa-bars"></i>
+            </button>
+            <div class="cl-topbar-title">
+                <h1>Dashboard</h1>
+                <p class="cl-greeting" id="cl-greeting">Welcome back</p>
+            </div>
+            <div class="cl-topbar-actions">
+                <div class="cl-avatar-wrap">
+                    <span class="cl-avatar" id="cl-avatar"><i class="fas fa-building"></i></span>
+                    <span class="cl-name-short" id="cl-name-short">Cl</span>
+                </div>
+            </div>
+        </header>
+
+        <main class="cl-content">
+            <div id="cl-wrong-account-wrap" class="cl-wrong-account" style="display:none;">
+                <div class="cl-wrong-account-inner">
+                    <i class="fas fa-building"></i>
+                    <h2>Clinic dashboard</h2>
+                    <p>You're signed in as <strong id="cl-wrong-account-email">—</strong>. This page is for clinic accounts.</p>
+                    <p>To view the clinic dashboard, log in with your clinic account in this tab.</p>
+                    <a href="index.html#login" class="cl-btn cl-btn-primary">Go to login</a>
+                </div>
+            </div>
+            <div id="cl-dashboard-content">
+            <section class="cl-section" id="section-overview">
+                <div class="cl-stats-grid">
+                    <div class="cl-stat-card">
+                        <div class="cl-stat-icon cl-stat-icon-purple">
+                            <i class="fas fa-calendar-day"></i>
+                        </div>
+                        <div class="cl-stat-body">
+                            <span class="cl-stat-value" id="cl-stat-today">0</span>
+                            <span class="cl-stat-label">Today's visits</span>
+                        </div>
+                    </div>
+                    <div class="cl-stat-card">
+                        <div class="cl-stat-icon cl-stat-icon-blue">
+                            <i class="fas fa-calendar-week"></i>
+                        </div>
+                        <div class="cl-stat-body">
+                            <span class="cl-stat-value" id="cl-stat-week">0</span>
+                            <span class="cl-stat-label">This week</span>
+                        </div>
+                    </div>
+                    <div class="cl-stat-card">
+                        <div class="cl-stat-icon cl-stat-icon-amber">
+                            <i class="fas fa-hourglass-half"></i>
+                        </div>
+                        <div class="cl-stat-body">
+                            <span class="cl-stat-value" id="cl-stat-pending">0</span>
+                            <span class="cl-stat-label">Pending requests</span>
+                        </div>
+                    </div>
+                    <div class="cl-stat-card">
+                        <div class="cl-stat-icon cl-stat-icon-green">
+                            <i class="fas fa-rupee-sign"></i>
+                        </div>
+                        <div class="cl-stat-body">
+                            <span class="cl-stat-value" id="cl-stat-revenue">₹0</span>
+                            <span class="cl-stat-label">Revenue (this month)</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="cl-cards-row">
+                    <div class="cl-card">
+                        <div class="cl-card-header">
+                            <h2><i class="fas fa-list"></i> Today's appointments</h2>
+                            <a href="#" class="cl-card-link" data-section="appointments">View all</a>
+                        </div>
+                        <div class="cl-list" id="cl-today-list">
+                            <div class="cl-empty-state">
+                                <i class="fas fa-calendar-check"></i>
+                                <p>No appointments scheduled for today</p>
+                                <span>New requests will appear here</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="cl-card">
+                        <div class="cl-card-header">
+                            <h2><i class="fas fa-clock"></i> Upcoming</h2>
+                            <a href="#" class="cl-card-link" data-section="appointments">View all</a>
+                        </div>
+                        <div class="cl-list" id="cl-upcoming-list">
+                            <div class="cl-empty-state">
+                                <i class="fas fa-clock"></i>
+                                <p>No upcoming appointments</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="cl-card" style="margin-bottom: 1.5rem;">
+                    <div class="cl-card-header">
+                        <h2><i class="fas fa-vial"></i> Recent lab test bookings</h2>
+                        <a href="#" class="cl-card-link" data-section="labtests">View all</a>
+                    </div>
+                    <div class="cl-list" id="cl-lab-recent-list">
+                        <div class="cl-empty-state" id="cl-lab-recent-empty">
+                            <i class="fas fa-vial"></i>
+                            <p>No lab test bookings yet</p>
+                            <span>Customer bookings will appear here</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="cl-quick-actions">
+                    <h3>Quick actions</h3>
+                    <div class="cl-quick-actions-grid">
+                        <a href="consultation.html" class="cl-quick-action" target="_blank" rel="noopener">
+                            <i class="fas fa-user-md"></i>
+                            <span>View doctors</span>
+                        </a>
+                        <a href="labtest.html" class="cl-quick-action" target="_blank" rel="noopener">
+                            <i class="fas fa-vial"></i>
+                            <span>Lab tests</span>
+                        </a>
+                        <a href="index.html" class="cl-quick-action" target="_blank" rel="noopener">
+                            <i class="fas fa-home"></i>
+                            <span>Medify Home</span>
+                        </a>
+                    </div>
+                </div>
+            </section>
+
+            <section class="cl-section" id="section-patient-records" style="display: none;">
+                <div class="cl-section-header">
+                    <h2>Patient records</h2>
+                    <p class="cl-section-desc">Search by patient name to view or add health history, vitals, and lab results.</p>
+                </div>
+                <div class="doc-patient-search-wrap">
+                    <div class="doc-patient-search-box">
+                        <i class="fas fa-search"></i>
+                        <input type="text" id="cl-patient-search-input" placeholder="Search by patient name" autocomplete="off">
+                        <button type="button" class="cl-btn cl-btn-primary" id="cl-patient-search-btn">Search</button>
+                    </div>
+                    <div class="doc-patient-search-actions">
+                        <button type="button" class="cl-btn cl-btn-secondary" id="cl-new-patient-btn"><i class="fas fa-user-plus"></i> New patient</button>
+                        <p class="doc-patient-search-hint">Search by name or add a new patient to start records.</p>
+                    </div>
+                </div>
+                <div class="doc-patient-result" id="cl-patient-result" style="display: none;">
+                    <div class="doc-patient-summary-card">
+                        <div class="doc-patient-summary-left">
+                            <div class="doc-patient-avatar"><i class="fas fa-user-injured"></i></div>
+                            <div class="doc-patient-summary-body">
+                                <h3 id="cl-patient-name">—</h3>
+                                <div class="doc-patient-meta">
+                                    <span><i class="fas fa-birthday-cake"></i> <span id="cl-patient-dob">—</span></span>
+                                    <span><i class="fas fa-tint"></i> Blood group: <span id="cl-patient-blood">—</span></span>
+                                    <span><i class="fas fa-calendar-check"></i> Last visit: <span id="cl-patient-last-visit">—</span></span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="doc-patient-add-actions">
+                            <button type="button" class="doc-btn doc-btn-action cl-add-vitals-btn"><i class="fas fa-heartbeat"></i><span>Add vitals</span></button>
+                            <button type="button" class="doc-btn doc-btn-action cl-add-visit-btn"><i class="fas fa-calendar-plus"></i><span>Add visit</span></button>
+                            <button type="button" class="doc-btn doc-btn-action cl-add-medication-btn"><i class="fas fa-pills"></i><span>Add medication</span></button>
+                            <button type="button" class="doc-btn doc-btn-action cl-add-lab-btn"><i class="fas fa-vial"></i><span>Add lab result</span></button>
+                        </div>
+                    </div>
+                    <div class="doc-patient-tabs">
+                        <button type="button" class="doc-patient-tab active" data-tab="overview">Overview</button>
+                        <button type="button" class="doc-patient-tab" data-tab="vitals">Vitals</button>
+                        <button type="button" class="doc-patient-tab" data-tab="visits">Visits</button>
+                        <button type="button" class="doc-patient-tab" data-tab="medications">Medications</button>
+                        <button type="button" class="doc-patient-tab" data-tab="lab">Lab Results</button>
+                    </div>
+                    <div class="doc-patient-tab-content" id="cl-tab-overview">
+                        <div class="doc-patient-charts-row">
+                            <div class="doc-chart-card"><h4>Blood Pressure</h4><canvas id="cl-chart-bp" height="200"></canvas></div>
+                            <div class="doc-chart-card"><h4>Weight (kg)</h4><canvas id="cl-chart-weight" height="200"></canvas></div>
+                        </div>
+                        <div class="doc-patient-charts-row">
+                            <div class="doc-chart-card"><h4>Blood Sugar (mg/dL)</h4><canvas id="cl-chart-glucose" height="200"></canvas></div>
+                            <div class="doc-chart-card"><h4>Heart Rate (bpm)</h4><canvas id="cl-chart-hr" height="200"></canvas></div>
+                        </div>
+                    </div>
+                    <div class="doc-patient-tab-content" id="cl-tab-vitals" style="display: none;">
+                        <div class="doc-vitals-table-wrap">
+                            <table class="cl-table">
+                                <thead><tr><th>Date</th><th>BP</th><th>Pulse</th><th>Temp</th><th>Weight</th><th>Blood Sugar</th></tr></thead>
+                                <tbody id="cl-vitals-tbody"></tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="doc-patient-tab-content" id="cl-tab-visits" style="display: none;"><div class="doc-visits-list" id="cl-visits-list"></div></div>
+                    <div class="doc-patient-tab-content" id="cl-tab-medications" style="display: none;"><div class="doc-meds-list" id="cl-meds-list"></div></div>
+                    <div class="doc-patient-tab-content" id="cl-tab-lab" style="display: none;">
+                        <div class="doc-lab-table-wrap">
+                            <table class="cl-table">
+                                <thead><tr><th>Date</th><th>Test</th><th>Result</th><th>Unit</th><th>Ref.</th></tr></thead>
+                                <tbody id="cl-lab-tbody"></tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <div class="doc-patient-empty" id="cl-patient-empty">
+                    <i class="fas fa-search"></i>
+                    <p>Search for a patient by name to view or add their health records</p>
+                </div>
+            </section>
+
+            <section class="cl-section" id="section-labtests" style="display: none;">
+                <div class="cl-section-header">
+                    <h2>Lab test bookings</h2>
+                    <p class="cl-section-desc">All lab test bookings from customers.</p>
+                </div>
+                <div class="cl-table-wrap">
+                    <table class="cl-table" id="cl-lab-table">
+                        <thead>
+                            <tr>
+                                <th>Test</th>
+                                <th>Customer</th>
+                                <th>Date</th>
+                                <th>Time</th>
+                                <th>Type</th>
+                                <th>Clinic / Address</th>
+                                <th>Status</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody id="cl-lab-tbody">
+                            <tr class="cl-table-empty">
+                                <td colspan="8">No lab test bookings to show</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+            <section class="cl-section" id="section-appointments" style="display: none;">
+                <div class="cl-section-header">
+                    <h2>All appointments</h2>
+                    <p class="cl-section-desc">Appointments at your clinic.</p>
+                </div>
+                <div class="cl-table-wrap">
+                    <table class="cl-table" id="cl-appointments-table">
+                        <thead>
+                            <tr>
+                                <th>Date & time</th>
+                                <th>Patient</th>
+                                <th>Doctor</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody id="cl-appointments-tbody">
+                            <tr class="cl-table-empty">
+                                <td colspan="4">No appointments to show</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+            <section class="cl-section" id="section-schedule" style="display: none;">
+                <div class="cl-section-header">
+                    <h2>Clinic hours</h2>
+                    <p class="cl-section-desc">Your clinic's operating hours.</p>
+                </div>
+                <div class="cl-schedule-card">
+                    <div class="cl-schedule-day">
+                        <strong>Monday – Friday</strong>
+                        <p>9:00 AM – 1:00 PM, 4:00 PM – 8:00 PM</p>
+                    </div>
+                    <div class="cl-schedule-day">
+                        <strong>Saturday</strong>
+                        <p>9:00 AM – 1:00 PM</p>
+                    </div>
+                    <div class="cl-schedule-day">
+                        <strong>Sunday</strong>
+                        <p>Closed</p>
+                    </div>
+                </div>
+            </section>
+
+            <section class="cl-section" id="section-profile" style="display: none;">
+                <div class="cl-section-header">
+                    <h2>Profile</h2>
+                    <p class="cl-section-desc">Your clinic profile and contact details.</p>
+                </div>
+                <div class="cl-profile-card">
+                    <div class="cl-profile-avatar">
+                        <i class="fas fa-building"></i>
+                    </div>
+                    <div class="cl-profile-details">
+                        <h3 id="cl-profile-name">Medify Clinic</h3>
+                        <p id="cl-profile-email" class="cl-profile-meta">—</p>
+                        <div class="cl-profile-row">
+                            <span class="cl-profile-label"><i class="fas fa-map-marker-alt"></i> Address</span>
+                            <span id="cl-profile-address">123 Health Street, Mumbai - 400001</span>
+                        </div>
+                        <div class="cl-profile-row">
+                            <span class="cl-profile-label"><i class="fas fa-phone"></i> Phone</span>
+                            <span id="cl-profile-phone">+91 98765 43210</span>
+                        </div>
+                        <button type="button" class="cl-btn cl-btn-secondary">Edit profile</button>
+                    </div>
+                </div>
+            </section>
+            </div>
+        </main>
+    </div>
+
+    <!-- Patient record modals (reuse doc-modal-box for same UI) -->
+    <div class="doc-modal-overlay" id="cl-new-patient-modal" aria-hidden="true">
+        <div class="doc-modal doc-modal-box">
+            <div class="doc-modal-header"><h2><i class="fas fa-user-plus"></i> New patient</h2><button type="button" class="doc-modal-close cl-close-new-patient" aria-label="Close">&times;</button></div>
+            <div class="doc-modal-body">
+                <div class="doc-form-group"><label>Full name <span class="required">*</span></label><input type="text" id="cl-new-patient-name" placeholder="Patient name"></div>
+                <div class="doc-form-group"><label>Date of birth</label><input type="text" id="cl-new-patient-dob" placeholder="e.g. 15 Mar 1985"></div>
+                <div class="doc-form-group"><label>Blood group</label><input type="text" id="cl-new-patient-blood" placeholder="e.g. B+"></div>
+            </div>
+            <div class="doc-modal-footer"><button type="button" class="doc-btn doc-btn-ghost cl-close-new-patient">Cancel</button><button type="button" class="doc-btn doc-btn-primary doc-btn-save" id="cl-new-patient-submit"><i class="fas fa-check"></i> Save patient</button></div>
+        </div>
+    </div>
+    <div class="doc-modal-overlay" id="cl-add-vitals-modal" aria-hidden="true">
+        <div class="doc-modal doc-modal-box">
+            <div class="doc-modal-header"><h2><i class="fas fa-heartbeat"></i> Add vitals</h2><button type="button" class="doc-modal-close cl-close-add-vitals" aria-label="Close">&times;</button></div>
+            <div class="doc-modal-body">
+                <p class="doc-modal-hint">Record the patient’s vital signs for this visit.</p>
+                <div class="doc-form-row"><div class="doc-form-group"><label>Date</label><input type="text" id="cl-vitals-date" placeholder="e.g. Jan 2025"></div><div class="doc-form-group"><label>BP (mmHg)</label><input type="text" id="cl-vitals-bp" placeholder="120/80"></div></div>
+                <div class="doc-form-row"><div class="doc-form-group"><label>Pulse (bpm)</label><input type="number" id="cl-vitals-pulse" placeholder="72"></div><div class="doc-form-group"><label>Temp (°F)</label><input type="number" id="cl-vitals-temp" placeholder="98.4" step="0.1"></div></div>
+                <div class="doc-form-row"><div class="doc-form-group"><label>Weight (kg)</label><input type="number" id="cl-vitals-weight" placeholder="70"></div><div class="doc-form-group"><label>Blood sugar (mg/dL)</label><input type="number" id="cl-vitals-glucose" placeholder="95"></div></div>
+            </div>
+            <div class="doc-modal-footer"><button type="button" class="doc-btn doc-btn-ghost cl-close-add-vitals">Cancel</button><button type="button" class="doc-btn doc-btn-primary doc-btn-save" id="cl-add-vitals-submit"><i class="fas fa-check"></i> Save vitals</button></div>
+        </div>
+    </div>
+    <div class="doc-modal-overlay" id="cl-add-visit-modal" aria-hidden="true">
+        <div class="doc-modal doc-modal-box">
+            <div class="doc-modal-header"><h2><i class="fas fa-calendar-plus"></i> Add visit</h2><button type="button" class="doc-modal-close cl-close-add-visit" aria-label="Close">&times;</button></div>
+            <div class="doc-modal-body">
+                <p class="doc-modal-hint">Log a consultation or clinic visit.</p>
+                <div class="doc-form-group"><label>Date <span class="required">*</span></label><input type="text" id="cl-visit-date" placeholder="e.g. 28 Jan 2025"></div>
+                <div class="doc-form-group"><label>Reason</label><input type="text" id="cl-visit-reason" placeholder="Reason for visit"></div>
+                <div class="doc-form-group"><label>Diagnosis</label><input type="text" id="cl-visit-diagnosis" placeholder="Diagnosis"></div>
+                <div class="doc-form-group"><label>Notes</label><textarea id="cl-visit-notes" rows="3" placeholder="Notes"></textarea></div>
+            </div>
+            <div class="doc-modal-footer"><button type="button" class="doc-btn doc-btn-ghost cl-close-add-visit">Cancel</button><button type="button" class="doc-btn doc-btn-primary doc-btn-save" id="cl-add-visit-submit"><i class="fas fa-check"></i> Save visit</button></div>
+        </div>
+    </div>
+    <div class="doc-modal-overlay" id="cl-add-medication-modal" aria-hidden="true">
+        <div class="doc-modal doc-modal-box">
+            <div class="doc-modal-header"><h2><i class="fas fa-pills"></i> Add medication</h2><button type="button" class="doc-modal-close cl-close-add-medication" aria-label="Close">&times;</button></div>
+            <div class="doc-modal-body">
+                <p class="doc-modal-hint">Add a medication to the patient’s record.</p>
+                <div class="doc-form-group"><label>Medication name <span class="required">*</span></label><input type="text" id="cl-med-name" placeholder="e.g. Amlodipine 5mg"></div>
+                <div class="doc-form-group"><label>Dosage</label><input type="text" id="cl-med-dosage" placeholder="Once daily"></div>
+                <div class="doc-form-group"><label>For</label><input type="text" id="cl-med-for" placeholder="e.g. Blood pressure"></div>
+                <div class="doc-form-group"><label>Since</label><input type="text" id="cl-med-since" placeholder="e.g. Jun 2024"></div>
+            </div>
+            <div class="doc-modal-footer"><button type="button" class="doc-btn doc-btn-ghost cl-close-add-medication">Cancel</button><button type="button" class="doc-btn doc-btn-primary doc-btn-save" id="cl-add-medication-submit"><i class="fas fa-check"></i> Save medication</button></div>
+        </div>
+    </div>
+    <div class="doc-modal-overlay" id="cl-add-lab-modal" aria-hidden="true">
+        <div class="doc-modal doc-modal-box">
+            <div class="doc-modal-header"><h2><i class="fas fa-vial"></i> Add lab result</h2><button type="button" class="doc-modal-close cl-close-add-lab" aria-label="Close">&times;</button></div>
+            <div class="doc-modal-body">
+                <p class="doc-modal-hint">Enter a lab test result.</p>
+                <div class="doc-form-group"><label>Date</label><input type="text" id="cl-lab-date" placeholder="e.g. 28 Jan 2025"></div>
+                <div class="doc-form-group"><label>Test name <span class="required">*</span></label><input type="text" id="cl-lab-test" placeholder="e.g. HbA1c"></div>
+                <div class="doc-form-row"><div class="doc-form-group"><label>Result</label><input type="text" id="cl-lab-result" placeholder="5.8"></div><div class="doc-form-group"><label>Unit</label><input type="text" id="cl-lab-unit" placeholder="%"></div></div>
+                <div class="doc-form-group"><label>Reference range</label><input type="text" id="cl-lab-ref" placeholder="4.0 - 5.6"></div>
+            </div>
+            <div class="doc-modal-footer"><button type="button" class="doc-btn doc-btn-ghost cl-close-add-lab">Cancel</button><button type="button" class="doc-btn doc-btn-primary doc-btn-save" id="cl-add-lab-submit"><i class="fas fa-check"></i> Save result</button></div>
+        </div>
+    </div>
+
+    <!-- Lab booking detail modal -->
+    <div class="cl-modal-overlay" id="cl-lab-detail-modal" aria-hidden="true">
+        <div class="cl-modal cl-lab-detail-modal">
+            <div class="cl-modal-header">
+                <h2><i class="fas fa-vial"></i> Lab booking details</h2>
+                <button type="button" class="cl-modal-close" id="cl-lab-detail-close" aria-label="Close">&times;</button>
+            </div>
+            <div class="cl-modal-body" id="cl-lab-detail-body">
+                <div class="cl-detail-row"><span class="cl-detail-label">Test</span><span class="cl-detail-value" id="cl-lab-detail-test">—</span></div>
+                <div class="cl-detail-row"><span class="cl-detail-label">Customer</span><span class="cl-detail-value" id="cl-lab-detail-customer">—</span></div>
+                <div class="cl-detail-row"><span class="cl-detail-label">Date</span><span class="cl-detail-value" id="cl-lab-detail-date">—</span></div>
+                <div class="cl-detail-row"><span class="cl-detail-label">Time slot</span><span class="cl-detail-value" id="cl-lab-detail-time">—</span></div>
+                <div class="cl-detail-row"><span class="cl-detail-label">Type</span><span class="cl-detail-value" id="cl-lab-detail-type">—</span></div>
+                <div class="cl-detail-row"><span class="cl-detail-label">Clinic / Address</span><span class="cl-detail-value" id="cl-lab-detail-place">—</span></div>
+                <div class="cl-detail-row"><span class="cl-detail-label">Status</span><span class="cl-detail-value" id="cl-lab-detail-status">—</span></div>
+            </div>
+            <div class="cl-modal-footer" id="cl-lab-detail-footer">
+                <button type="button" class="cl-btn cl-btn-ghost" id="cl-lab-detail-close-btn">Close</button>
+                <div class="cl-lab-detail-actions" id="cl-lab-detail-actions">
+                    <button type="button" class="cl-btn cl-btn-secondary" id="cl-lab-reject-btn">Reject</button>
+                    <button type="button" class="cl-btn cl-btn-primary" id="cl-lab-accept-btn">Accept</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://www.gstatic.com/firebasejs/10.7.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.0/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.0/firebase-firestore-compat.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+    <script src="firebase-config.js"></script>
+    <script>
+        (function() {
+            // Use clinic auth so clinic login doesn't override other roles.
+            var auth = window.firebaseClinicAuth;
+            if (!auth) {
+                console.warn('Clinic auth not initialized. Ensure firebase-config.js is loaded after firebase-auth-compat.js');
+                return;
+            }
+
+            var allowedClinicEmails = ['clinic@medify.com'];
+            auth.onAuthStateChanged(function(user) {
+                if (!user) {
+                    window.location.href = 'index.html#login';
+                    return;
+                }
+                var isClinic = allowedClinicEmails.indexOf(user.email) !== -1;
+                var wrapWrong = document.getElementById('cl-wrong-account-wrap');
+                var contentWrap = document.getElementById('cl-dashboard-content');
+                if (!isClinic && wrapWrong && contentWrap) {
+                    var elEmail = document.getElementById('cl-wrong-account-email');
+                    if (elEmail) elEmail.textContent = user.email || '—';
+                    wrapWrong.style.display = 'block';
+                    contentWrap.style.display = 'none';
+                    return;
+                }
+                if (wrapWrong && contentWrap) {
+                    wrapWrong.style.display = 'none';
+                    contentWrap.style.display = '';
+                }
+                var displayName = user.displayName || user.email || 'Clinic';
+                var shortName = (displayName.split(' ').map(function(s) { return s[0]; }).join('') || 'Cl').substring(0, 2).toUpperCase();
+                var greeting = 'Welcome back, ' + (user.displayName || 'Clinic') + '.';
+                document.getElementById('cl-greeting').textContent = greeting;
+                document.getElementById('cl-name-short').textContent = shortName;
+                document.getElementById('cl-profile-name').textContent = user.displayName || 'Medify Clinic';
+                document.getElementById('cl-profile-email').textContent = user.email || '—';
+                loadClinicLabBookings();
+            });
+
+            function loadClinicLabBookings() {
+                var db = window.firebaseClinicDb || window.firebaseDb;
+                if (!db) return;
+                db.collection('lab_bookings').orderBy('createdAt', 'desc').limit(100).get()
+                    .then(function(snap) {
+                        var bookings = [];
+                        window._clLabBookingsMap = window._clLabBookingsMap || {};
+                        snap.forEach(function(doc) {
+                            var d = doc.data();
+                            d.id = doc.id;
+                            bookings.push(d);
+                            window._clLabBookingsMap[doc.id] = d;
+                        });
+                        var pending = bookings.filter(function(b) { return b.status === 'pending'; });
+
+                        var badgeLab = document.getElementById('cl-badge-lab');
+                        var statPending = document.getElementById('cl-stat-pending');
+                        if (badgeLab) badgeLab.textContent = pending.length;
+                        if (statPending) statPending.textContent = pending.length;
+
+                        var recentList = document.getElementById('cl-lab-recent-list');
+                        var recentEmpty = document.getElementById('cl-lab-recent-empty');
+                        if (recentList) {
+                            if (recentEmpty) recentEmpty.style.display = bookings.length ? 'none' : 'block';
+                            recentList.querySelectorAll('.cl-lab-row').forEach(function(el) { el.remove(); });
+                            bookings.slice(0, 5).forEach(function(b) {
+                                var row = document.createElement('div');
+                                row.className = 'cl-lab-row';
+                                row.setAttribute('data-id', b.id);
+                                var dateStr = b.preferredDate ? new Date(b.preferredDate).toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' }) : '—';
+                                row.innerHTML = '<span class="cl-lab-test">' + (b.testName || '—') + '</span>' +
+                                    '<span class="cl-lab-customer">' + (b.customerEmail || b.customerName || 'Customer') + '</span>' +
+                                    '<span class="cl-lab-date">' + dateStr + '</span>' +
+                                    '<span class="cl-lab-status cl-status-' + (b.status || 'pending') + '">' + (b.status || 'pending') + '</span>' +
+                                    '<button type="button" class="cl-btn cl-btn-sm cl-view-lab-btn" data-id="' + b.id + '">View</button>';
+                                recentList.appendChild(row);
+                            });
+                        }
+
+                        var tbody = document.getElementById('cl-lab-tbody');
+                        if (tbody) {
+                            tbody.innerHTML = '';
+                            if (bookings.length === 0) {
+                                tbody.innerHTML = '<tr class="cl-table-empty"><td colspan="8">No lab test bookings to show</td></tr>';
+                            } else {
+                                bookings.forEach(function(b) {
+                                    var dateStr = b.preferredDate ? new Date(b.preferredDate).toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' }) : '—';
+                                    var typeLabel = (b.collectionType === 'home') ? 'Home collection' : 'Visit clinic';
+                                    var place = b.clinicName || b.clinicAddress || '—';
+                                    if (b.collectionType === 'home') place = 'Home collection';
+                                    var tr = document.createElement('tr');
+                                    tr.innerHTML = '<td>' + (b.testName || '—') + '</td>' +
+                                        '<td>' + (b.customerEmail || b.customerName || '—') + '</td>' +
+                                        '<td>' + dateStr + '</td>' +
+                                        '<td>' + (b.timeSlot || '—') + '</td>' +
+                                        '<td>' + typeLabel + '</td>' +
+                                        '<td>' + place + '</td>' +
+                                        '<td><span class="cl-status cl-status-' + (b.status || 'pending') + '">' + (b.status || 'pending') + '</span></td>' +
+                                        '<td><button type="button" class="cl-btn cl-btn-sm cl-view-lab-btn" data-id="' + b.id + '">View</button></td>';
+                                    tbody.appendChild(tr);
+                                });
+                            }
+                        }
+                    })
+                    .catch(function(err) { console.warn('Lab bookings load failed', err); });
+            }
+
+            document.getElementById('cl-logout-btn').addEventListener('click', function() {
+                auth.signOut().then(function() {
+                    try { sessionStorage.removeItem('medify_clinic_role'); } catch (e) {}
+                    window.location.href = 'index.html';
+                });
+            });
+
+            function openLabBookingDetail(bookingId) {
+                var b = window._clLabBookingsMap && window._clLabBookingsMap[bookingId];
+                var modal = document.getElementById('cl-lab-detail-modal');
+                if (!modal || !b) return;
+                var dateStr = b.preferredDate ? new Date(b.preferredDate).toLocaleDateString('en-IN', { weekday: 'short', day: 'numeric', month: 'short', year: 'numeric' }) : '—';
+                var typeLabel = (b.collectionType === 'home') ? 'Home collection' : 'Visit clinic';
+                var place = b.clinicName || (b.clinicAddress ? b.clinicAddress : '—');
+                if (b.collectionType === 'home') place = 'Home collection';
+                document.getElementById('cl-lab-detail-test').textContent = b.testName || '—';
+                document.getElementById('cl-lab-detail-customer').textContent = b.customerEmail || b.customerName || 'Customer';
+                document.getElementById('cl-lab-detail-date').textContent = dateStr;
+                document.getElementById('cl-lab-detail-time').textContent = b.timeSlot || '—';
+                document.getElementById('cl-lab-detail-type').textContent = typeLabel;
+                document.getElementById('cl-lab-detail-place').textContent = place;
+                var statusEl = document.getElementById('cl-lab-detail-status');
+                statusEl.innerHTML = '<span class="cl-status cl-status-' + (b.status || 'pending') + '">' + (b.status || 'pending') + '</span>';
+                var actionsEl = document.getElementById('cl-lab-detail-actions');
+                if (actionsEl) actionsEl.style.display = (b.status === 'pending') ? 'flex' : 'none';
+                modal.classList.add('open');
+                modal.setAttribute('aria-hidden', 'false');
+                document.body.style.overflow = 'hidden';
+                window._clCurrentLabBookingId = bookingId;
+            }
+
+            function closeLabBookingDetailModal() {
+                var modal = document.getElementById('cl-lab-detail-modal');
+                if (modal) {
+                    modal.classList.remove('open');
+                    modal.setAttribute('aria-hidden', 'true');
+                    document.body.style.overflow = '';
+                }
+                window._clCurrentLabBookingId = null;
+            }
+
+            document.addEventListener('click', function(e) {
+                var btn = e.target.closest('.cl-view-lab-btn');
+                if (btn) {
+                    var id = btn.getAttribute('data-id') || (btn.closest('.cl-lab-row') && btn.closest('.cl-lab-row').getAttribute('data-id'));
+                    if (id) openLabBookingDetail(id);
+                }
+            });
+
+            var labDetailClose = document.getElementById('cl-lab-detail-close');
+            var labDetailCloseBtn = document.getElementById('cl-lab-detail-close-btn');
+            if (labDetailClose) labDetailClose.addEventListener('click', closeLabBookingDetailModal);
+            if (labDetailCloseBtn) labDetailCloseBtn.addEventListener('click', closeLabBookingDetailModal);
+            document.getElementById('cl-lab-detail-modal').addEventListener('click', function(e) {
+                if (e.target === this) closeLabBookingDetailModal();
+            });
+            document.addEventListener('keydown', function(e) {
+                if (e.key === 'Escape' && document.getElementById('cl-lab-detail-modal').classList.contains('open')) closeLabBookingDetailModal();
+            });
+
+            document.getElementById('cl-lab-accept-btn').addEventListener('click', function() {
+                var id = window._clCurrentLabBookingId;
+                var db = window.firebaseClinicDb || window.firebaseDb;
+                var b = id && window._clLabBookingsMap ? window._clLabBookingsMap[id] : null;
+                if (!id || !db) return;
+                db.collection('lab_bookings').doc(id).update({
+                    status: 'confirmed',
+                    confirmedAt: firebase.firestore.FieldValue.serverTimestamp()
+                }).then(function() {
+                    if (b && b.customerId) {
+                        var dateStr = b.preferredDate ? new Date(b.preferredDate).toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' }) : '';
+                        var body = 'Your ' + (b.testName || 'lab test') + ' has been confirmed for ' + dateStr + (b.timeSlot ? ' at ' + b.timeSlot : '') + '.';
+                        db.collection('notifications').add({
+                            userId: b.customerId,
+                            type: 'lab_booking_confirmed',
+                            title: 'Lab test confirmed',
+                            body: body,
+                            labBookingId: id,
+                            read: false,
+                            createdAt: firebase.firestore.FieldValue.serverTimestamp()
+                        }).catch(function() {});
+                    }
+                    closeLabBookingDetailModal();
+                    loadClinicLabBookings();
+                }).catch(function(err) { console.warn('Accept failed', err); });
+            });
+
+            document.getElementById('cl-lab-reject-btn').addEventListener('click', function() {
+                var id = window._clCurrentLabBookingId;
+                var db = window.firebaseClinicDb || window.firebaseDb;
+                if (!id || !db) return;
+                db.collection('lab_bookings').doc(id).update({ status: 'rejected' }).then(function() {
+                    closeLabBookingDetailModal();
+                    loadClinicLabBookings();
+                }).catch(function(err) { console.warn('Reject failed', err); });
+            });
+        })();
+
+        (function() {
+            var sidebar = document.getElementById('cl-sidebar');
+            var menuBtn = document.getElementById('cl-menu-btn');
+            var closeBtn = document.getElementById('cl-sidebar-close');
+
+            function openSidebar() { sidebar.classList.add('open'); document.body.style.overflow = 'hidden'; }
+            function closeSidebar() { sidebar.classList.remove('open'); document.body.style.overflow = ''; }
+
+            if (menuBtn) menuBtn.addEventListener('click', openSidebar);
+            if (closeBtn) closeBtn.addEventListener('click', closeSidebar);
+            sidebar.addEventListener('click', function(e) { if (e.target === sidebar) closeSidebar(); });
+
+            var sectionTitles = { overview: 'Dashboard', appointments: 'Appointments', labtests: 'Lab tests', schedule: 'Clinic Hours', 'patient-records': 'Patient records', profile: 'Profile' };
+            document.querySelectorAll('.cl-nav-item[data-section]').forEach(function(item) {
+                item.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    var section = this.getAttribute('data-section');
+                    document.querySelectorAll('.cl-section').forEach(function(s) { s.style.display = 'none'; });
+                    document.querySelectorAll('.cl-nav-item').forEach(function(n) { n.classList.remove('active'); });
+                    var sectionEl = document.getElementById('section-' + section);
+                    if (sectionEl) sectionEl.style.display = 'block';
+                    this.classList.add('active');
+                    var h1 = document.querySelector('.cl-topbar-title h1');
+                    if (h1) h1.textContent = sectionTitles[section] || section;
+                    closeSidebar();
+                });
+            });
+
+            document.querySelectorAll('.cl-card-link[data-section]').forEach(function(link) {
+                link.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    var section = this.getAttribute('data-section');
+                    var nav = document.querySelector('.cl-nav-item[data-section="' + section + '"]');
+                    if (nav) nav.click();
+                });
+            });
+        })();
+
+        (function() {
+            var db = window.firebaseClinicDb || window.firebaseDb;
+            var auth = window.firebaseClinicAuth;
+            var chartInstances = { bp: null, weight: null, glucose: null, hr: null };
+
+            function firestorePatientToView(doc) {
+                var d = doc.data();
+                var vitals = (d.vitals || []).map(function(v) {
+                    var bp = v.bp || (v.bpSys != null && v.bpDia != null ? v.bpSys + '/' + v.bpDia : '—');
+                    return { date: v.date, bp: bp, bpSys: v.bpSys, bpDia: v.bpDia, pulse: v.pulse, temp: v.temp, weight: v.weight, bloodSugar: v.bloodSugar, heartRate: v.heartRate != null ? v.heartRate : v.pulse };
+                });
+                return { id: doc.id, name: d.name, dob: d.dob || '—', bloodGroup: d.bloodGroup || '—', lastVisit: d.lastVisit || '—', vitals: vitals, visits: d.visits || [], medications: d.medications || [], lab: d.lab || [] };
+            }
+
+            function renderCharts(patient) {
+                var vitals = patient.vitals || [];
+                var labels = vitals.map(function(v) { return v.date; });
+                ['bp', 'weight', 'glucose', 'hr'].forEach(function(key) {
+                    if (chartInstances[key]) { chartInstances[key].destroy(); chartInstances[key] = null; }
+                });
+                if (typeof Chart === 'undefined' || !labels.length) return;
+                var gridColor = 'rgba(0,0,0,0.06)', fontColor = '#546e7a';
+                chartInstances.bp = new Chart(document.getElementById('cl-chart-bp'), { type: 'line', data: { labels: labels, datasets: [
+                    { label: 'Systolic', data: vitals.map(function(v) { return v.bpSys; }), borderColor: '#c62828', backgroundColor: 'rgba(198,40,40,0.1)', fill: true, tension: 0.3 },
+                    { label: 'Diastolic', data: vitals.map(function(v) { return v.bpDia; }), borderColor: '#1565c0', backgroundColor: 'rgba(21,101,192,0.1)', fill: true, tension: 0.3 }
+                ]}, options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { position: 'top' } }, scales: { x: { grid: { color: gridColor }, ticks: { color: fontColor } }, y: { grid: { color: gridColor }, ticks: { color: fontColor } } } } });
+                chartInstances.weight = new Chart(document.getElementById('cl-chart-weight'), { type: 'line', data: { labels: labels, datasets: [{ label: 'Weight (kg)', data: vitals.map(function(v) { return v.weight; }), borderColor: '#2e7d32', backgroundColor: 'rgba(46,125,50,0.15)', fill: true, tension: 0.3 }]}, options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { position: 'top' } }, scales: { x: { grid: { color: gridColor }, ticks: { color: fontColor } }, y: { grid: { color: gridColor }, ticks: { color: fontColor } } } } });
+                chartInstances.glucose = new Chart(document.getElementById('cl-chart-glucose'), { type: 'line', data: { labels: labels, datasets: [{ label: 'Fasting (mg/dL)', data: vitals.map(function(v) { return v.bloodSugar; }), borderColor: '#f9a825', backgroundColor: 'rgba(249,168,37,0.15)', fill: true, tension: 0.3 }]}, options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { position: 'top' } }, scales: { x: { grid: { color: gridColor }, ticks: { color: fontColor } }, y: { grid: { color: gridColor }, ticks: { color: fontColor } } } } });
+                chartInstances.hr = new Chart(document.getElementById('cl-chart-hr'), { type: 'line', data: { labels: labels, datasets: [{ label: 'Heart rate (bpm)', data: vitals.map(function(v) { return v.heartRate; }), borderColor: '#7b1fa2', backgroundColor: 'rgba(123,31,162,0.15)', fill: true, tension: 0.3 }]}, options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { position: 'top' } }, scales: { x: { grid: { color: gridColor }, ticks: { color: fontColor } }, y: { grid: { color: gridColor }, ticks: { color: fontColor } } } } });
+            }
+
+            function showPatient(patient) {
+                window._clCurrentPatientId = patient.id || null;
+                window._clCurrentPatient = patient;
+                document.getElementById('cl-patient-empty').style.display = 'none';
+                document.getElementById('cl-patient-result').style.display = 'block';
+                document.getElementById('cl-patient-name').textContent = patient.name;
+                document.getElementById('cl-patient-dob').textContent = patient.dob || '—';
+                document.getElementById('cl-patient-blood').textContent = patient.bloodGroup || '—';
+                document.getElementById('cl-patient-last-visit').textContent = patient.lastVisit || '—';
+                document.querySelectorAll('.doc-patient-tab').forEach(function(t) { t.classList.remove('active'); });
+                document.querySelector('.doc-patient-tab[data-tab="overview"]').classList.add('active');
+                document.querySelectorAll('.doc-patient-tab-content').forEach(function(c) { c.style.display = 'none'; });
+                document.getElementById('cl-tab-overview').style.display = 'block';
+                var tbody = document.getElementById('cl-vitals-tbody');
+                tbody.innerHTML = (patient.vitals || []).map(function(v) { return '<tr><td>' + v.date + '</td><td>' + v.bp + '</td><td>' + v.pulse + '</td><td>' + v.temp + '</td><td>' + v.weight + '</td><td>' + v.bloodSugar + '</td></tr>'; }).join('') || '<tr><td colspan="6">No vitals</td></tr>';
+                document.getElementById('cl-visits-list').innerHTML = (patient.visits || []).map(function(v) { return '<div class="doc-visit-item"><strong>' + v.date + '</strong> — ' + v.reason + '<br><span class="doc-visit-diagnosis">' + v.diagnosis + '</span><p class="doc-visit-notes">' + v.notes + '</p></div>'; }).join('') || '<p class="doc-empty-tab">No visits</p>';
+                document.getElementById('cl-meds-list').innerHTML = (patient.medications || []).map(function(m) { return '<div class="doc-med-item"><strong>' + m.name + '</strong> — ' + m.dosage + '<br><span class="doc-med-for">For: ' + m.for + '</span> (Since ' + m.since + ')</div>'; }).join('') || '<p class="doc-empty-tab">No medications</p>';
+                document.getElementById('cl-lab-tbody').innerHTML = (patient.lab || []).map(function(l) { return '<tr><td>' + l.date + '</td><td>' + l.test + '</td><td>' + l.result + '</td><td>' + l.unit + '</td><td>' + l.ref + '</td></tr>'; }).join('') || '<tr><td colspan="5">No lab results</td></tr>';
+                renderCharts(patient);
+            }
+
+            var emptyStateHtml = document.getElementById('cl-patient-empty').innerHTML;
+            function doPatientSearch() {
+                var q = (document.getElementById('cl-patient-search-input').value || '').trim().toLowerCase();
+                if (!q) {
+                    document.getElementById('cl-patient-empty').innerHTML = emptyStateHtml;
+                    document.getElementById('cl-patient-empty').style.display = 'block';
+                    document.getElementById('cl-patient-result').style.display = 'none';
+                    return;
+                }
+                if (!db) {
+                    document.getElementById('cl-patient-empty').innerHTML = '<i class="fas fa-user-slash"></i><p>No patient found.</p><span>Add a new patient first.</span>';
+                    document.getElementById('cl-patient-empty').style.display = 'block';
+                    document.getElementById('cl-patient-result').style.display = 'none';
+                    return;
+                }
+                db.collection('patients').get().then(function(snap) {
+                    var list = [];
+                    snap.forEach(function(doc) {
+                        var d = doc.data();
+                        if ((d.nameLower || (d.name || '').toLowerCase()).indexOf(q) !== -1) list.push(firestorePatientToView(doc));
+                    });
+                    if (list.length) showPatient(list[0]);
+                    else {
+                        document.getElementById('cl-patient-empty').innerHTML = '<i class="fas fa-user-slash"></i><p>No patient found for &quot;' + q + '&quot;</p><span>Add a new patient to start records.</span>';
+                        document.getElementById('cl-patient-empty').style.display = 'block';
+                        document.getElementById('cl-patient-result').style.display = 'none';
+                    }
+                }).catch(function() {
+                    document.getElementById('cl-patient-empty').innerHTML = '<i class="fas fa-user-slash"></i><p>Search failed.</p>';
+                    document.getElementById('cl-patient-empty').style.display = 'block';
+                    document.getElementById('cl-patient-result').style.display = 'none';
+                });
+            }
+
+            document.getElementById('cl-patient-search-btn').addEventListener('click', doPatientSearch);
+            document.getElementById('cl-patient-search-input').addEventListener('keydown', function(e) { if (e.key === 'Enter') doPatientSearch(); });
+
+            function openModal(id) { document.getElementById(id).classList.add('open'); document.getElementById(id).setAttribute('aria-hidden', 'false'); document.body.style.overflow = 'hidden'; }
+            function closeModal(id) { document.getElementById(id).classList.remove('open'); document.getElementById(id).setAttribute('aria-hidden', 'true'); document.body.style.overflow = ''; }
+
+            document.getElementById('cl-new-patient-btn').addEventListener('click', function() {
+                document.getElementById('cl-new-patient-name').value = '';
+                document.getElementById('cl-new-patient-dob').value = '';
+                document.getElementById('cl-new-patient-blood').value = '';
+                openModal('cl-new-patient-modal');
+            });
+            document.querySelectorAll('.cl-close-new-patient').forEach(function(btn) { btn.addEventListener('click', function() { closeModal('cl-new-patient-modal'); }); });
+            document.getElementById('cl-new-patient-submit').addEventListener('click', function() {
+                var name = (document.getElementById('cl-new-patient-name').value || '').trim();
+                if (!name) { alert('Enter patient name.'); return; }
+                if (!db || !auth || !auth.currentUser) { alert('Not available.'); return; }
+                var dob = (document.getElementById('cl-new-patient-dob').value || '').trim();
+                var blood = (document.getElementById('cl-new-patient-blood').value || '').trim();
+                db.collection('patients').add({ name: name, nameLower: name.toLowerCase(), dob: dob || '—', bloodGroup: blood || '—', lastVisit: '—', vitals: [], visits: [], medications: [], lab: [], createdBy: auth.currentUser.uid, createdAt: firebase.firestore.FieldValue.serverTimestamp() }).then(function(ref) {
+                    closeModal('cl-new-patient-modal');
+                    document.getElementById('cl-patient-search-input').value = name;
+                    doPatientSearch();
+                }).catch(function() { alert('Failed to save patient.'); });
+            });
+
+            function ensurePatientForAdd(cb) {
+                var pid = window._clCurrentPatientId;
+                var p = window._clCurrentPatient;
+                if (!p) { alert('Select a patient first.'); return; }
+                if (pid) { cb(pid); return; }
+                if (!db || !auth || !auth.currentUser) { alert('This patient is not in records. Add via New patient first.'); return; }
+                db.collection('patients').add({ name: p.name, nameLower: (p.name || '').toLowerCase(), dob: p.dob || '—', bloodGroup: p.bloodGroup || '—', lastVisit: p.lastVisit || '—', vitals: p.vitals || [], visits: p.visits || [], medications: p.medications || [], lab: p.lab || [], createdBy: auth.currentUser.uid, createdAt: firebase.firestore.FieldValue.serverTimestamp() }).then(function(ref) {
+                    window._clCurrentPatientId = ref.id;
+                    cb(ref.id);
+                }).catch(function() { alert('Failed to create patient record.'); });
+            }
+
+            function addVitalsSubmit() {
+                var date = (document.getElementById('cl-vitals-date').value || '').trim() || new Date().toLocaleDateString('en-IN', { month: 'short', year: 'numeric' });
+                var bpStr = (document.getElementById('cl-vitals-bp').value || '').trim();
+                var pulse = parseInt(document.getElementById('cl-vitals-pulse').value, 10) || 0;
+                var temp = parseFloat(document.getElementById('cl-vitals-temp').value) || 0;
+                var weight = parseFloat(document.getElementById('cl-vitals-weight').value) || 0;
+                var glucose = parseInt(document.getElementById('cl-vitals-glucose').value, 10) || 0;
+                var bpSys = 0, bpDia = 0;
+                if (bpStr && bpStr.indexOf('/') !== -1) { var parts = bpStr.split('/'); bpSys = parseInt(parts[0], 10) || 0; bpDia = parseInt(parts[1], 10) || 0; }
+                var entry = { date: date, bp: bpStr || (bpSys + '/' + bpDia), bpSys: bpSys, bpDia: bpDia, pulse: pulse, temp: temp, weight: weight, bloodSugar: glucose, heartRate: pulse };
+                ensurePatientForAdd(function(pid) {
+                    var ref = db.collection('patients').doc(pid);
+                    ref.get().then(function(doc) { var v = (doc.data().vitals || []).concat([entry]); return ref.update({ vitals: v }); }).then(function() {
+                        closeModal('cl-add-vitals-modal');
+                        ref.get().then(function(doc) { showPatient(firestorePatientToView(doc)); });
+                    }).catch(function() { alert('Failed to save vitals.'); });
+                });
+            }
+            function addVisitSubmit() {
+                var date = (document.getElementById('cl-visit-date').value || '').trim();
+                if (!date) { alert('Enter date.'); return; }
+                var entry = { date: date, reason: (document.getElementById('cl-visit-reason').value || '').trim(), diagnosis: (document.getElementById('cl-visit-diagnosis').value || '').trim(), notes: (document.getElementById('cl-visit-notes').value || '').trim() };
+                ensurePatientForAdd(function(pid) {
+                    var ref = db.collection('patients').doc(pid);
+                    ref.get().then(function(doc) { var vis = (doc.data().visits || []).concat([entry]); return ref.update({ visits: vis, lastVisit: date }); }).then(function() {
+                        closeModal('cl-add-visit-modal');
+                        ref.get().then(function(doc) { showPatient(firestorePatientToView(doc)); });
+                    }).catch(function() { alert('Failed to save visit.'); });
+                });
+            }
+            function addMedicationSubmit() {
+                var name = (document.getElementById('cl-med-name').value || '').trim();
+                if (!name) { alert('Enter medication name.'); return; }
+                var entry = { name: name, dosage: (document.getElementById('cl-med-dosage').value || '').trim(), for: (document.getElementById('cl-med-for').value || '').trim(), since: (document.getElementById('cl-med-since').value || '').trim() };
+                ensurePatientForAdd(function(pid) {
+                    var ref = db.collection('patients').doc(pid);
+                    ref.get().then(function(doc) { var meds = (doc.data().medications || []).concat([entry]); return ref.update({ medications: meds }); }).then(function() {
+                        closeModal('cl-add-medication-modal');
+                        ref.get().then(function(doc) { showPatient(firestorePatientToView(doc)); });
+                    }).catch(function() { alert('Failed to save medication.'); });
+                });
+            }
+            function addLabSubmit() {
+                var test = (document.getElementById('cl-lab-test').value || '').trim();
+                if (!test) { alert('Enter test name.'); return; }
+                var entry = { date: (document.getElementById('cl-lab-date').value || '').trim(), test: test, result: (document.getElementById('cl-lab-result').value || '').trim(), unit: (document.getElementById('cl-lab-unit').value || '').trim(), ref: (document.getElementById('cl-lab-ref').value || '').trim() };
+                ensurePatientForAdd(function(pid) {
+                    var ref = db.collection('patients').doc(pid);
+                    ref.get().then(function(doc) { var lab = (doc.data().lab || []).concat([entry]); return ref.update({ lab: lab }); }).then(function() {
+                        closeModal('cl-add-lab-modal');
+                        ref.get().then(function(doc) { showPatient(firestorePatientToView(doc)); });
+                    }).catch(function() { alert('Failed to save lab result.'); });
+                });
+            }
+
+            document.querySelectorAll('.cl-add-vitals-btn').forEach(function(btn) { btn.addEventListener('click', function() { document.getElementById('cl-vitals-date').value = ''; document.getElementById('cl-vitals-bp').value = ''; document.getElementById('cl-vitals-pulse').value = ''; document.getElementById('cl-vitals-temp').value = ''; document.getElementById('cl-vitals-weight').value = ''; document.getElementById('cl-vitals-glucose').value = ''; openModal('cl-add-vitals-modal'); }); });
+            document.querySelectorAll('.cl-close-add-vitals').forEach(function(b) { b.addEventListener('click', function() { closeModal('cl-add-vitals-modal'); }); });
+            document.getElementById('cl-add-vitals-submit').addEventListener('click', addVitalsSubmit);
+            document.querySelectorAll('.cl-add-visit-btn').forEach(function(btn) { btn.addEventListener('click', function() { document.getElementById('cl-visit-date').value = ''; document.getElementById('cl-visit-reason').value = ''; document.getElementById('cl-visit-diagnosis').value = ''; document.getElementById('cl-visit-notes').value = ''; openModal('cl-add-visit-modal'); }); });
+            document.querySelectorAll('.cl-close-add-visit').forEach(function(b) { b.addEventListener('click', function() { closeModal('cl-add-visit-modal'); }); });
+            document.getElementById('cl-add-visit-submit').addEventListener('click', addVisitSubmit);
+            document.querySelectorAll('.cl-add-medication-btn').forEach(function(btn) { btn.addEventListener('click', function() { document.getElementById('cl-med-name').value = ''; document.getElementById('cl-med-dosage').value = ''; document.getElementById('cl-med-for').value = ''; document.getElementById('cl-med-since').value = ''; openModal('cl-add-medication-modal'); }); });
+            document.querySelectorAll('.cl-close-add-medication').forEach(function(b) { b.addEventListener('click', function() { closeModal('cl-add-medication-modal'); }); });
+            document.getElementById('cl-add-medication-submit').addEventListener('click', addMedicationSubmit);
+            document.querySelectorAll('.cl-add-lab-btn').forEach(function(btn) { btn.addEventListener('click', function() { document.getElementById('cl-lab-date').value = ''; document.getElementById('cl-lab-test').value = ''; document.getElementById('cl-lab-result').value = ''; document.getElementById('cl-lab-unit').value = ''; document.getElementById('cl-lab-ref').value = ''; openModal('cl-add-lab-modal'); }); });
+            document.querySelectorAll('.cl-close-add-lab').forEach(function(b) { b.addEventListener('click', function() { closeModal('cl-add-lab-modal'); }); });
+            document.getElementById('cl-add-lab-submit').addEventListener('click', addLabSubmit);
+
+            document.querySelectorAll('#cl-patient-result .doc-patient-tab').forEach(function(tab) {
+                tab.addEventListener('click', function() {
+                    var tabId = this.getAttribute('data-tab');
+                    document.querySelectorAll('#cl-patient-result .doc-patient-tab').forEach(function(t) { t.classList.remove('active'); });
+                    this.classList.add('active');
+                    document.querySelectorAll('#cl-patient-result .doc-patient-tab-content').forEach(function(c) { c.style.display = 'none'; });
+                    var el = document.getElementById('cl-tab-' + tabId);
+                    if (el) el.style.display = 'block';
+                });
+            });
+        })();
+    </script>
+</body>
+</html>
